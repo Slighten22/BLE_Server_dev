@@ -1,0 +1,5 @@
+timer.cpp:3:1:Timer::Timer(TIM_HandleTypeDef*)	16	static
+timer.cpp:7:20:TIM_HandleTypeDef* Timer::getHandle()	16	static
+timer.cpp:11:6:void Timer::setDriver(OneWireDriver*)	16	static
+timer.cpp:15:16:OneWireDriver* Timer::getDriver()	16	static
+timer.cpp:19:6:void Timer::wakeMeUpAfterMicroseconds(uint16_t)	16	static
