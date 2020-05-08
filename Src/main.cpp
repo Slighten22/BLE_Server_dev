@@ -47,10 +47,10 @@ TaskHandle_t readoutTaskHandle;
 SemaphoreHandle_t binarySem;
 
 DeviceManager deviceManager;
-PinData sensor1Data = {GPIOA, GPIO_PIN_4};
+PinData sensor1Data = {GPIOA, GPIO_PIN_9};
 Sensor tempSensor1(&sensor1Data);
 
-PinData sensor2Data = {GPIOA, GPIO_PIN_9};
+PinData sensor2Data = {GPIOA, GPIO_PIN_4};
 Sensor tempSensor2(&sensor2Data);
 
 uint16_t delayTime = 3000;
