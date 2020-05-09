@@ -24,6 +24,7 @@
 /* USER CODE BEGIN Includes */
 /* USER CODE END Includes */
 #include "sensor.hpp"
+#include "one_wire_sensor.hpp"
 #include "timer.hpp"
 #include "device_manager.hpp"
 #include "pin_data.hpp"
@@ -48,10 +49,10 @@ SemaphoreHandle_t binarySem;
 
 DeviceManager deviceManager;
 PinData sensor1Data = {GPIOA, GPIO_PIN_4};
-Sensor tempSensor1(&sensor1Data);
+OneWireSensor tempSensor1(&sensor1Data);
 
 PinData sensor2Data = {GPIOA, GPIO_PIN_9};
-Sensor tempSensor2(&sensor2Data);
+OneWireSensor tempSensor2(&sensor2Data);
 
 uint16_t delayTime = 3000;
 uint8_t data[5];

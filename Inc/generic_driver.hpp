@@ -16,6 +16,7 @@ protected:
 	Timer *timer;
 //	StateHandler stateHandler; //TODO: ?stateHandler powinien nalezec do klady bazowej
 public:
+	GenericDriver(){}//TODO: NIE!
 	GenericDriver(PinData *pinData) {
 		if(deviceManager.checkIfPinFree(pinData)){
 			this->pinData = pinData;

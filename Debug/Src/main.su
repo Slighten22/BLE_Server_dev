@@ -1,17 +1,17 @@
-main.cpp:84:5:int main()	72	static
-main.cpp:164:6:void SystemClock_Config()	232	static
-main.cpp:219:6:void MX_USART3_UART_Init()	8	static
-main.cpp:254:13:void MX_GPIO_Init()	48	static
-main.cpp:301:13:void MX_TIM7_Init()	24	static
-main.cpp:327:13:void MX_TIM6_Init()	24	static
-main.cpp:347:13:void MX_TIM4_Init()	24	static
-main.cpp:375:6:void StartDefaultTask(const void*)	24	static
-main.cpp:395:6:void ReadoutTask(const void*)	24	static
-main.cpp:407:6:void OneWireDriver::firstStateHandler()	16	static
-main.cpp:418:6:void OneWireDriver::secondStateHandler()	16	static
-main.cpp:429:6:void OneWireDriver::thirdStateHandler()	112	static
-main.cpp:482:6:void delayMicroseconds(uint32_t)	40	static
-main.cpp:503:6:void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*)	16	static
-main.cpp:534:6:void Error_Handler()	8	static
-main.cpp:543:1:void __static_initialization_and_destruction_0(int, int)	16	static
-main.cpp:543:1:cpp)	8	static
+main.cpp:85:5:int main()	72	static
+main.cpp:165:6:void SystemClock_Config()	232	static
+main.cpp:220:6:void MX_USART3_UART_Init()	8	static
+main.cpp:255:13:void MX_GPIO_Init()	48	static
+main.cpp:302:13:void MX_TIM7_Init()	24	static
+main.cpp:328:13:void MX_TIM6_Init()	24	static
+main.cpp:348:13:void MX_TIM4_Init()	24	static
+main.cpp:376:6:void StartDefaultTask(const void*)	24	static
+main.cpp:396:6:void ReadoutTask(const void*)	24	static
+main.cpp:408:6:void OneWireDriver::firstStateHandler()	16	static
+main.cpp:419:6:void OneWireDriver::secondStateHandler()	16	static
+main.cpp:430:6:void OneWireDriver::thirdStateHandler()	112	static
+main.cpp:483:6:void delayMicroseconds(uint32_t)	40	static
+main.cpp:504:6:void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*)	16	static
+main.cpp:535:6:void Error_Handler()	8	static
+main.cpp:544:1:void __static_initialization_and_destruction_0(int, int)	16	static
+main.cpp:544:1:cpp)	8	static
