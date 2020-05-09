@@ -8,11 +8,11 @@ TIM_HandleTypeDef* Timer::getHandle(void){
 	return this->handle;
 }
 
-void Timer::setDriver(OneWireDriver *oneWireDriver){
-	this->myDriver = oneWireDriver;
+void Timer::setDriver(GenericDriver *genericDriver){
+	this->myDriver = genericDriver;
 }
 
-OneWireDriver* Timer::getDriver(void){
+GenericDriver* Timer::getDriver(void){
 	return this->myDriver;
 }
 

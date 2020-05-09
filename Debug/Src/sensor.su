@@ -1,4 +1,4 @@
-sensor.cpp:3:1:Sensor::Sensor(PinData*)	16	static
-sensor.cpp:5:6:void Sensor::startNewReadout()	16	static
-sensor.cpp:9:7:float Sensor::getLastTempVal()	16	static
-sensor.cpp:13:7:float Sensor::getLastHumidVal()	16	static
+sensor.cpp:4:1:Sensor::Sensor(PinData*)	16	static
+sensor.cpp:6:6:void Sensor::startNewReadout()	16	static
+sensor.cpp:10:7:float Sensor::getLastTempVal()	16	static
+sensor.cpp:14:7:float Sensor::getLastHumidVal()	16	static

@@ -4,6 +4,7 @@
 
 #include "pin_data.hpp"
 #include "timer.hpp"
+#include "generic_driver.hpp"
 #include "device_manager.hpp" //musimy miec obiekt DMa zeby dostac pin i timer
 
 typedef enum {
@@ -16,10 +17,10 @@ extern DeviceManager deviceManager;
 class OneWireDriver;
 typedef void (OneWireDriver::*StateHandler)(void);
 
-class OneWireDriver{
+class OneWireDriver : public GenericDriver {
 private:
-	PinData *pinData;
-	Timer *timer;
+//	PinData *pinData;
+//	Timer *timer;
 	StateHandler stateHandler;
 	void firstStateHandler(void);
 	void secondStateHandler(void);

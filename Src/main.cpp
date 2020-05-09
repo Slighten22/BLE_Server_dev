@@ -47,10 +47,10 @@ TaskHandle_t readoutTaskHandle;
 SemaphoreHandle_t binarySem;
 
 DeviceManager deviceManager;
-PinData sensor1Data = {GPIOA, GPIO_PIN_9};
+PinData sensor1Data = {GPIOA, GPIO_PIN_4};
 Sensor tempSensor1(&sensor1Data);
 
-PinData sensor2Data = {GPIOA, GPIO_PIN_4};
+PinData sensor2Data = {GPIOA, GPIO_PIN_9};
 Sensor tempSensor2(&sensor2Data);
 
 uint16_t delayTime = 3000;
@@ -507,7 +507,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   }
   /* USER CODE BEGIN Callback 0 */
   else {
-	  timers[deviceManager.getTimerIndex(htim)]->getDriver()->executeState();
+	  timers[deviceManager.getTimerIndex(htim)]->getDriver()->executeState(); //TODO!
 //	  timers[deviceManager.getTimerIndex(htim)]->executeCallback(); //a w nim ExecuteState urzadzenia
   }
 

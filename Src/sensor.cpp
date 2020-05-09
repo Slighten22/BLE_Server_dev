@@ -1,5 +1,6 @@
 #include <sensor.hpp>
 
+//TODO: rozne konstruktory dla roznych typow driverow (dziedziczacych po GenericDriverze)
 Sensor::Sensor(PinData *pinData) : oneWireDriver( OneWireDriver(pinData) ) {}
 
 void Sensor::startNewReadout(void){
