@@ -9,39 +9,39 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
   2 .rodata       000006f8  0800cda0  0800cda0  0001cda0  2**3
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  3 .ARM.extab    0000012c  0800d498  0800d498  0001d498  2**2
+  3 .ARM.extab    00000138  0800d498  0800d498  0001d498  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  4 .ARM          000001c8  0800d5c4  0800d5c4  0001d5c4  2**2
+  4 .ARM          000001d8  0800d5d0  0800d5d0  0001d5d0  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  5 .init_array   0000000c  0800d78c  0800d78c  0001d78c  2**2
+  5 .init_array   0000000c  0800d7a8  0800d7a8  0001d7a8  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  6 .fini_array   00000004  0800d798  0800d798  0001d798  2**2
+  6 .fini_array   00000004  0800d7b4  0800d7b4  0001d7b4  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  7 .data         000006ac  20000000  0800d79c  00020000  2**2
+  7 .data         000006ac  20000000  0800d7b8  00020000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  8 .bss          00001708  200006ac  0800de48  000206ac  2**2
+  8 .bss          00001708  200006ac  0800de64  000206ac  2**2
                   ALLOC
-  9 ._user_heap_stack 00000600  20001db4  0800de48  00021db4  2**0
+  9 ._user_heap_stack 00000600  20001db4  0800de64  00021db4  2**0
                   ALLOC
  10 .ARM.attributes 00000030  00000000  00000000  000206ac  2**0
                   CONTENTS, READONLY
- 11 .debug_info   0003d1b7  00000000  00000000  000206dc  2**0
+ 11 .debug_info   0003d2d2  00000000  00000000  000206dc  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_abbrev 00006cdd  00000000  00000000  0005d893  2**0
+ 12 .debug_abbrev 00006d46  00000000  00000000  0005d9ae  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_loc    000143d9  00000000  00000000  00064570  2**0
+ 13 .debug_loc    000143d9  00000000  00000000  000646f4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_aranges 00001c00  00000000  00000000  00078950  2**3
+ 14 .debug_aranges 00001c00  00000000  00000000  00078ad0  2**3
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_ranges 000020c0  00000000  00000000  0007a550  2**3
+ 15 .debug_ranges 000020c0  00000000  00000000  0007a6d0  2**3
                   CONTENTS, READONLY, DEBUGGING
- 16 .debug_line   0001209b  00000000  00000000  0007c610  2**0
+ 16 .debug_line   0001209b  00000000  00000000  0007c790  2**0
                   CONTENTS, READONLY, DEBUGGING
- 17 .debug_str    0000b92a  00000000  00000000  0008e6ab  2**0
+ 17 .debug_str    0000b92d  00000000  00000000  0008e82b  2**0
                   CONTENTS, READONLY, DEBUGGING
- 18 .comment      0000007c  00000000  00000000  00099fd5  2**0
+ 18 .comment      0000007c  00000000  00000000  0009a158  2**0
                   CONTENTS, READONLY
- 19 .debug_frame  00006a58  00000000  00000000  0009a054  2**2
+ 19 .debug_frame  00006f7c  00000000  00000000  0009a1d4  2**2
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -1370,8 +1370,8 @@ Disassembly of section .text:
  8001038:	2309      	moveq	r3, #9
  800103a:	e7dc      	b.n	8000ff6 <get_eit_entry+0x4e>
  800103c:	00000000 	.word	0x00000000
- 8001040:	0800d78c 	.word	0x0800d78c
- 8001044:	0800d5c4 	.word	0x0800d5c4
+ 8001040:	0800d7a8 	.word	0x0800d7a8
+ 8001044:	0800d5d0 	.word	0x0800d5d0
 
 08001048 <restore_non_core_regs>:
  8001048:	6803      	ldr	r3, [r0, #0]
@@ -16047,117 +16047,119 @@ Sensor tempSensor2(&sensor2Data);
  8006ece:	f7ff ffd3 	bl	8006e78 <_Z41__static_initialization_and_destruction_0ii>
  8006ed2:	bd80      	pop	{r7, pc}
 
-08006ed4 <_ZN13GenericDriver18driverStartReadoutEv>:
+08006ed4 <_ZN13GenericDriverC1EP7PinData>:
+protected:
 	PinData *pinData;
 	Timer *timer;
-//	StateHandler stateHandler; //TODO: stateHandler powinien nalezec do klady bazowej
+//	StateHandler stateHandler; //TODO: ?stateHandler powinien nalezec do klady bazowej
 public:
-	//konstruktor?
-	virtual void driverStartReadout(void) {};
- 8006ed4:	b480      	push	{r7}
- 8006ed6:	b083      	sub	sp, #12
+	GenericDriver(PinData *pinData) {
+ 8006ed4:	b580      	push	{r7, lr}
+ 8006ed6:	b082      	sub	sp, #8
  8006ed8:	af00      	add	r7, sp, #0
  8006eda:	6078      	str	r0, [r7, #4]
- 8006edc:	bf00      	nop
- 8006ede:	370c      	adds	r7, #12
- 8006ee0:	46bd      	mov	sp, r7
- 8006ee2:	f85d 7b04 	ldr.w	r7, [sp], #4
- 8006ee6:	4770      	bx	lr
+ 8006edc:	6039      	str	r1, [r7, #0]
+ 8006ede:	4a0f      	ldr	r2, [pc, #60]	; (8006f1c <_ZN13GenericDriverC1EP7PinData+0x48>)
+ 8006ee0:	687b      	ldr	r3, [r7, #4]
+ 8006ee2:	601a      	str	r2, [r3, #0]
+		if(deviceManager.checkIfPinFree(pinData)){
+ 8006ee4:	6839      	ldr	r1, [r7, #0]
+ 8006ee6:	480e      	ldr	r0, [pc, #56]	; (8006f20 <_ZN13GenericDriverC1EP7PinData+0x4c>)
+ 8006ee8:	f7ff f915 	bl	8006116 <_ZN13DeviceManager14checkIfPinFreeEP7PinData>
+ 8006eec:	4603      	mov	r3, r0
+ 8006eee:	2b00      	cmp	r3, #0
+ 8006ef0:	d003      	beq.n	8006efa <_ZN13GenericDriverC1EP7PinData+0x26>
+			this->pinData = pinData;
+ 8006ef2:	687b      	ldr	r3, [r7, #4]
+ 8006ef4:	683a      	ldr	r2, [r7, #0]
+ 8006ef6:	605a      	str	r2, [r3, #4]
+ 8006ef8:	e005      	b.n	8006f06 <_ZN13GenericDriverC1EP7PinData+0x32>
+		}
+		else {
+			this->pinData = deviceManager.getFreePin();
+ 8006efa:	4809      	ldr	r0, [pc, #36]	; (8006f20 <_ZN13GenericDriverC1EP7PinData+0x4c>)
+ 8006efc:	f7ff f948 	bl	8006190 <_ZN13DeviceManager10getFreePinEv>
+ 8006f00:	4602      	mov	r2, r0
+ 8006f02:	687b      	ldr	r3, [r7, #4]
+ 8006f04:	605a      	str	r2, [r3, #4]
+		}
+		this->timer = deviceManager.getNewTimerHandle();
+ 8006f06:	4806      	ldr	r0, [pc, #24]	; (8006f20 <_ZN13GenericDriverC1EP7PinData+0x4c>)
+ 8006f08:	f7ff f968 	bl	80061dc <_ZN13DeviceManager17getNewTimerHandleEv>
+ 8006f0c:	4602      	mov	r2, r0
+ 8006f0e:	687b      	ldr	r3, [r7, #4]
+ 8006f10:	609a      	str	r2, [r3, #8]
+	};
+ 8006f12:	687b      	ldr	r3, [r7, #4]
+ 8006f14:	4618      	mov	r0, r3
+ 8006f16:	3708      	adds	r7, #8
+ 8006f18:	46bd      	mov	sp, r7
+ 8006f1a:	bd80      	pop	{r7, pc}
+ 8006f1c:	0800cfd4 	.word	0x0800cfd4
+ 8006f20:	2000082c 	.word	0x2000082c
 
-08006ee8 <_ZN13GenericDriver12executeStateEv>:
-	virtual void executeState(void) {};
- 8006ee8:	b480      	push	{r7}
- 8006eea:	b083      	sub	sp, #12
- 8006eec:	af00      	add	r7, sp, #0
- 8006eee:	6078      	str	r0, [r7, #4]
- 8006ef0:	bf00      	nop
- 8006ef2:	370c      	adds	r7, #12
- 8006ef4:	46bd      	mov	sp, r7
- 8006ef6:	f85d 7b04 	ldr.w	r7, [sp], #4
- 8006efa:	4770      	bx	lr
+08006f24 <_ZN13GenericDriver18driverStartReadoutEv>:
+	virtual void driverStartReadout(void) {};//= 0; //TODO: chyba nie abstrakcyjna
+ 8006f24:	b480      	push	{r7}
+ 8006f26:	b083      	sub	sp, #12
+ 8006f28:	af00      	add	r7, sp, #0
+ 8006f2a:	6078      	str	r0, [r7, #4]
+ 8006f2c:	bf00      	nop
+ 8006f2e:	370c      	adds	r7, #12
+ 8006f30:	46bd      	mov	sp, r7
+ 8006f32:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8006f36:	4770      	bx	lr
 
-08006efc <_ZN13GenericDriverC1Ev>:
-class GenericDriver { //klasa abstrakcyjna
- 8006efc:	b480      	push	{r7}
- 8006efe:	b083      	sub	sp, #12
- 8006f00:	af00      	add	r7, sp, #0
- 8006f02:	6078      	str	r0, [r7, #4]
- 8006f04:	4a04      	ldr	r2, [pc, #16]	; (8006f18 <_ZN13GenericDriverC1Ev+0x1c>)
- 8006f06:	687b      	ldr	r3, [r7, #4]
- 8006f08:	601a      	str	r2, [r3, #0]
- 8006f0a:	687b      	ldr	r3, [r7, #4]
- 8006f0c:	4618      	mov	r0, r3
- 8006f0e:	370c      	adds	r7, #12
- 8006f10:	46bd      	mov	sp, r7
- 8006f12:	f85d 7b04 	ldr.w	r7, [sp], #4
- 8006f16:	4770      	bx	lr
- 8006f18:	0800cfd4 	.word	0x0800cfd4
+08006f38 <_ZN13GenericDriver12executeStateEv>:
+	virtual void executeState(void) {};//= 0;
+ 8006f38:	b480      	push	{r7}
+ 8006f3a:	b083      	sub	sp, #12
+ 8006f3c:	af00      	add	r7, sp, #0
+ 8006f3e:	6078      	str	r0, [r7, #4]
+ 8006f40:	bf00      	nop
+ 8006f42:	370c      	adds	r7, #12
+ 8006f44:	46bd      	mov	sp, r7
+ 8006f46:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8006f4a:	4770      	bx	lr
 
-08006f1c <_ZN13OneWireDriverC1EP7PinData>:
+08006f4c <_ZN13OneWireDriverC1EP7PinData>:
 #include "one_wire_driver.hpp"
 
-OneWireDriver::OneWireDriver(PinData *inputPinData) {
- 8006f1c:	b580      	push	{r7, lr}
- 8006f1e:	b082      	sub	sp, #8
- 8006f20:	af00      	add	r7, sp, #0
- 8006f22:	6078      	str	r0, [r7, #4]
- 8006f24:	6039      	str	r1, [r7, #0]
- 8006f26:	687b      	ldr	r3, [r7, #4]
- 8006f28:	4618      	mov	r0, r3
- 8006f2a:	f7ff ffe7 	bl	8006efc <_ZN13GenericDriverC1Ev>
- 8006f2e:	4a16      	ldr	r2, [pc, #88]	; (8006f88 <_ZN13OneWireDriverC1EP7PinData+0x6c>)
- 8006f30:	687b      	ldr	r3, [r7, #4]
- 8006f32:	601a      	str	r2, [r3, #0]
-	if(deviceManager.checkIfPinFree(inputPinData)){
- 8006f34:	6839      	ldr	r1, [r7, #0]
- 8006f36:	4815      	ldr	r0, [pc, #84]	; (8006f8c <_ZN13OneWireDriverC1EP7PinData+0x70>)
- 8006f38:	f7ff f8ed 	bl	8006116 <_ZN13DeviceManager14checkIfPinFreeEP7PinData>
- 8006f3c:	4603      	mov	r3, r0
- 8006f3e:	2b00      	cmp	r3, #0
- 8006f40:	d003      	beq.n	8006f4a <_ZN13OneWireDriverC1EP7PinData+0x2e>
-		this->pinData = inputPinData;
- 8006f42:	687b      	ldr	r3, [r7, #4]
- 8006f44:	683a      	ldr	r2, [r7, #0]
- 8006f46:	605a      	str	r2, [r3, #4]
- 8006f48:	e005      	b.n	8006f56 <_ZN13OneWireDriverC1EP7PinData+0x3a>
-	}
-	else {
-		this->pinData = deviceManager.getFreePin();
- 8006f4a:	4810      	ldr	r0, [pc, #64]	; (8006f8c <_ZN13OneWireDriverC1EP7PinData+0x70>)
- 8006f4c:	f7ff f920 	bl	8006190 <_ZN13DeviceManager10getFreePinEv>
- 8006f50:	4602      	mov	r2, r0
- 8006f52:	687b      	ldr	r3, [r7, #4]
- 8006f54:	605a      	str	r2, [r3, #4]
-	}
-	this->timer = deviceManager.getNewTimerHandle();
- 8006f56:	480d      	ldr	r0, [pc, #52]	; (8006f8c <_ZN13OneWireDriverC1EP7PinData+0x70>)
- 8006f58:	f7ff f940 	bl	80061dc <_ZN13DeviceManager17getNewTimerHandleEv>
- 8006f5c:	4602      	mov	r2, r0
- 8006f5e:	687b      	ldr	r3, [r7, #4]
- 8006f60:	609a      	str	r2, [r3, #8]
-	this->timer->setDriver(this); //zamiast podczepiania callbacka - podczepanie obiektu drivera (TODO: podczepic obiekt generycznego drivera)
+OneWireDriver::OneWireDriver(PinData *pinData) : GenericDriver(pinData) {
+ 8006f4c:	b580      	push	{r7, lr}
+ 8006f4e:	b082      	sub	sp, #8
+ 8006f50:	af00      	add	r7, sp, #0
+ 8006f52:	6078      	str	r0, [r7, #4]
+ 8006f54:	6039      	str	r1, [r7, #0]
+ 8006f56:	687b      	ldr	r3, [r7, #4]
+ 8006f58:	6839      	ldr	r1, [r7, #0]
+ 8006f5a:	4618      	mov	r0, r3
+ 8006f5c:	f7ff ffba 	bl	8006ed4 <_ZN13GenericDriverC1EP7PinData>
+ 8006f60:	4a0a      	ldr	r2, [pc, #40]	; (8006f8c <_ZN13OneWireDriverC1EP7PinData+0x40>)
  8006f62:	687b      	ldr	r3, [r7, #4]
- 8006f64:	689b      	ldr	r3, [r3, #8]
- 8006f66:	687a      	ldr	r2, [r7, #4]
- 8006f68:	4611      	mov	r1, r2
- 8006f6a:	4618      	mov	r0, r3
- 8006f6c:	f000 fe5d 	bl	8007c2a <_ZN5Timer9setDriverEP13GenericDriver>
+ 8006f64:	601a      	str	r2, [r3, #0]
+	this->timer->setDriver(this); //zamiast podczepiania callbacka-podczepanie obiektu drivera-TODO: podczepic obiekt generycznego drivera
+ 8006f66:	687b      	ldr	r3, [r7, #4]
+ 8006f68:	689b      	ldr	r3, [r3, #8]
+ 8006f6a:	687a      	ldr	r2, [r7, #4]
+ 8006f6c:	4611      	mov	r1, r2
+ 8006f6e:	4618      	mov	r0, r3
+ 8006f70:	f000 fe5b 	bl	8007c2a <_ZN5Timer9setDriverEP13GenericDriver>
 	this->stateHandler = &OneWireDriver::firstStateHandler;
- 8006f70:	687b      	ldr	r3, [r7, #4]
- 8006f72:	4a07      	ldr	r2, [pc, #28]	; (8006f90 <_ZN13OneWireDriverC1EP7PinData+0x74>)
- 8006f74:	60da      	str	r2, [r3, #12]
- 8006f76:	687b      	ldr	r3, [r7, #4]
- 8006f78:	2200      	movs	r2, #0
- 8006f7a:	611a      	str	r2, [r3, #16]
+ 8006f74:	687b      	ldr	r3, [r7, #4]
+ 8006f76:	4a06      	ldr	r2, [pc, #24]	; (8006f90 <_ZN13OneWireDriverC1EP7PinData+0x44>)
+ 8006f78:	60da      	str	r2, [r3, #12]
+ 8006f7a:	687b      	ldr	r3, [r7, #4]
+ 8006f7c:	2200      	movs	r2, #0
+ 8006f7e:	611a      	str	r2, [r3, #16]
 };
- 8006f7c:	687b      	ldr	r3, [r7, #4]
- 8006f7e:	4618      	mov	r0, r3
- 8006f80:	3708      	adds	r7, #8
- 8006f82:	46bd      	mov	sp, r7
- 8006f84:	bd80      	pop	{r7, pc}
- 8006f86:	bf00      	nop
- 8006f88:	0800ce6c 	.word	0x0800ce6c
- 8006f8c:	2000082c 	.word	0x2000082c
+ 8006f80:	687b      	ldr	r3, [r7, #4]
+ 8006f82:	4618      	mov	r0, r3
+ 8006f84:	3708      	adds	r7, #8
+ 8006f86:	46bd      	mov	sp, r7
+ 8006f88:	bd80      	pop	{r7, pc}
+ 8006f8a:	bf00      	nop
+ 8006f8c:	0800ce6c 	.word	0x0800ce6c
  8006f90:	08006a8d 	.word	0x08006a8d
 
 08006f94 <_ZN13OneWireDriver18driverStartReadoutEv>:
@@ -17182,7 +17184,7 @@ void GATT_Notification_CB(uint16_t attr_handle, uint8_t attr_len, uint8_t *attr_
 #include <sensor.hpp>
 
 //TODO: rozne konstruktory dla roznych typow driverow (dziedziczacych po GenericDriverze)
-Sensor::Sensor(PinData *pinData) : oneWireDriver( OneWireDriver(pinData) ) {}
+Sensor::Sensor(PinData *pinData) : oneWireDriver( OneWireDriver(pinData) ) {} //TODO: genericDriver
  8007594:	b580      	push	{r7, lr}
  8007596:	b082      	sub	sp, #8
  8007598:	af00      	add	r7, sp, #0
@@ -17191,7 +17193,7 @@ Sensor::Sensor(PinData *pinData) : oneWireDriver( OneWireDriver(pinData) ) {}
  800759e:	687b      	ldr	r3, [r7, #4]
  80075a0:	6839      	ldr	r1, [r7, #0]
  80075a2:	4618      	mov	r0, r3
- 80075a4:	f7ff fcba 	bl	8006f1c <_ZN13OneWireDriverC1EP7PinData>
+ 80075a4:	f7ff fcd2 	bl	8006f4c <_ZN13OneWireDriverC1EP7PinData>
  80075a8:	687b      	ldr	r3, [r7, #4]
  80075aa:	4618      	mov	r0, r3
  80075ac:	3708      	adds	r7, #8
@@ -17199,6 +17201,10 @@ Sensor::Sensor(PinData *pinData) : oneWireDriver( OneWireDriver(pinData) ) {}
  80075b0:	bd80      	pop	{r7, pc}
 
 080075b2 <_ZN6Sensor15startNewReadoutEv>:
+//Sensor::Sensor(PinData *pinData) {
+//	OneWireDriver oneWireDriver(pinData);
+//	this->concreteDriver = &oneWireDriver;
+//}
 
 void Sensor::startNewReadout(void){
  80075b2:	b580      	push	{r7, lr}
@@ -18762,7 +18768,7 @@ LoopForever:
   ldr   sp, =_estack    /* Set stack pointer */
  8007cf4:	20018000 	.word	0x20018000
 	ldr	r3, =_sidata
- 8007cf8:	0800d79c 	.word	0x0800d79c
+ 8007cf8:	0800d7b8 	.word	0x0800d7b8
 	ldr	r0, =_sdata
  8007cfc:	20000000 	.word	0x20000000
 	ldr	r3, =_edata
@@ -19744,10 +19750,10 @@ Infinite_Loop:
  800857a:	4798      	blx	r3
  800857c:	3501      	adds	r5, #1
  800857e:	e7f2      	b.n	8008566 <__libc_init_array+0x1e>
- 8008580:	0800d78c 	.word	0x0800d78c
- 8008584:	0800d78c 	.word	0x0800d78c
- 8008588:	0800d78c 	.word	0x0800d78c
- 800858c:	0800d798 	.word	0x0800d798
+ 8008580:	0800d7a8 	.word	0x0800d7a8
+ 8008584:	0800d7a8 	.word	0x0800d7a8
+ 8008588:	0800d7a8 	.word	0x0800d7a8
+ 800858c:	0800d7b4 	.word	0x0800d7b4
 
 08008590 <__retarget_lock_init_recursive>:
  8008590:	4770      	bx	lr

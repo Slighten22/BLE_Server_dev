@@ -3,19 +3,30 @@
 
 #include "pin_data.hpp"
 #include "timer.hpp"
+#include "device_manager.hpp" //musimy miec obiekt DMa zeby dostac pin i timer
+
+extern DeviceManager deviceManager;
 
 //class GenericDriver;
 //typedef void (GenericDriver::*StateHandler)(void);
 
-class GenericDriver { //klasa abstrakcyjna
+class GenericDriver { //klasa abstrakcyjna?
 protected:
 	PinData *pinData;
 	Timer *timer;
-//	StateHandler stateHandler; //TODO: stateHandler powinien nalezec do klady bazowej
+//	StateHandler stateHandler; //TODO: ?stateHandler powinien nalezec do klady bazowej
 public:
-	//konstruktor?
-	virtual void driverStartReadout(void) {};
-	virtual void executeState(void) {};
+	GenericDriver(PinData *pinData) {
+		if(deviceManager.checkIfPinFree(pinData)){
+			this->pinData = pinData;
+		}
+		else {
+			this->pinData = deviceManager.getFreePin();
+		}
+		this->timer = deviceManager.getNewTimerHandle();
+	};
+	virtual void driverStartReadout(void) {};//= 0; //TODO: chyba nie abstrakcyjna
+	virtual void executeState(void) {};//= 0;
 };
 
 #endif

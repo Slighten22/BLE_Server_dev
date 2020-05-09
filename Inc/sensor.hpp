@@ -10,6 +10,7 @@ class Sensor { //albo OneWireDevice
 private:
 	OneWireDriver oneWireDriver; //TODO
 //	GenericDriver genericDriver;
+//	GenericDriver *concreteDriver;
 	float lastTemperatureValue;
 	float lastHumidityValue;
 public:

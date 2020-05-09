@@ -1,14 +1,7 @@
 #include "one_wire_driver.hpp"
 
-OneWireDriver::OneWireDriver(PinData *inputPinData) {
-	if(deviceManager.checkIfPinFree(inputPinData)){
-		this->pinData = inputPinData;
-	}
-	else {
-		this->pinData = deviceManager.getFreePin();
-	}
-	this->timer = deviceManager.getNewTimerHandle();
-	this->timer->setDriver(this); //zamiast podczepiania callbacka - podczepanie obiektu drivera (TODO: podczepic obiekt generycznego drivera)
+OneWireDriver::OneWireDriver(PinData *pinData) : GenericDriver(pinData) {
+	this->timer->setDriver(this); //zamiast podczepiania callbacka-podczepanie obiektu drivera-TODO: podczepic obiekt generycznego drivera
 	this->stateHandler = &OneWireDriver::firstStateHandler;
 };
 
