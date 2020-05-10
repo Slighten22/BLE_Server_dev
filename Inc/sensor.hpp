@@ -3,20 +3,15 @@
 #define SENSOR_HPP
 
 #include "generic_driver.hpp"
-#include "one_wire_driver.hpp"
 #include "pin_data.hpp"
 
-class Sensor { //albo OneWireDevice
+class Sensor { //generyczna klasa sensora, ?abstrakcyjna?
 private:
-	OneWireDriver oneWireDriver; //TODO
-//	GenericDriver genericDriver;
-	float lastTemperatureValue;
-	float lastHumidityValue;
+	GenericDriver genericDriver;
+//	GenericDriver *concreteDriver;
 public:
-	Sensor(PinData *pinData); //i tutaj tez przydzielenie pierwszego wolnego timera
-	void startNewReadout(void);
-	float getLastTempVal(void);
-	float getLastHumidVal(void);
+//	Sensor(PinData *pinData);
+//	virtual void startNewReadout(void) {}; //TODO: wirtualna?
 };
 
 #endif

@@ -1,3 +1,4 @@
+gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
 device_manager.cpp:14:1:DeviceManager::DeviceManager()	16	static
 device_manager.cpp:34:6:bool DeviceManager::checkIfPinFree(PinData*)	32	static
 device_manager.cpp:48:10:PinData* DeviceManager::getFreePin()	24	static

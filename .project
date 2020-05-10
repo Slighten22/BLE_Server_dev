@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
 	<name>BLE_Client_dev</name>
-	<comment />
+	<comment></comment>
 	<projects>
 	</projects>
 	<buildSpec>
@@ -15,7 +15,7 @@
 				</dictionary>
 				<dictionary>
 					<key>?name?</key>
-					<value />
+					<value></value>
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.append_environment</key>
@@ -23,7 +23,7 @@
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.buildArguments</key>
-					<value />
+					<value></value>
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.buildCommand</key>
@@ -73,7 +73,22 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>Drivers</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>Middlewares</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
 			<name>Drivers/STM32L4xx_HAL_Driver</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/BlueNRG-MS</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
@@ -193,6 +208,11 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
+			<name>Middlewares/BlueNRG-MS/Wireless</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
 			<name>Middlewares/FreeRTOS/cmsis_os.c</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/STM32Cube_FW_L4_V1.15.0/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c</location>
@@ -249,6 +269,11 @@
 		</link>
 		<link>
 			<name>Middlewares/BlueNRG-MS/Wireless/Controller</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/BlueNRG-MS/Wireless/HCI_TL</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
@@ -417,17 +442,5 @@
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-BLE1/4.4.0/Middlewares/ST/BlueNRG-MS/hci/hci_tl_patterns/Basic/hci_tl.h</location>
 		</link>
-	<link>
-			<name>Drivers</name>
-			<type>2</type>
-			<locationURI>virtual:/virtual</locationURI>
-		</link><link>
-			<name>Middlewares</name>
-			<type>2</type>
-			<locationURI>virtual:/virtual</locationURI>
-		</link><link>
-			<name>Middlewares/BlueNRG-MS</name>
-			<type>2</type>
-			<locationURI>virtual:/virtual</locationURI>
-		</link></linkedResources>
+	</linkedResources>
 </projectDescription>

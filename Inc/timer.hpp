@@ -4,15 +4,15 @@
 
 #include <stm32l4xx_hal.h>
 
-//class Timer; //?
-//typedef void (Timer::*TimerCallback)(void);
-//class OneWireDriver;
+#include <functional>
+
 class GenericDriver; //TODO
 
 class Timer{
 private:
 	TIM_HandleTypeDef *handle; //htim7, htim8, ...
 //	TimerCallback callback;    //funkcja do obsl. przerwania od danego timera - wskaznik na metode drivera!
+
 	GenericDriver *myDriver;   //zeby pamietal swojego "rodzica"???
 public:
 	Timer(TIM_HandleTypeDef *htim); //tworzenie timerow - globalne obiekty w deviceManagerze

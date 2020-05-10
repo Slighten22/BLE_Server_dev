@@ -77,6 +77,7 @@ void hci_tl_lowlevel_isr(void);
 #ifdef __cplusplus
 }
 #endif
+
 #endif /* HCI_TL_INTERFACE_H */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

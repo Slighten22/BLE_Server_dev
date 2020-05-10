@@ -330,7 +330,18 @@ void BSP_PB_Callback(Button_TypeDef Button)
 }
 
 /* USER CODE BEGIN 0 */
-
+void delayMicroseconds(uint32_t us){
+	//Average, experimental time for 1 rotation of the 'for' loop with nops: ~140ns
+	//for an 80MHz processor@max speed; that gives ~7.143 loop rotations for 1 ms
+	//Use this fact and the processor frequency to adjust the loop counter value for any processor speed
+	uint32_t clockFreq = HAL_RCC_GetHCLKFreq();	//Current processor frequency
+	float clockFreqRel = clockFreq/(float)80000000.0;//Current processor freq. relative to base of 80MHz
+	uint32_t loopCounter = (us > 0 ? (uint32_t)(us*clockFreqRel*7.143) : (uint32_t)(clockFreqRel*7.143));
+	//uint32_t loopCounter = (us > 0 ? (uint32_t)(us*7.143) : 7); //A minimum delay of 1 us - 80MHz only
+	for(uint32_t tmp = 0; tmp < loopCounter; tmp++) {asm volatile("nop");}
+	//previously there was tmp < 800 giving 3200 processor cycles, each lasting 12.5 ns = 40 us delay
+	//UINT_MAX	Maximum value for a variable of type unsigned int	4,294,967,295 (0xffffffff)
+}
 /* USER CODE END 0 */
 
 
