@@ -1,3 +1,4 @@
+gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
 generic_driver.hpp:20:2:GenericDriver::GenericDriver(PinData*)	16	static
 generic_driver.hpp:29:15:virtual void GenericDriver::driverStartReadout()	16	static
 generic_driver.hpp:30:15:virtual void GenericDriver::executeState()	16	static

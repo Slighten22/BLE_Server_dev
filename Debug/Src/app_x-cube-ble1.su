@@ -1,5 +1,4 @@
-app_x-cube-ble1.c:103:6:MX_BlueNRG_MS_Init	64	static
+app_x-cube-ble1.c:326:6:BSP_PB_Callback	0	static
+app_x-cube-ble1.c:333:6:delayMicroseconds	8	static
+app_x-cube-ble1.c:103:6:MX_BlueNRG_MS_Init	56	static
 app_x-cube-ble1.c:225:6:MX_BlueNRG_MS_Process	16	static
-app_x-cube-ble1.c:245:13:User_Init	8	static
-app_x-cube-ble1.c:260:13:User_Process	16	static
-app_x-cube-ble1.c:326:6:BSP_PB_Callback	16	static

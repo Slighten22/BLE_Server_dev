@@ -66,7 +66,8 @@
   
 #ifdef __cplusplus
 }
-#endif   
+#endif
+
 #endif  /* STM32L4XX_NUCLEO_CONF_H */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

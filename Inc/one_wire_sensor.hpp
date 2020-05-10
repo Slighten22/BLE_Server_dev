@@ -7,6 +7,7 @@
 #include "pin_data.hpp"
 
 //#include <functional>
+//#include "C:\Program Files (x86)\CodeBlocks\MinGW\lib\gcc\mingw32\4.9.2\include\c++\functional"
 
 class OneWireSensor /*: public Sensor*/ {
 private:
