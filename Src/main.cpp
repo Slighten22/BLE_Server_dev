@@ -28,6 +28,7 @@
 #include "timer.hpp"
 #include "device_manager.hpp"
 #include "pin_data.hpp"
+
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
 /* USER CODE END PTD */

@@ -6,11 +6,14 @@
 #include "one_wire_driver.hpp"
 #include "pin_data.hpp"
 
-class OneWireSensor : public Sensor {
+//#include <functional>
+
+class OneWireSensor /*: public Sensor*/ {
 private:
 	OneWireDriver oneWireDriver; //TODO: nie ma go tu byc! za generycznego drivera z klasy bazowej!
 	float lastTemperatureValue;
 	float lastHumidityValue;
+//	std::function<void()> func;
 public:
 	OneWireSensor(PinData *pinData);
 	void startNewReadout(void);
