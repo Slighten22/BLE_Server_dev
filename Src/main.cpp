@@ -408,6 +408,7 @@ void ReadoutTask(void const * argument){
 }
 
 void OneWireDriver::firstStateHandler(void){
+//std::function<void()> OneWireDriver::firstStateHandler{
 	//to co ma zrobic w tym stanie
 	HAL_UART_Transmit(&huart3, (uint8_t *)"First state!\r\n", 14, 10);
 	this->changePinMode(ONE_WIRE_OUTPUT);
@@ -510,8 +511,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   }
   /* USER CODE BEGIN Callback 0 */
   else {
-	  timers[deviceManager.getTimerIndex(htim)]->getDriver()->executeState(); //TODO!
-//	  timers[deviceManager.getTimerIndex(htim)]->executeCallback(); //a w nim ExecuteState urzadzenia
+	  timers[deviceManager.getTimerIndex(htim)]->executeCallback(); //a w nim ExecuteState urzadzenia
   }
 
 //	if(readDone){ //wewnatrz ostatniego state drivera

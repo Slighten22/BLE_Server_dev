@@ -1,6 +1,23 @@
 gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
+functional:1685:5:std::_Function_base::_Function_base()	16	static
+functional:1687:5:std::_Function_base::~_Function_base()	16	static
+functional:1694:10:bool std::_Function_base::_M_empty() const	16	static
+functional:1834:11:std::function<void()>::~function()	16	static
 timer.cpp:3:1:Timer::Timer(TIM_HandleTypeDef*)	16	static
-timer.cpp:7:20:TIM_HandleTypeDef* Timer::getHandle()	16	static
-timer.cpp:11:6:void Timer::setDriver(GenericDriver*)	16	static
-timer.cpp:15:16:GenericDriver* Timer::getDriver()	16	static
+timer.cpp:7:6:void Timer::registerCallback(std::function<void()>)	16	static
+timer.cpp:11:6:void Timer::executeCallback()	16	static
+timer.cpp:15:20:TIM_HandleTypeDef* Timer::getHandle()	16	static
 timer.cpp:19:6:void Timer::wakeMeUpAfterMicroseconds(uint16_t)	16	static
+functional:525:12:constexpr std::_Maybe_unary_or_binary_function<void>::_Maybe_unary_or_binary_function()	16	static
+functional:1861:7:)>::function() [with _Res = void; _ArgTypes = {}]	16	static
+functional:1929:7:)>&) [with _Res = void; _ArgTypes = {}]	32	static
+functional:2122:5:) const [with _Res = void; _ArgTypes = {}]	16	static
+functional:2092:5:)>&) [with _Res = void; _ArgTypes = {}]	16	static
+functional:2014:12:)>&) [with _Res = void; _ArgTypes = {}]	16	static
+functional:2042:16:)>::operator bool() const [with _Res = void; _ArgTypes = {}]	16	static
+move.h:101:5:constexpr typename std::remove_reference< <template-parameter-1-1> >::type&& std::move(_Tp&&) [with _Tp = std::_Any_data&]	16	static
+move.h:179:5:typename std::enable_if<std::__and_<std::is_move_constructible<_Tp>, std::is_move_assignable<_Tp> >::value>::type std::swap(_Tp&, _Tp&) [with _Tp = std::_Any_data]	24	static
+move.h:101:5:constexpr typename std::remove_reference< <template-parameter-1-1> >::type&& std::move(_Tp&&) [with _Tp = bool (*&)(std::_Any_data&, const std::_Any_data&, std::_Manager_operation)]	16	static
+move.h:179:5:typename std::enable_if<std::__and_<std::is_move_constructible<_Tp>, std::is_move_assignable<_Tp> >::value>::type std::swap(_Tp&, _Tp&) [with _Tp = bool (*)(std::_Any_data&, const std::_Any_data&, std::_Manager_operation)]	24	static
+move.h:101:5:constexpr typename std::remove_reference< <template-parameter-1-1> >::type&& std::move(_Tp&&) [with _Tp = void (*&)(const std::_Any_data&)]	16	static
+move.h:179:5:typename std::enable_if<std::__and_<std::is_move_constructible<_Tp>, std::is_move_assignable<_Tp> >::value>::type std::swap(_Tp&, _Tp&) [with _Tp = void (*)(const std::_Any_data&)]	24	static
