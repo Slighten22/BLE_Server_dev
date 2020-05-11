@@ -1,5 +1,6 @@
 gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
-one_wire_sensor.cpp:5:1:OneWireSensor::OneWireSensor(PinData*)	16	static
-one_wire_sensor.cpp:7:6:void OneWireSensor::startNewReadout()	16	static
-one_wire_sensor.cpp:11:7:float OneWireSensor::getLastTempVal()	16	static
-one_wire_sensor.cpp:15:7:float OneWireSensor::getLastHumidVal()	16	static
+sensor.hpp:12:2:Sensor::Sensor()	16	static
+one_wire_sensor.cpp:3:1:OneWireSensor::OneWireSensor(PinData*)	16	static
+one_wire_sensor.cpp:8:6:virtual void OneWireSensor::startNewReadout()	16	static
+one_wire_sensor.cpp:13:7:float OneWireSensor::getLastTempVal()	16	static
+one_wire_sensor.cpp:17:7:float OneWireSensor::getLastHumidVal()	16	static

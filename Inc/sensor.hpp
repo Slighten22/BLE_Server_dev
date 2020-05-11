@@ -5,13 +5,12 @@
 #include "generic_driver.hpp"
 #include "pin_data.hpp"
 
-class Sensor { //generyczna klasa sensora, ?abstrakcyjna?
-private:
-	GenericDriver genericDriver;
-//	GenericDriver *concreteDriver;
+class Sensor { //generyczna, abstrakcyjna klasa sensora
+protected:
+	GenericDriver *concreteDriver;
 public:
-//	Sensor(PinData *pinData);
-//	virtual void startNewReadout(void) {}; //TODO: wirtualna?
+	Sensor() {};
+	virtual void startNewReadout(void) = 0; //czysto wirtualna
 };
 
 #endif

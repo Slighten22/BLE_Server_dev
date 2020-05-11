@@ -1,11 +1,13 @@
 #include "one_wire_sensor.hpp"
 
-#include <functional>
-
-OneWireSensor::OneWireSensor(PinData *pinData) : /*Sensor(pinData),*/ oneWireDriver(OneWireDriver(pinData)) {}
+OneWireSensor::OneWireSensor(PinData *pinData) : /*Sensor(pinData),2 */oneWireDriver(OneWireDriver(pinData)) {
+//	OneWireDriver oneWireDriver(pinData);
+	this->concreteDriver = &oneWireDriver;
+}
 
 void OneWireSensor::startNewReadout(void){
-	this->oneWireDriver.driverStartReadout();
+//	this->oneWireDriver.driverStartReadout();
+	this->concreteDriver->driverStartReadout();
 }
 
 float OneWireSensor::getLastTempVal(void){

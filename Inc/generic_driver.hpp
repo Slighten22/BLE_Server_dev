@@ -11,14 +11,14 @@ extern DeviceManager deviceManager;
 class GenericDriver;
 typedef void (GenericDriver::*StateHandler)(void);
 
-class GenericDriver { //klasa abstrakcyjna?
+class GenericDriver { //generyczna, abstrakcyjna klasa drivera
 protected:
 	PinData *pinData;
 	Timer *timer;
-	StateHandler stateHandler; //TODO: ?stateHandler powinien nalezec do klady bazowej
-	virtual void firstStateHandler(void) {};
-	virtual void secondStateHandler(void) {};
-	virtual void thirdStateHandler(void) {};
+	StateHandler stateHandler;
+	virtual void firstStateHandler(void) = 0;
+	virtual void secondStateHandler(void) = 0;
+	virtual void thirdStateHandler(void) = 0;
 public:
 	GenericDriver(PinData *pinData) {
 		if(deviceManager.checkIfPinFree(pinData)){
@@ -29,8 +29,8 @@ public:
 		}
 		this->timer = deviceManager.getNewTimerHandle();
 	};
-	virtual void driverStartReadout(void) {};//= 0; //chyba nie abstrakcyjna
-	virtual void executeState(void) {};//= 0;
+	virtual void driverStartReadout(void) = 0;
+	virtual void executeState(void) = 0;
 };
 
 #endif

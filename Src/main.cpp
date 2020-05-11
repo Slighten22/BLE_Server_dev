@@ -514,13 +514,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	  timers[deviceManager.getTimerIndex(htim)]->executeCallback(); //a w nim ExecuteState urzadzenia
   }
 
-//	if(readDone){ //wewnatrz ostatniego state drivera
-//		readDone = false;
-//		//powiadom glowny task ze juz zakonczyla sie cala robota
-//		BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-//		xSemaphoreGiveFromISR(binarySem, &xHigherPriorityTaskWoken);
-//		portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
-//	}
   /* USER CODE END Callback 0 */
 
   /* USER CODE BEGIN Callback 1 */
