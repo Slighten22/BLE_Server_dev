@@ -8,14 +8,14 @@
 
 extern DeviceManager deviceManager;
 
-//class GenericDriver;
-//typedef void (GenericDriver::*StateHandler)(void);
+class GenericDriver;
+typedef void (GenericDriver::*StateHandler)(void);
 
 class GenericDriver { //klasa abstrakcyjna?
 protected:
 	PinData *pinData;
 	Timer *timer;
-//	StateHandler stateHandler; //TODO: ?stateHandler powinien nalezec do klady bazowej
+	StateHandler stateHandler; //TODO: ?stateHandler powinien nalezec do klady bazowej
 	virtual void firstStateHandler(void) {};
 	virtual void secondStateHandler(void) {};
 	virtual void thirdStateHandler(void) {};

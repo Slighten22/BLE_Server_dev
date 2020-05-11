@@ -2,11 +2,11 @@
 
 OneWireDriver::OneWireDriver(PinData *pinData) : GenericDriver(pinData) {
 	this->timer->registerCallback(std::bind(&OneWireDriver::executeState, this));
-	this->stateHandler = &OneWireDriver::firstStateHandler;
+	this->stateHandler = static_cast<StateHandler>(&OneWireDriver::firstStateHandler);
 };
 
 void OneWireDriver::driverStartReadout(void){
-	this->stateHandler = &OneWireDriver::firstStateHandler;
+	this->stateHandler = static_cast<StateHandler>(&OneWireDriver::firstStateHandler);
 	this->executeState();
 }
 

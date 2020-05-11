@@ -15,12 +15,8 @@ typedef enum {
 
 extern DeviceManager deviceManager;
 
-class OneWireDriver;
-typedef void (OneWireDriver::*OneWireStateHandler)(void);
-
 class OneWireDriver : public GenericDriver {
 private:
-	OneWireStateHandler stateHandler;
 	void firstStateHandler(void);
 	void secondStateHandler(void);
 	void thirdStateHandler(void);

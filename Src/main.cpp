@@ -414,7 +414,7 @@ void OneWireDriver::firstStateHandler(void){
 	this->changePinMode(ONE_WIRE_OUTPUT);
 	this->writePin(0);
 	//ustaw kolejny stan
-	this->stateHandler = &OneWireDriver::secondStateHandler;
+	this->stateHandler = static_cast<StateHandler>(&OneWireDriver::secondStateHandler);
 	//przestaw i uruchom timer
 	this->timer->wakeMeUpAfterMicroseconds(800);
 }
@@ -425,7 +425,7 @@ void OneWireDriver::secondStateHandler(void){
 	this->writePin(1);
 	this->changePinMode(ONE_WIRE_INPUT);
 	//ustaw kolejny stan
-	this->stateHandler = &OneWireDriver::thirdStateHandler;
+	this->stateHandler = static_cast<StateHandler>(&OneWireDriver::thirdStateHandler);
 	//przestaw i uruchom timer
 	this->timer->wakeMeUpAfterMicroseconds(10);
 }
