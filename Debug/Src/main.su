@@ -8,11 +8,11 @@ main.cpp:330:13:void MX_TIM6_Init()	24	static
 main.cpp:350:13:void MX_TIM4_Init()	24	static
 main.cpp:378:6:void StartDefaultTask(const void*)	24	static
 main.cpp:398:6:void ReadoutTask(const void*)	24	static
-main.cpp:410:6:void OneWireDriver::firstStateHandler()	16	static
-main.cpp:421:6:void OneWireDriver::secondStateHandler()	16	static
-main.cpp:432:6:void OneWireDriver::thirdStateHandler()	112	static
-main.cpp:485:6:void delayMicroseconds(uint32_t)	40	static
-main.cpp:506:6:void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*)	16	static
+main.cpp:410:6:virtual void OneWireDriver::firstStateHandler()	16	static
+main.cpp:422:6:virtual void OneWireDriver::secondStateHandler()	16	static
+main.cpp:433:6:virtual void OneWireDriver::thirdStateHandler()	112	static
+main.cpp:486:6:void delayMicroseconds(uint32_t)	40	static
+main.cpp:507:6:void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*)	16	static
 main.cpp:537:6:void Error_Handler()	8	static
 main.cpp:543:1:void __static_initialization_and_destruction_0(int, int)	16	static
 main.cpp:543:1:cpp)	8	static

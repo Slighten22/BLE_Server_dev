@@ -4,6 +4,7 @@
 #include "pin_data.hpp"
 #include "timer.hpp"
 #include "device_manager.hpp" //musimy miec obiekt DMa zeby dostac pin i timer
+#include <functional>
 
 extern DeviceManager deviceManager;
 
@@ -15,8 +16,10 @@ protected:
 	PinData *pinData;
 	Timer *timer;
 //	StateHandler stateHandler; //TODO: ?stateHandler powinien nalezec do klady bazowej
+	virtual void firstStateHandler(void) {};
+	virtual void secondStateHandler(void) {};
+	virtual void thirdStateHandler(void) {};
 public:
-	GenericDriver(){}//TODO: NIE! a potrzebna dla generycznego sensora
 	GenericDriver(PinData *pinData) {
 		if(deviceManager.checkIfPinFree(pinData)){
 			this->pinData = pinData;
@@ -26,7 +29,7 @@ public:
 		}
 		this->timer = deviceManager.getNewTimerHandle();
 	};
-	virtual void driverStartReadout(void) {};//= 0; //TODO: chyba nie abstrakcyjna
+	virtual void driverStartReadout(void) {};//= 0; //chyba nie abstrakcyjna
 	virtual void executeState(void) {};//= 0;
 };
 

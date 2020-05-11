@@ -4,16 +4,16 @@ Timer::Timer(TIM_HandleTypeDef *htim){
 	this->handle = htim;
 }
 
+void Timer::registerCallback(std::function<void(void)> callbackFunction){
+	this->callback = callbackFunction;
+}
+
+void Timer::executeCallback(void){
+	callback();
+}
+
 TIM_HandleTypeDef* Timer::getHandle(void){
 	return this->handle;
-}
-
-void Timer::setDriver(GenericDriver *genericDriver){
-	this->myDriver = genericDriver;
-}
-
-GenericDriver* Timer::getDriver(void){
-	return this->myDriver;
 }
 
 void Timer::wakeMeUpAfterMicroseconds(uint16_t us){

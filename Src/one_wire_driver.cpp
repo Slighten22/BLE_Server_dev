@@ -1,7 +1,7 @@
 #include "one_wire_driver.hpp"
 
 OneWireDriver::OneWireDriver(PinData *pinData) : GenericDriver(pinData) {
-	this->timer->setDriver(this); //zamiast podczepiania callbacka-podczepanie obiektu drivera-TODO: podczepic obiekt generycznego drivera
+	this->timer->registerCallback(std::bind(&OneWireDriver::executeState, this));
 	this->stateHandler = &OneWireDriver::firstStateHandler;
 };
 
@@ -37,11 +37,3 @@ void OneWireDriver::writePin(bool state){
 bool OneWireDriver::readPin(void){
 	return (1&HAL_GPIO_ReadPin(this->pinData->GPIO_Port, this->pinData->GPIO_Pin));
 }
-
-//void OneWireDriver::registerTimerCallback(void){ //to nie dziala (i chyba nigdy nie dzialalo, skoro mam metody z roznych klas)
-//	//check nie powinno byc  timer->registerCallback(OneWireDriver::&executeState());
-//	this->timer->registerCallback(&OneWireDriver::executeState);
-//	//? moze bedzie trzeba zmienic typ timer->callback na OneWireDriver::*TimerCallback
-//
-//	//this->timer->callback = [this]{ executeState(); }; //lambda - nie
-//};
