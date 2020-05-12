@@ -1,13 +1,12 @@
 #include "one_wire_sensor.hpp"
 
-OneWireSensor::OneWireSensor(PinData *pinData) : /*Sensor(pinData),2 */oneWireDriver(OneWireDriver(pinData)) {
-//	OneWireDriver oneWireDriver(pinData);
-	this->concreteDriver = &oneWireDriver;
+OneWireSensor::OneWireSensor(PinData *pinData) {
+	auto oneWireDriver = std::make_unique<OneWireDriver>(pinData);
+	this->driver = std::move(oneWireDriver);
 }
 
 void OneWireSensor::startNewReadout(void){
-//	this->oneWireDriver.driverStartReadout();
-	this->concreteDriver->driverStartReadout();
+	this->driver->driverStartReadout();
 }
 
 float OneWireSensor::getLastTempVal(void){
