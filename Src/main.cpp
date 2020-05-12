@@ -387,8 +387,7 @@ void StartDefaultTask(void const * argument)
 		xSemaphoreTake(binarySem, maxBlockTime);
 		//zeby tu dojsc, musial byc oddany semafor
 		HAL_UART_Transmit(&huart3, (uint8_t *)"notified\r\n", 10, 10);
-		MX_BlueNRG_MS_Process(data, 5);
-
+		//MX_BlueNRG_MS_Process(data, 5); //po wykonaniu odczytu
 		osDelay(delayTime);
 	}
 	/* USER CODE END 5 */
@@ -473,6 +472,7 @@ void OneWireDriver::thirdStateHandler(void){
 	uint16_t tempDecimal = temp % 10;
 	temp = temp / (uint16_t) 10;
 	humid = humid / (uint16_t) 10;
+	MX_BlueNRG_MS_Process(data, 5); //zamiast w glownym tasku po oddaniu semafora
 	char uartData[50];
 	sprintf(uartData, "\r\nTemperatura\t %hu.%huC\r\nWilgotnosc\t %hu.%hu%%\r\n",
 			temp, tempDecimal, humid, humidDecimal);

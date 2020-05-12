@@ -3,11 +3,11 @@ functional:1687:5:std::_Function_base::~_Function_base()	16	static
 device_manager.cpp:14:1:DeviceManager::DeviceManager()	16	static
 device_manager.cpp:34:6:bool DeviceManager::checkIfPinFree(PinData*)	32	static
 device_manager.cpp:48:10:PinData* DeviceManager::getFreePin()	24	static
-device_manager.cpp:58:8:Timer* DeviceManager::getNewTimerHandle()	16	static
-device_manager.cpp:67:9:uint8_t DeviceManager::getOccupiedPinsCount()	16	static
-device_manager.cpp:71:9:uint8_t DeviceManager::getUsedTimersCount()	16	static
-device_manager.cpp:75:5:int DeviceManager::getTimerIndex(TIM_HandleTypeDef*)	24	static
+device_manager.cpp:56:8:Timer* DeviceManager::getNewTimerHandle()	16	static
+device_manager.cpp:65:9:uint8_t DeviceManager::getOccupiedPinsCount()	16	static
+device_manager.cpp:69:9:uint8_t DeviceManager::getUsedTimersCount()	16	static
+device_manager.cpp:73:5:int DeviceManager::getTimerIndex(TIM_HandleTypeDef*)	24	static
 functional:1834:11:std::function<void()>::~function()	16	static
 timer.hpp:8:7:Timer::~Timer()	16	static
-device_manager.cpp:82:1:void __static_initialization_and_destruction_0(int, int)	16	static
-device_manager.cpp:82:1:cpp)	8	static
+device_manager.cpp:80:1:void __static_initialization_and_destruction_0(int, int)	16	static
+device_manager.cpp:80:1:cpp)	8	static

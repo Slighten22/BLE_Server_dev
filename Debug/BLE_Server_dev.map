@@ -24842,81 +24842,82 @@ LOAD c:/program files (x86)/atollic/truestudio for stm32 9.3.0/armtools/bin/../l
                 0x0800c900       0x3c Src\device_manager.o
                 0x0800c900                DeviceManager::getNewTimerHandle()
  .text._ZN13DeviceManager13getTimerIndexEP17TIM_HandleTypeDef
-                0x0800c93c       0x58 Src\device_manager.o
+                0x0800c93c       0x54 Src\device_manager.o
                 0x0800c93c                DeviceManager::getTimerIndex(TIM_HandleTypeDef*)
  .text._ZNSt8functionIFvvEED2Ev
-                0x0800c994       0x1a Src\device_manager.o
-                0x0800c994                std::function<void ()>::~function()
-                0x0800c994                std::function<void ()>::~function()
+                0x0800c990       0x1a Src\device_manager.o
+                0x0800c990                std::function<void ()>::~function()
+                0x0800c990                std::function<void ()>::~function()
  .text._ZN5TimerD2Ev
-                0x0800c9ae       0x1c Src\device_manager.o
-                0x0800c9ae                Timer::~Timer()
-                0x0800c9ae                Timer::~Timer()
- *fill*         0x0800c9ca        0x2 
+                0x0800c9aa       0x1c Src\device_manager.o
+                0x0800c9aa                Timer::~Timer()
+                0x0800c9aa                Timer::~Timer()
+ *fill*         0x0800c9c6        0x2 
  .text._Z41__static_initialization_and_destruction_0ii
-                0x0800c9cc       0x78 Src\device_manager.o
+                0x0800c9c8       0x78 Src\device_manager.o
  .text._GLOBAL__sub_I_htim7
-                0x0800ca44       0x10 Src\device_manager.o
+                0x0800ca40       0x10 Src\device_manager.o
  .text.vApplicationGetIdleTaskMemory
-                0x0800ca54       0x18 Src\freertos.o
-                0x0800ca54                vApplicationGetIdleTaskMemory
+                0x0800ca50       0x18 Src\freertos.o
+                0x0800ca50                vApplicationGetIdleTaskMemory
  .text.HCI_TL_SPI_Init
-                0x0800ca6c       0x68 Src\hci_tl_interface.o
-                0x0800ca6c                HCI_TL_SPI_Init
+                0x0800ca68       0x68 Src\hci_tl_interface.o
+                0x0800ca68                HCI_TL_SPI_Init
  .text.HCI_TL_SPI_DeInit
-                0x0800cad4       0x26 Src\hci_tl_interface.o
-                0x0800cad4                HCI_TL_SPI_DeInit
+                0x0800cad0       0x26 Src\hci_tl_interface.o
+                0x0800cad0                HCI_TL_SPI_DeInit
  .text.HCI_TL_SPI_Reset
-                0x0800cafa       0x2e Src\hci_tl_interface.o
-                0x0800cafa                HCI_TL_SPI_Reset
+                0x0800caf6       0x2e Src\hci_tl_interface.o
+                0x0800caf6                HCI_TL_SPI_Reset
  .text.HCI_TL_SPI_Receive
-                0x0800cb28       0x8e Src\hci_tl_interface.o
-                0x0800cb28                HCI_TL_SPI_Receive
- *fill*         0x0800cbb6        0x2 
+                0x0800cb24       0x8e Src\hci_tl_interface.o
+                0x0800cb24                HCI_TL_SPI_Receive
+ *fill*         0x0800cbb2        0x2 
  .text.HCI_TL_SPI_Send
-                0x0800cbb8       0x94 Src\hci_tl_interface.o
-                0x0800cbb8                HCI_TL_SPI_Send
+                0x0800cbb4       0x94 Src\hci_tl_interface.o
+                0x0800cbb4                HCI_TL_SPI_Send
  .text.hci_tl_lowlevel_isr
-                0x0800cc4c       0x1c Src\hci_tl_interface.o
-                0x0800cc4c                hci_tl_lowlevel_isr
+                0x0800cc48       0x1c Src\hci_tl_interface.o
+                0x0800cc48                hci_tl_lowlevel_isr
  .text.hci_tl_lowlevel_init
-                0x0800cc68       0x6c Src\hci_tl_interface.o
-                0x0800cc68                hci_tl_lowlevel_init
+                0x0800cc64       0x6c Src\hci_tl_interface.o
+                0x0800cc64                hci_tl_lowlevel_init
  .text._ZN6Sensor15startNewReadoutEv
-                0x0800ccd4       0x24 Src\main.o
-                0x0800ccd4                Sensor::startNewReadout()
- .text.main     0x0800ccf8       0x98 Src\main.o
-                0x0800ccf8                main
+                0x0800ccd0       0x24 Src\main.o
+                0x0800ccd0                Sensor::startNewReadout()
+ .text.main     0x0800ccf4       0x98 Src\main.o
+                0x0800ccf4                main
  .text._Z18SystemClock_Configv
-                0x0800cd90      0x116 Src\main.o
-                0x0800cd90                SystemClock_Config()
- *fill*         0x0800cea6        0x2 
+                0x0800cd8c      0x116 Src\main.o
+                0x0800cd8c                SystemClock_Config()
+ *fill*         0x0800cea2        0x2 
  .text._Z19MX_USART3_UART_Initv
-                0x0800cea8       0x68 Src\main.o
-                0x0800cea8                MX_USART3_UART_Init()
+                0x0800cea4       0x68 Src\main.o
+                0x0800cea4                MX_USART3_UART_Init()
  .text._ZL12MX_GPIO_Initv
-                0x0800cf10      0x110 Src\main.o
+                0x0800cf0c      0x110 Src\main.o
  .text._ZL12MX_TIM7_Initv
-                0x0800d020       0x80 Src\main.o
+                0x0800d01c       0x80 Src\main.o
  .text._ZL12MX_TIM6_Initv
-                0x0800d0a0       0x80 Src\main.o
+                0x0800d09c       0x80 Src\main.o
  .text._ZL12MX_TIM4_Initv
-                0x0800d120       0x80 Src\main.o
+                0x0800d11c       0x80 Src\main.o
  .text._Z16StartDefaultTaskPKv
-                0x0800d1a0       0x64 Src\main.o
-                0x0800d1a0                StartDefaultTask(void const*)
+                0x0800d19c       0x58 Src\main.o
+                0x0800d19c                StartDefaultTask(void const*)
  .text._Z11ReadoutTaskPKv
-                0x0800d204       0x30 Src\main.o
-                0x0800d204                ReadoutTask(void const*)
+                0x0800d1f4       0x30 Src\main.o
+                0x0800d1f4                ReadoutTask(void const*)
  .text._ZN13OneWireDriver17firstStateHandlerEv
-                0x0800d234       0x54 Src\main.o
-                0x0800d234                OneWireDriver::firstStateHandler()
+                0x0800d224       0x54 Src\main.o
+                0x0800d224                OneWireDriver::firstStateHandler()
  .text._ZN13OneWireDriver18secondStateHandlerEv
-                0x0800d288       0x54 Src\main.o
-                0x0800d288                OneWireDriver::secondStateHandler()
+                0x0800d278       0x54 Src\main.o
+                0x0800d278                OneWireDriver::secondStateHandler()
  .text._ZN13OneWireDriver17thirdStateHandlerEv
-                0x0800d2dc      0x234 Src\main.o
-                0x0800d2dc                OneWireDriver::thirdStateHandler()
+                0x0800d2cc      0x240 Src\main.o
+                0x0800d2cc                OneWireDriver::thirdStateHandler()
+ *fill*         0x0800d50c        0x4 
  .text._Z17delayMicrosecondsm
                 0x0800d510       0xac Src\main.o
                 0x0800d510                delayMicroseconds(unsigned long)
@@ -28467,7 +28468,7 @@ OUTPUT(BLE_Server_dev.elf elf32-littlearm)
  .debug_ranges  0x000024a0       0xc0 Src\timer.o
  .debug_ranges  0x00002560       0x20 startup\startup_stm32l476xx.o
 
-.debug_line     0x00000000    0x1428c
+.debug_line     0x00000000    0x1428e
  .debug_line    0x00000000      0x5b4 Drivers\STM32L4xx_HAL_Driver\stm32l4xx_hal.o
  .debug_line    0x000005b4      0x582 Drivers\STM32L4xx_HAL_Driver\stm32l4xx_hal_cortex.o
  .debug_line    0x00000b36      0x492 Drivers\STM32L4xx_HAL_Driver\stm32l4xx_hal_exti.o
@@ -28496,19 +28497,19 @@ OUTPUT(BLE_Server_dev.elf elf32-littlearm)
  .debug_line    0x0000d62e      0x905 Src\device_manager.o
  .debug_line    0x0000df33      0x56b Src\freertos.o
  .debug_line    0x0000e49e      0x57f Src\hci_tl_interface.o
- .debug_line    0x0000ea1d      0xef3 Src\main.o
- .debug_line    0x0000f910      0xd24 Src\one_wire_driver.o
- .debug_line    0x00010634      0xc79 Src\one_wire_sensor.o
- .debug_line    0x000112ad      0x6f1 Src\sample_service.o
- .debug_line    0x0001199e      0x542 Src\stm32l4xx_hal_msp.o
- .debug_line    0x00011ee0      0x36d Src\stm32l4xx_hal_timebase_tim.o
- .debug_line    0x0001224d      0x529 Src\stm32l4xx_it.o
- .debug_line    0x00012776      0x64a Src\stm32l4xx_nucleo.o
- .debug_line    0x00012dc0      0x3eb Src\stm32l4xx_nucleo_bus.o
- .debug_line    0x000131ab      0x3bb Src\syscalls.o
- .debug_line    0x00013566      0x329 Src\system_stm32l4xx.o
- .debug_line    0x0001388f      0x97f Src\timer.o
- .debug_line    0x0001420e       0x7e startup\startup_stm32l476xx.o
+ .debug_line    0x0000ea1d      0xef5 Src\main.o
+ .debug_line    0x0000f912      0xd24 Src\one_wire_driver.o
+ .debug_line    0x00010636      0xc79 Src\one_wire_sensor.o
+ .debug_line    0x000112af      0x6f1 Src\sample_service.o
+ .debug_line    0x000119a0      0x542 Src\stm32l4xx_hal_msp.o
+ .debug_line    0x00011ee2      0x36d Src\stm32l4xx_hal_timebase_tim.o
+ .debug_line    0x0001224f      0x529 Src\stm32l4xx_it.o
+ .debug_line    0x00012778      0x64a Src\stm32l4xx_nucleo.o
+ .debug_line    0x00012dc2      0x3eb Src\stm32l4xx_nucleo_bus.o
+ .debug_line    0x000131ad      0x3bb Src\syscalls.o
+ .debug_line    0x00013568      0x329 Src\system_stm32l4xx.o
+ .debug_line    0x00013891      0x97f Src\timer.o
+ .debug_line    0x00014210       0x7e startup\startup_stm32l476xx.o
 
 .debug_str      0x00000000    0x13057
  .debug_str     0x00000000      0xe39 Drivers\STM32L4xx_HAL_Driver\stm32l4xx_hal.o

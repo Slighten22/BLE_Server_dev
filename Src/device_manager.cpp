@@ -50,9 +50,7 @@ PinData* DeviceManager::getFreePin(void){
 		if(hardwarePinsList[i].occupied == false)
 			return &hardwarePinsList[i];
 	}
-	//TODO
-	//return new PinData();
-	return &hardwarePinsList[0];
+	return &hardwarePinsList[0]; //TODO
 }
 
 Timer* DeviceManager::getNewTimerHandle(void){
@@ -78,5 +76,5 @@ int DeviceManager::getTimerIndex(TIM_HandleTypeDef *htim){
 		if(htim == timers[i]->getHandle())
 			return i;
 	}
-	return -1; //TODO: zabezpieczyc to!
+	return 0; //TODO: zabezpieczyc to!
 }
