@@ -13,7 +13,6 @@ private:
 	float lastHumidityValue;
 public:
 	OneWireSensor(PinData *pinData);
-	void startNewReadout(void);
 	float getLastTempVal(void);
 	float getLastHumidVal(void);
 };

@@ -1,12 +1,8 @@
 #include "one_wire_sensor.hpp"
 
-OneWireSensor::OneWireSensor(PinData *pinData) {
-	auto oneWireDriver = std::make_unique<OneWireDriver>(pinData);
+OneWireSensor::OneWireSensor(PinData *pinData) : lastTemperatureValue(0.0F), lastHumidityValue(0.0F) {
+	std::unique_ptr<OneWireDriver> oneWireDriver(new OneWireDriver(pinData));
 	this->driver = std::move(oneWireDriver);
-}
-
-void OneWireSensor::startNewReadout(void){
-	this->driver->driverStartReadout();
 }
 
 float OneWireSensor::getLastTempVal(void){

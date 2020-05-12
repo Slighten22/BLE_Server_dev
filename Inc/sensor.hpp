@@ -6,12 +6,13 @@
 #include "generic_driver.hpp"
 #include "pin_data.hpp"
 
-class Sensor { //generyczna, abstrakcyjna klasa sensora
+class Sensor { //generyczna klasa sensora
 protected:
 	std::unique_ptr<GenericDriver> driver;
 public:
-	Sensor() {};
-	virtual void startNewReadout(void) = 0;
+	void startNewReadout(void){
+		this->driver->driverStartReadout();
+	}
 };
 
 #endif

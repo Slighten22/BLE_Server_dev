@@ -9,6 +9,7 @@ class Timer{
 private:
 	TIM_HandleTypeDef *handle; //htim7, htim8, ...
 	std::function<void(void)> callback;
+	//nie musi wiedziec dla jakiego drivera pracuje!
 public:
 	Timer(TIM_HandleTypeDef *htim); //tworzenie timerow - globalne obiekty w deviceManagerze
 	void executeCallback(void); //w HAL_TIM_PeriodElapsedCallback
