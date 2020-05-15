@@ -267,55 +267,10 @@ static void User_Process(uint8_t *data, uint8_t length)
     user_button_init_state = BSP_PB_GetState(BUTTON_KEY);
   }
   
-  if (BLE_Role == CLIENT) 
+  if (connected && notification_enabled)
   {
-    /* Start TX handle Characteristic dynamic discovery if not yet done */
-    if (connected && !end_read_tx_char_handle){
-      startReadTXCharHandle();
-    }
-    /* Start RX handle Characteristic dynamic discovery if not yet done */
-    else if (connected && !end_read_rx_char_handle){      
-      startReadRXCharHandle();
-    }
-    
-    if (connected && end_read_tx_char_handle && end_read_rx_char_handle && !notification_enabled) 
-    {
-      BSP_LED_Off(LED2); //end of the connection and chars discovery phase
-      enableNotification();
-    }
-  }  
-
-  //!!!
-  /* Check if the User Button has been pushed */
-//  if (user_button_pressed)
-//  {
-//    /* Debouncing */
-//    HAL_Delay(50);
-//
-//    /* Wait until the User Button is released */
-//    while (BSP_PB_GetState(BUTTON_KEY) == !user_button_init_state);
-//
-//    /* Debouncing */
-//    HAL_Delay(50);
-
-	delayMicroseconds(100000);
-
-    if (connected /*&& notification_enabled*/)
-    {
-      /* Send a toggle command to the remote device */
-//      uint8_t data[20] = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J'};
-
-      sendData(data, length); //data - argument (info o temp.)
-
-      BSP_LED_Toggle(LED2);  /* Toggle the LED2 locally. */
-                               /* If uncommented be sure the BSP_LED_Init(LED2)
-                                * is called in main().
-                                * E.g. it can be enabled for debugging. */
-    }
-    
-//    /* Reset the User Button flag */
-//    user_button_pressed = 0;
-//  }
+    sendData(data, length); /* Wyslij dane o odczycie do klienta */
+  }
 }
 
 /**

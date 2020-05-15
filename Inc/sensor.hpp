@@ -10,6 +10,8 @@ class Sensor { //generyczna klasa sensora
 protected:
 	std::unique_ptr<GenericDriver> driver;
 public:
+	//TODO: konstruktor ustawiajacy drivera
+//	Sensor(PinData *pinData){}
 	void startNewReadout(void){
 		this->driver->driverStartReadout();
 	}

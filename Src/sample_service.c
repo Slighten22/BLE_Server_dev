@@ -244,9 +244,10 @@ void receiveData(uint8_t* data_buffer, uint8_t Nb_bytes)
 void sendData(uint8_t* data_buffer, uint8_t Nb_bytes)
 {
   if(BLE_Role == SERVER) {    
-    aci_gatt_update_char_value(sampleServHandle,TXCharHandle, 0, Nb_bytes, data_buffer);    
+	/* Przekazanie bufora z danymi data_bufer o zadanej dlugosci Nb_bytes */
+    aci_gatt_update_char_value(sampleServHandle,TXCharHandle, 0, Nb_bytes, data_buffer);
   }
-  else {
+  else { /* Client */
     aci_gatt_write_without_response(connection_handle, rx_handle+1, Nb_bytes, data_buffer);
   }
 }

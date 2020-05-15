@@ -16,9 +16,7 @@ protected:
 	PinData *pinData;
 	Timer *timer;
 	StateHandler stateHandler;
-	virtual void firstStateHandler(void) = 0;
-	virtual void secondStateHandler(void) = 0;
-	virtual void thirdStateHandler(void) = 0;
+	//nie potrzebujemy stanow
 public:
 	GenericDriver(PinData *pinData) {
 		if(deviceManager.checkIfPinFree(pinData)){
