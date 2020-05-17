@@ -477,6 +477,12 @@ void OneWireDriver::thirdStateHandler(void){
 	sprintf(uartData, "\r\nTemperatura\t %hu.%huC\r\nWilgotnosc\t %hu.%hu%%\r\n",
 			temp, tempDecimal, humid, humidDecimal);
 	HAL_UART_Transmit(&huart3, (uint8_t *)uartData, /*sizeof(uartData)*/ 42, 10);
+
+
+	//TODO: wypisz dane odebrane od mastera
+	HAL_UART_Transmit(&huart3, rcvBLE, sizeof(rcvBLE), 10);
+
+
 	//powiadom glowny task ze juz zakonczyla sie cala robota
 	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 	xSemaphoreGiveFromISR(binarySem, &xHigherPriorityTaskWoken);

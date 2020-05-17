@@ -52,7 +52,7 @@
 //
 
 /* USER CODE END Includes */
-
+uint8_t rcvBLE[8];
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
 
@@ -60,7 +60,7 @@
 
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
-//uint8_t dataBLE[4]; //dane z odczytu temp. od servera
+
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/

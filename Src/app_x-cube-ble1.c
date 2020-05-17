@@ -138,7 +138,6 @@ void MX_BlueNRG_MS_Init(void)
    */
   hci_reset();
   
-  //HAL_Delay(100);
   delayMicroseconds(100000);
   
   printf("HWver %d, FWver %d\n", hwVersion, fwVersion);
@@ -270,7 +269,7 @@ static void User_Process(uint8_t *data, uint8_t length)
   if (connected && notification_enabled)
   {
     sendData(data, length); /* Wyslij dane o odczycie do klienta */
-  }
+  } /* BLE_Role == Server */
 }
 
 /**

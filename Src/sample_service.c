@@ -42,6 +42,9 @@
 
 #include "app_x-cube-ble1.h"
 
+extern uint8_t rcvBLE[8];
+extern void delayMicroseconds(uint32_t us);
+
 /** @addtogroup Applications
  *  @{
  */
@@ -144,7 +147,6 @@ void Make_Connection(void)
 {  
   tBleStatus ret;
   
-  
   if(BLE_Role == CLIENT) {
     
     printf("Client Create Connection\n");
@@ -161,25 +163,35 @@ void Make_Connection(void)
     
     if (ret != 0){
       printf("Error while starting connection.\n");
-      HAL_Delay(100);
+      delayMicroseconds(100000);
     }
     
   } else  {
-    
-    const char local_name[] = {AD_TYPE_COMPLETE_LOCAL_NAME,'B','l','u','e','N','R','G','_','C','h','a','t'};
-    
-    /* disable scan response */
-    hci_le_set_scan_resp_data(0,NULL);
-    
-    PRINTF("General Discoverable Mode ");
-    /*
-    Advertising_Event_Type, Adv_Interval_Min, Adv_Interval_Max, Address_Type, Adv_Filter_Policy,
-    Local_Name_Length, Local_Name, Service_Uuid_Length, Service_Uuid_List, Slave_Conn_Interval_Min,
-    Slave_Conn_Interval_Max
-    */
-    ret = aci_gap_set_discoverable(ADV_DATA_TYPE, ADV_INTERV_MIN, ADV_INTERV_MAX, PUBLIC_ADDR, 
-                                   NO_WHITE_LIST_USE, 13, local_name, 0, NULL, 0, 0);
-    PRINTF("%d\n",ret);
+		const char local_name[] = {AD_TYPE_COMPLETE_LOCAL_NAME,'B','l','u','e','N','R','G','_','C','h','a','t'};
+
+		/* disable scan response (nie bedize dodatkowych informacji o serverze dla mastera) */
+		hci_le_set_scan_resp_data(0,NULL);
+
+		PRINTF("General Discoverable Mode ");
+		/*
+		Advertising_Event_Type, Adv_Interval_Min, Adv_Interval_Max, Address_Type, Adv_Filter_Policy,
+		Local_Name_Length, Local_Name, Service_Uuid_Length, Service_Uuid_List, Slave_Conn_Interval_Min,
+		Slave_Conn_Interval_Max
+		*/
+		ret = aci_gap_set_discoverable(
+				ADV_DATA_TYPE, /* undirected scannable and connectable = Advertising_Event_Type */
+				ADV_INTERV_MIN,/* 1280 msec = Minimum Advertising Interval https://www.argenox.com/library/bluetooth-low-energy/ble-advertising-primer/(for a number N, Time = N x 0.625 msec) */
+				ADV_INTERV_MAX,/* 2560 msec = Maximal Advertising Interval (slow advertising, non-critical latency) (for a number N, Time = N x 0.625 msec) */
+				PUBLIC_ADDR,   /* public address = Address_Type */
+				NO_WHITE_LIST_USE,/* Process scan and connection requests from all devices (i.e., the White List is not in use) */
+				13, /* Local_Name_Length (= 0x09BlueNRG_Chat) */
+				local_name, /* 0x09BlueNRG_Chat */
+				0, /* Service_Uuid_Length */
+				NULL, /* Service_Uuid_List */
+				0, /* Slave_Conn_Interval_Min = time between one radio event on a given connection and the next radio event on the same connection */
+				0  /* Slave_Conn_Interval_Max https://devzone.nordicsemi.com/f/nordic-q-a/25340/do-i-understand-ble-connection-interval-properly */
+		);
+		PRINTF("%d\n",ret);
   }
 }
 
@@ -285,6 +297,13 @@ void Attribute_Modified_CB(uint16_t handle, uint8_t data_length, uint8_t *att_da
     if(att_data[0] == 0x01)
       notification_enabled = TRUE;
   }
+
+  //TODO: odebranie info od Klienta przez Server - tutaj po wywolaniu aci_gatt_write_charac_value() przez klienta do wysylania
+  if (handle == RXCharHandle + 1) { //RXCharHandle?
+	  for(int i=0; i<data_length; i++){
+		  rcvBLE[i] = *(att_data + i);
+	  }
+  }
 }
 
 /**
@@ -333,9 +352,7 @@ void GAP_DisconnectionComplete_CB(void)
  */
 void GATT_Notification_CB(uint16_t attr_handle, uint8_t attr_len, uint8_t *attr_value)
 {
-  if (attr_handle == tx_handle+1) {
-    receiveData(attr_value, attr_len);
-  }
+
 }
 
 /**
