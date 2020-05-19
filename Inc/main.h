@@ -49,10 +49,11 @@
 //
 #include "cmsis_os.h"
 #include "app_x-cube-ble1.h"
+#include "bluenrg_types.h"
 //
 
 /* USER CODE END Includes */
-uint8_t rcvBLE[10];
+uint8_t rcvBLE[VARIABLE_SIZE];
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
 

@@ -472,7 +472,7 @@ void OneWireDriver::thirdStateHandler(void){
 	uint16_t tempDecimal = temp % 10;
 	temp = temp / (uint16_t) 10;
 	humid = humid / (uint16_t) 10;
-	MX_BlueNRG_MS_Process(data, 5); //zamiast w glownym tasku po oddaniu semafora
+	MX_BlueNRG_MS_Process(data, sizeof(data)); //zamiast w glownym tasku po oddaniu semafora
 	char uartData[50];
 	sprintf(uartData, "\r\nTemperatura\t %hu.%huC\r\nWilgotnosc\t %hu.%hu%%\r\n",
 			temp, tempDecimal, humid, humidDecimal);

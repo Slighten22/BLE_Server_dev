@@ -42,7 +42,7 @@
 
 #include "app_x-cube-ble1.h"
 
-extern uint8_t rcvBLE[10];
+extern uint8_t rcvBLE[];
 extern void delayMicroseconds(uint32_t us);
 
 /** @addtogroup Applications
@@ -152,7 +152,7 @@ void Make_Connection(void)
     printf("Client Create Connection\n");
     tBDAddr bdaddr = {0xaa, 0x00, 0x00, 0xE1, 0x80, 0x02};
     
-    BSP_LED_On(LED2); //To indicate the start of the connection and discovery phase
+    //BSP_LED_On(LED2); //To indicate the start of the connection and discovery phase
     
     /*
     Scan_Interval, Scan_Window, Peer_Address_Type, Peer_Address, Own_Address_Type, Conn_Interval_Min, 
@@ -256,10 +256,10 @@ void receiveData(uint8_t* data_buffer, uint8_t Nb_bytes)
 void sendData(uint8_t* data_buffer, uint8_t Nb_bytes)
 {
   if(BLE_Role == SERVER) {    
-	/* Przekazanie bufora z danymi data_bufer o zadanej dlugosci Nb_bytes */
+	/* Przekazanie bufora z danymi data_bufer o zadanej dlugosci Nb_bytes; server do klienta: max 120 bajtow na raz */
     aci_gatt_update_char_value(sampleServHandle,TXCharHandle, 0, Nb_bytes, data_buffer);
   }
-  else { /* Client */
+  else { /* Klient do serwera: max 20 bajtow(?) na raz */
     aci_gatt_write_without_response(connection_handle, rx_handle+1, Nb_bytes, data_buffer);
   }
 }
@@ -299,8 +299,8 @@ void Attribute_Modified_CB(uint16_t handle, uint8_t data_length, uint8_t *att_da
   }
 
   //TODO: odebranie info od Klienta przez Server - tutaj po wywolaniu aci_gatt_write_charac_value() przez klienta do wysylania
-  if (handle == RXCharHandle + 1) { //RXCharHandle?
-	  for(int i=0; i</*data_length*/ 10; i++){
+  if (handle == RXCharHandle + 1) {
+	  for(int i=0; i<data_length; i++){//master i slave musza sie umowic na stale na odp. dlugosc komunikatu - inaczej slave sie gubi
 		  rcvBLE[i] = *(att_data + i);
 	  }
   }
@@ -352,7 +352,7 @@ void GAP_DisconnectionComplete_CB(void)
  */
 void GATT_Notification_CB(uint16_t attr_handle, uint8_t attr_len, uint8_t *attr_value)
 {
-
+  /* Tylko dla klienta */
 }
 
 /**
