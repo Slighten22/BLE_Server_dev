@@ -42,7 +42,7 @@
 
 #include "app_x-cube-ble1.h"
 
-extern uint8_t rcvBLE[8];
+extern uint8_t rcvBLE[10];
 extern void delayMicroseconds(uint32_t us);
 
 /** @addtogroup Applications
@@ -300,7 +300,7 @@ void Attribute_Modified_CB(uint16_t handle, uint8_t data_length, uint8_t *att_da
 
   //TODO: odebranie info od Klienta przez Server - tutaj po wywolaniu aci_gatt_write_charac_value() przez klienta do wysylania
   if (handle == RXCharHandle + 1) { //RXCharHandle?
-	  for(int i=0; i<data_length; i++){
+	  for(int i=0; i</*data_length*/ 10; i++){
 		  rcvBLE[i] = *(att_data + i);
 	  }
   }

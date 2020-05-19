@@ -52,7 +52,7 @@
 //
 
 /* USER CODE END Includes */
-uint8_t rcvBLE[8];
+uint8_t rcvBLE[10];
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
 
