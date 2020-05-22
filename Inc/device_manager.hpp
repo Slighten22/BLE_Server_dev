@@ -4,17 +4,15 @@
 
 #include "timer.hpp"
 #include "pin_data.hpp"
+#include "server_configuration.hpp"
 #include <stm32l476xx.h>
 
-//Timery
 extern TIM_HandleTypeDef htim7;
 extern TIM_HandleTypeDef htim6;
 extern TIM_HandleTypeDef htim4; //TODO: inicjalizacja w HALu
-//... kolejne TIM_HandleTypedefy
 extern Timer tim7;
 extern Timer tim6;
 extern Timer tim4;
-//... kolejne obiekty timerow
 extern Timer *timers[];
 
 class DeviceManager{
@@ -27,6 +25,7 @@ private:
 	uint8_t occupiedPinsCount;
 	uint8_t usedTimersCount;
 	PinData hardwarePinsList[5];
+	ServerConfiguration *currentConfig;
 public:
 	DeviceManager(); //inicjalizuje managera i jego tablice zasobow do rozdania
 	bool checkIfPinFree(PinData *data); //w konstruktorze sensora bedzie sprawdzane czy pin ktorego chcemy uzyc jest z listy i czy wolny
@@ -35,6 +34,8 @@ public:
 	Timer* getNewTimerHandle(void);
 	PinData* getFreePin(void);
 	int getTimerIndex(TIM_HandleTypeDef *htim);
+	ServerConfiguration* getCurrentConfig();
+	void setCurrentConfig(ServerConfiguration *newConfig);
 };
 
 #endif

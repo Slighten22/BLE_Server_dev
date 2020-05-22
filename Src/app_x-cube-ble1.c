@@ -268,6 +268,11 @@ static void User_Process(uint8_t *data, uint8_t length)
   
   if (connected && notification_enabled)
   {
+ 	/* sprawdza czy jest nowa konfiguracja - jezeli jest:
+ 	 * parsuje konfiguracje i odczyta info jakie ma sensory i na jakich pinach
+ 	 * wywolujea funckje do odczytania z tych sensorow ktore dostal w konfiguracji
+ 	 * funkcja od odczytywania z wielu sensorow da znac (?) gdy bedzie miec juz wszystkie dane
+ 	 * slave wysle odpowiednia liczbe bajtow danych (obliczona wczesniej na podst. konfiguracji) masterowi */
     sendData(data, length); /* Wyslij dane o odczycie do klienta */
   } /* BLE_Role == Server */
 }

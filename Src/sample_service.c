@@ -298,11 +298,12 @@ void Attribute_Modified_CB(uint16_t handle, uint8_t data_length, uint8_t *att_da
       notification_enabled = TRUE;
   }
 
-  //TODO: odebranie info od Klienta przez Server - tutaj po wywolaniu aci_gatt_write_charac_value() przez klienta do wysylania
+  /* Odbieranie info od Klienta przez Server - tutaj po wywolaniu aci_gatt_write_without_response() przez klienta do wysylania */
   if (handle == RXCharHandle + 1) {
-	  for(int i=0; i<data_length; i++){//master i slave musza sie umowic na stale na odp. dlugosc komunikatu - inaczej slave sie gubi
+	  for(int i=0; i<data_length; i++){
 		  rcvBLE[i] = *(att_data + i);
 	  }
+	  /* TODO: zeby klient uzywal aci_gatt_write_charac_value() lub tego w wersji long, to serwer musi odeslac potwierdzenie (ACK) */
   }
 }
 

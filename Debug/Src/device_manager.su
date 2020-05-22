@@ -7,7 +7,9 @@ device_manager.cpp:56:8:Timer* DeviceManager::getNewTimerHandle()	16	static
 device_manager.cpp:65:9:uint8_t DeviceManager::getOccupiedPinsCount()	16	static
 device_manager.cpp:69:9:uint8_t DeviceManager::getUsedTimersCount()	16	static
 device_manager.cpp:73:5:int DeviceManager::getTimerIndex(TIM_HandleTypeDef*)	24	static
+device_manager.cpp:82:22:ServerConfiguration* DeviceManager::getCurrentConfig()	16	static
+device_manager.cpp:86:6:void DeviceManager::setCurrentConfig(ServerConfiguration*)	16	static
 functional:1834:11:std::function<void()>::~function()	16	static
 timer.hpp:8:7:Timer::~Timer()	16	static
-device_manager.cpp:80:1:void __static_initialization_and_destruction_0(int, int)	16	static
-device_manager.cpp:80:1:cpp)	8	static
+device_manager.cpp:88:1:void __static_initialization_and_destruction_0(int, int)	16	static
+device_manager.cpp:88:1:cpp)	8	static

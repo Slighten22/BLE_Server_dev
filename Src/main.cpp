@@ -50,6 +50,8 @@ TaskHandle_t readoutTaskHandle;
 SemaphoreHandle_t binarySem;
 
 DeviceManager deviceManager;
+
+//TODO: autokonfiguracja
 PinData sensor1Data = {GPIOA, GPIO_PIN_4};
 OneWireSensor tempSensor1(&sensor1Data);
 

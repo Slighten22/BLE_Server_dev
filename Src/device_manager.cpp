@@ -14,16 +14,16 @@ Timer *timers[] = {&tim7, &tim6/*, &tim4*/}; //TODO: wiecej timerow + fix tim6, 
 DeviceManager::DeviceManager(){
 	occupiedPinsCount = 0;
 	usedTimersCount = 0;
-	hardwarePinsList[0].GPIO_Port = ((GPIO_TypeDef *) GPIOA_BASE); //GPIOA
-	hardwarePinsList[0].GPIO_Pin  = ((uint16_t)0x0010);			   //GPIO_PIN_4
-	hardwarePinsList[1].GPIO_Port = ((GPIO_TypeDef *) GPIOA_BASE); //GPIOA
-	hardwarePinsList[1].GPIO_Pin  = ((uint16_t)0x0200);			   //GPIO_PIN_9
-	hardwarePinsList[2].GPIO_Port = ((GPIO_TypeDef *) GPIOA_BASE); //GPIOA
-	hardwarePinsList[2].GPIO_Pin  = ((uint16_t)0x0400);			   //GPIO_PIN_10
-	hardwarePinsList[3].GPIO_Port = ((GPIO_TypeDef *) GPIOA_BASE); //GPIOA
-	hardwarePinsList[3].GPIO_Pin  =	((uint16_t)0x0800); 		   //GPIO_PIN_11
-	hardwarePinsList[4].GPIO_Port = ((GPIO_TypeDef *) GPIOA_BASE); //GPIOA
-	hardwarePinsList[4].GPIO_Pin  =	((uint16_t)0x1000); 		   //GPIO_PIN_12
+	hardwarePinsList[0].GPIO_Port = GPIOA;		 //((GPIO_TypeDef *) GPIOA_BASE);
+	hardwarePinsList[0].GPIO_Pin  = GPIO_PIN_4;  //((uint16_t)0x0010);
+	hardwarePinsList[1].GPIO_Port = GPIOA;		 //((GPIO_TypeDef *) GPIOA_BASE);
+	hardwarePinsList[1].GPIO_Pin  = GPIO_PIN_9;  //((uint16_t)0x0200);
+	hardwarePinsList[2].GPIO_Port = GPIOA;		 //((GPIO_TypeDef *) GPIOA_BASE);
+	hardwarePinsList[2].GPIO_Pin  = GPIO_PIN_10; //((uint16_t)0x0400);
+	hardwarePinsList[3].GPIO_Port = GPIOA;		 //((GPIO_TypeDef *) GPIOA_BASE);
+	hardwarePinsList[3].GPIO_Pin  =	GPIO_PIN_11; //((uint16_t)0x0800);
+	hardwarePinsList[4].GPIO_Port = GPIOA;		 //((GPIO_TypeDef *) GPIOA_BASE);
+	hardwarePinsList[4].GPIO_Pin  =	GPIO_PIN_12; //((uint16_t)0x1000);
 	hardwarePinsList[0].occupied  = false;
 	hardwarePinsList[1].occupied  = false;
 	hardwarePinsList[2].occupied  = false;
@@ -78,3 +78,12 @@ int DeviceManager::getTimerIndex(TIM_HandleTypeDef *htim){
 	}
 	return 0; //TODO: zabezpieczyc to!
 }
+
+ServerConfiguration* DeviceManager::getCurrentConfig(){
+	return this->currentConfig;
+}
+
+void DeviceManager::setCurrentConfig(ServerConfiguration *newConfig){
+	this->currentConfig = newConfig;
+}
+
