@@ -1,55 +1,34 @@
 gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
-unique_ptr.h:57:17:constexpr std::default_delete<_Tp>::default_delete() [with _Tp = GenericDriver]	16	static
-tuple:58:17:constexpr std::_Head_base<_Idx, _Head, true>::_Head_base() [with unsigned int _Idx = 1u; _Head = std::default_delete<GenericDriver>]	16	static
-tuple:351:17:constexpr std::_Tuple_impl<_Idx, _Head>::_Tuple_impl() [with unsigned int _Idx = 1u; _Head = std::default_delete<GenericDriver>]	16	static
-tuple:104:17:constexpr std::_Head_base<_Idx, _Head, false>::_Head_base() [with unsigned int _Idx = 0u; _Head = GenericDriver*]	16	static
-tuple:201:17:>::_Tuple_impl() [with unsigned int _Idx = 0u; _Head = GenericDriver*; _Tail = {std::default_delete<GenericDriver>}]	16	static
-tuple:878:17:constexpr std::tuple<_T1, _T2>::tuple() [with _U1 = GenericDriver*; _U2 = std::default_delete<GenericDriver>; typename std::enable_if<std::__and_<std::__is_implicitly_default_constructible<_U1>, std::__is_implicitly_default_constructible<_U2> >::value, bool>::type <anonymous> = 1u; _T1 = GenericDriver*; _T2 = std::default_delete<GenericDriver>]	16	static
-unique_ptr.h:158:17:constexpr std::unique_ptr<_Tp, _Dp>::unique_ptr() [with _Tp = GenericDriver; _Dp = std::default_delete<GenericDriver>]	16	static
-sensor.hpp:9:7:constexpr Sensor::Sensor()	16	static
+shared_ptr_base.h:298:5:void std::_Sp_counted_base<_Lp>::_M_add_ref_copy() [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+shared_ptr_base.h:303:5:void std::_Sp_counted_base<_Lp>::_M_release() [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+shared_ptr_base.h:563:17:constexpr std::__shared_count<_Lp>::__shared_count() [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+shared_ptr_base.h:879:17:constexpr std::__shared_ptr<_Tp, _Lp>::__shared_ptr() [with _Tp = GenericDriver; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+shared_ptr_base.h:928:7:std::__shared_ptr<_Tp, _Lp>::~__shared_ptr() [with _Tp = GenericDriver; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+shared_ptr.h:104:17:constexpr std::shared_ptr<_Tp>::shared_ptr() [with _Tp = GenericDriver]	16	static
+shared_ptr.h:93:11:std::shared_ptr<GenericDriver>::~shared_ptr()	16	static
+sensor.hpp:9:7:Sensor::Sensor()	16	static
 sensor.hpp:9:7:Sensor::~Sensor()	16	static
-move.h:101:5:constexpr typename std::remove_reference< <template-parameter-1-1> >::type&& std::move(_Tp&&) [with _Tp = std::unique_ptr<OneWireDriver>&]	16	static
-one_wire_sensor.cpp:3:1:OneWireSensor::OneWireSensor(PinData*)	32	static
-one_wire_sensor.cpp:8:7:float OneWireSensor::getLastTempVal()	16	static
-one_wire_sensor.cpp:12:7:float OneWireSensor::getLastHumidVal()	16	static
-tuple:142:7:static constexpr _Head& std::_Head_base<_Idx, _Head, false>::_M_head(std::_Head_base<_Idx, _Head, false>&) [with unsigned int _Idx = 0u; _Head = GenericDriver*]	16	static
-tuple:190:7:>&) [with unsigned int _Idx = 0u; _Head = GenericDriver*; _Tail = {std::default_delete<GenericDriver>}]	16	static
-tuple:1247:5:>&) [with unsigned int __i = 0u; _Head = GenericDriver*; _Tail = {std::default_delete<GenericDriver>}]	16	static
-tuple:1258:5:>&) [with unsigned int __i = 0u; _Elements = {GenericDriver*, std::default_delete<GenericDriver>}]	16	static
-unique_ptr.h:235:7:std::unique_ptr<_Tp, _Dp>::~unique_ptr() [with _Tp = GenericDriver; _Dp = std::default_delete<GenericDriver>]	24	static
-unique_ptr.h:57:17:constexpr std::default_delete<_Tp>::default_delete() [with _Tp = OneWireDriver]	16	static
-tuple:58:17:constexpr std::_Head_base<_Idx, _Head, true>::_Head_base() [with unsigned int _Idx = 1u; _Head = std::default_delete<OneWireDriver>]	16	static
-tuple:351:17:constexpr std::_Tuple_impl<_Idx, _Head>::_Tuple_impl() [with unsigned int _Idx = 1u; _Head = std::default_delete<OneWireDriver>]	16	static
-tuple:104:17:constexpr std::_Head_base<_Idx, _Head, false>::_Head_base() [with unsigned int _Idx = 0u; _Head = OneWireDriver*]	16	static
-tuple:201:17:>::_Tuple_impl() [with unsigned int _Idx = 0u; _Head = OneWireDriver*; _Tail = {std::default_delete<OneWireDriver>}]	16	static
-tuple:878:17:constexpr std::tuple<_T1, _T2>::tuple() [with _U1 = OneWireDriver*; _U2 = std::default_delete<OneWireDriver>; typename std::enable_if<std::__and_<std::__is_implicitly_default_constructible<_U1>, std::__is_implicitly_default_constructible<_U2> >::value, bool>::type <anonymous> = 1u; _T1 = OneWireDriver*; _T2 = std::default_delete<OneWireDriver>]	16	static
-tuple:142:7:static constexpr _Head& std::_Head_base<_Idx, _Head, false>::_M_head(std::_Head_base<_Idx, _Head, false>&) [with unsigned int _Idx = 0u; _Head = OneWireDriver*]	16	static
-tuple:190:7:>&) [with unsigned int _Idx = 0u; _Head = OneWireDriver*; _Tail = {std::default_delete<OneWireDriver>}]	16	static
-tuple:1247:5:>&) [with unsigned int __i = 0u; _Head = OneWireDriver*; _Tail = {std::default_delete<OneWireDriver>}]	16	static
-tuple:1258:5:>&) [with unsigned int __i = 0u; _Elements = {OneWireDriver*, std::default_delete<OneWireDriver>}]	16	static
-unique_ptr.h:170:7:std::unique_ptr<_Tp, _Dp>::unique_ptr(std::unique_ptr<_Tp, _Dp>::pointer) [with _Tp = OneWireDriver; _Dp = std::default_delete<OneWireDriver>]	16	static
-unique_ptr.h:235:7:std::unique_ptr<_Tp, _Dp>::~unique_ptr() [with _Tp = OneWireDriver; _Dp = std::default_delete<OneWireDriver>]	24	static
-move.h:76:5:constexpr _Tp&& std::forward(typename std::remove_reference<_From>::type&) [with _Tp = std::default_delete<OneWireDriver>]	16	static
-unique_ptr.h:272:2:typename std::enable_if<std::__and_<std::__and_<std::is_convertible<typename std::unique_ptr<_Up, _Ep>::pointer, typename std::unique_ptr<_Tp, _Dp>::_Pointer::type>, std::__not_<std::is_array<_Up> >, std::__or_<std::__and_<std::is_reference<_Dp>, std::is_same<_T2, _U2> >, std::__and_<std::__not_<std::is_reference<_Dp> >, std::is_convertible<_Ep, _Dp> > > >, std::is_assignable<_T2&, _U2&&> >::value, std::unique_ptr<_Tp, _Dp>&>::type std::unique_ptr<_Tp, _Dp>::operator=(std::unique_ptr<_Up, _Ep>&&) [with _Up = OneWireDriver; _Ep = std::default_delete<OneWireDriver>; _Tp = GenericDriver; _Dp = std::default_delete<GenericDriver>]	24	static
-tuple:95:7:static constexpr _Head& std::_Head_base<_Idx, _Head, true>::_M_head(std::_Head_base<_Idx, _Head, true>&) [with unsigned int _Idx = 1u; _Head = std::default_delete<GenericDriver>]	16	static
-tuple:346:7:static constexpr _Head& std::_Tuple_impl<_Idx, _Head>::_M_head(std::_Tuple_impl<_Idx, _Head>&) [with unsigned int _Idx = 1u; _Head = std::default_delete<GenericDriver>]	16	static
-tuple:1247:5:>&) [with unsigned int __i = 1u; _Head = std::default_delete<GenericDriver>; _Tail = {}]	16	static
-tuple:1258:5:>&) [with unsigned int __i = 1u; _Elements = {GenericDriver*, std::default_delete<GenericDriver>}]	16	static
-unique_ptr.h:312:7:std::unique_ptr<_Tp, _Dp>::deleter_type& std::unique_ptr<_Tp, _Dp>::get_deleter() [with _Tp = GenericDriver; _Dp = std::default_delete<GenericDriver>]	16	static
-unique_ptr.h:70:7:void std::default_delete<_Tp>::operator()(_Tp*) const [with _Tp = GenericDriver]	16	static
-tuple:95:7:static constexpr _Head& std::_Head_base<_Idx, _Head, true>::_M_head(std::_Head_base<_Idx, _Head, true>&) [with unsigned int _Idx = 1u; _Head = std::default_delete<OneWireDriver>]	16	static
-tuple:346:7:static constexpr _Head& std::_Tuple_impl<_Idx, _Head>::_M_head(std::_Tuple_impl<_Idx, _Head>&) [with unsigned int _Idx = 1u; _Head = std::default_delete<OneWireDriver>]	16	static
-tuple:1247:5:>&) [with unsigned int __i = 1u; _Head = std::default_delete<OneWireDriver>; _Tail = {}]	16	static
-tuple:1258:5:>&) [with unsigned int __i = 1u; _Elements = {OneWireDriver*, std::default_delete<OneWireDriver>}]	16	static
-unique_ptr.h:312:7:std::unique_ptr<_Tp, _Dp>::deleter_type& std::unique_ptr<_Tp, _Dp>::get_deleter() [with _Tp = OneWireDriver; _Dp = std::default_delete<OneWireDriver>]	16	static
-unique_ptr.h:70:7:void std::default_delete<_Tp>::operator()(_Tp*) const [with _Tp = OneWireDriver]	16	static
-unique_ptr.h:342:7:void std::unique_ptr<_Tp, _Dp>::reset(std::unique_ptr<_Tp, _Dp>::pointer) [with _Tp = GenericDriver; _Dp = std::default_delete<GenericDriver>]	16	static
-unique_ptr.h:328:7:std::unique_ptr<_Tp, _Dp>::pointer std::unique_ptr<_Tp, _Dp>::release() [with _Tp = OneWireDriver; _Dp = std::default_delete<OneWireDriver>]	24	static
-unique_ptr.h:66:9:std::default_delete<_Tp>::default_delete(const std::default_delete<_Up>&) [with _Up = OneWireDriver; <template-parameter-2-2> = void; _Tp = GenericDriver]	16	static
-move.h:101:5:constexpr typename std::remove_reference< <template-parameter-1-1> >::type&& std::move(_Tp&&) [with _Tp = GenericDriver*&]	16	static
-move.h:179:5:typename std::enable_if<std::__and_<std::is_move_constructible<_Tp>, std::is_move_assignable<_Tp> >::value>::type std::swap(_Tp&, _Tp&) [with _Tp = GenericDriver*]	24	static
-tuple:145:7:static constexpr const _Head& std::_Head_base<_Idx, _Head, false>::_M_head(const std::_Head_base<_Idx, _Head, false>&) [with unsigned int _Idx = 0u; _Head = OneWireDriver*]	16	static
-tuple:193:7:>&) [with unsigned int _Idx = 0u; _Head = OneWireDriver*; _Tail = {std::default_delete<OneWireDriver>}]	16	static
-tuple:1252:5:>&) [with unsigned int __i = 0u; _Head = OneWireDriver*; _Tail = {std::default_delete<OneWireDriver>}]	16	static
-tuple:1264:5:>&) [with unsigned int __i = 0u; _Elements = {OneWireDriver*, std::default_delete<OneWireDriver>}]	16	static
-unique_ptr.h:307:7:std::unique_ptr<_Tp, _Dp>::pointer std::unique_ptr<_Tp, _Dp>::get() const [with _Tp = OneWireDriver; _Dp = std::default_delete<OneWireDriver>]	16	static
+shared_ptr_base.h:928:7:std::__shared_ptr<_Tp, _Lp>::~__shared_ptr() [with _Tp = OneWireDriver; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+shared_ptr.h:93:11:std::shared_ptr<OneWireDriver>::~shared_ptr()	16	static
+one_wire_sensor.cpp:11:1:OneWireSensor::OneWireSensor(PinData)	48	static
+one_wire_sensor.cpp:38:7:float OneWireSensor::getLastTempVal()	16	static
+one_wire_sensor.cpp:42:7:float OneWireSensor::getLastHumidVal()	16	static
+shared_ptr_base.h:126:7:void std::_Sp_counted_base<_Lp>::_M_destroy() [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+shared_ptr_base.h:659:7:std::__shared_count<_Lp>::~__shared_count() [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+shared_ptr.h:116:11:std::shared_ptr<_Tp>::shared_ptr(_Tp1*) [with _Tp1 = OneWireDriver; _Tp = OneWireDriver]	16	static
+shared_ptr.h:275:2:std::shared_ptr<_Tp>& std::shared_ptr<_Tp>::operator=(const std::shared_ptr<_Tp1>&) [with _Tp1 = OneWireDriver; _Tp = GenericDriver]	16	static
+shared_ptr_base.h:116:7:std::_Sp_counted_base<_Lp>::~_Sp_counted_base() [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+shared_ptr_base.h:116:7:std::_Sp_counted_base<_Lp>::~_Sp_counted_base() [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+shared_ptr_base.h:884:11:std::__shared_ptr<_Tp, _Lp>::__shared_ptr(_Tp1*) [with _Tp1 = OneWireDriver; _Tp = OneWireDriver; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+shared_ptr_base.h:983:2:std::__shared_ptr<_Tp, _Lp>& std::__shared_ptr<_Tp, _Lp>::operator=(const std::__shared_ptr<_Tp1, _Lp>&) [with _Tp1 = OneWireDriver; _Tp = GenericDriver; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+shared_ptr_base.h:568:2:std::__shared_count<_Lp>::__shared_count(_Ptr) [with _Ptr = OneWireDriver*; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	24	static
+shared_ptr_base.h:865:5:) [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	4	static
+shared_ptr_base.h:673:7:std::__shared_count<_Lp>& std::__shared_count<_Lp>::operator=(const std::__shared_count<_Lp>&) [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	24	static
+shared_ptr_base.h:367:7:std::_Sp_counted_ptr<_Ptr, _Lp>::_Sp_counted_ptr(_Ptr) [with _Ptr = OneWireDriver*; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+shared_ptr_base.h:89:11:constexpr std::_Mutex_base<(__gnu_cxx::_Lock_policy)0u>::_Mutex_base()	16	static
+shared_ptr_base.h:112:7:std::_Sp_counted_base<_Lp>::_Sp_counted_base() [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+shared_ptr_base.h:363:11:std::_Sp_counted_ptr<OneWireDriver*, (__gnu_cxx::_Lock_policy)0u>::~_Sp_counted_ptr()	16	static
+shared_ptr_base.h:363:11:virtual std::_Sp_counted_ptr<OneWireDriver*, (__gnu_cxx::_Lock_policy)0u>::~_Sp_counted_ptr()	16	static
+shared_ptr_base.h:371:7:void std::_Sp_counted_ptr<_Ptr, _Lp>::_M_dispose() [with _Ptr = OneWireDriver*; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+shared_ptr_base.h:375:7:void std::_Sp_counted_ptr<_Ptr, _Lp>::_M_destroy() [with _Ptr = OneWireDriver*; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+shared_ptr_base.h:379:7:void* std::_Sp_counted_ptr<_Ptr, _Lp>::_M_get_deleter(const std::type_info&) [with _Ptr = OneWireDriver*; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static

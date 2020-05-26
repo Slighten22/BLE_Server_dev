@@ -22,7 +22,10 @@ private:
 	void thirdStateHandler(void);
 	//.. moga byc kolejne stany wewnatrz odczytu
 public:
-	OneWireDriver(PinData *pinData);
+	//OneWireDriver(PinData *pinData);
+
+	OneWireDriver(PinData pinData);
+
 	void driverStartReadout(void);
 	void executeState(void);
 	void changePinMode(oneWireMode mode);

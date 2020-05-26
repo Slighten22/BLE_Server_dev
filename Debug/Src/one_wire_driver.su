@@ -3,15 +3,15 @@ functional:1458:17:void* std::_Any_data::_M_access()	16	static
 functional:1459:17:const void* std::_Any_data::_M_access() const	16	static
 functional:1685:5:std::_Function_base::_Function_base()	16	static
 functional:1687:5:std::_Function_base::~_Function_base()	16	static
-generic_driver.hpp:21:2:GenericDriver::GenericDriver(PinData*)	16	static
+generic_driver.hpp:35:2:GenericDriver::GenericDriver(PinData)	24	static
 move.h:76:5:constexpr _Tp&& std::forward(typename std::remove_reference<_From>::type&) [with _Tp = OneWireDriver*&]	16	static
 functional:1834:11:std::function<void()>::~function()	16	static
-one_wire_driver.cpp:3:1:OneWireDriver::OneWireDriver(PinData*)	64	static
-one_wire_driver.cpp:8:6:virtual void OneWireDriver::driverStartReadout()	16	static
-one_wire_driver.cpp:13:6:virtual void OneWireDriver::executeState()	16	static
-one_wire_driver.cpp:17:6:void OneWireDriver::changePinMode(oneWireMode)	40	static
-one_wire_driver.cpp:31:6:void OneWireDriver::writePin(bool)	16	static
-one_wire_driver.cpp:37:6:bool OneWireDriver::readPin()	16	static
+one_wire_driver.cpp:10:1:OneWireDriver::OneWireDriver(PinData)	80	static
+one_wire_driver.cpp:19:6:virtual void OneWireDriver::driverStartReadout()	16	static
+one_wire_driver.cpp:24:6:virtual void OneWireDriver::executeState()	16	static
+one_wire_driver.cpp:28:6:void OneWireDriver::changePinMode(oneWireMode)	40	static
+one_wire_driver.cpp:42:6:void OneWireDriver::writePin(bool)	16	static
+one_wire_driver.cpp:48:6:bool OneWireDriver::readPin()	16	static
 stl_function.h:105:12:constexpr std::unary_function<OneWireDriver*, void>::unary_function()	16	static
 functional:529:12:constexpr std::_Maybe_unary_or_binary_function<void, OneWireDriver*>::_Maybe_unary_or_binary_function()	16	static
 functional:596:7:constexpr std::_Mem_fn_base<_MemFunPtr, __is_mem_fn>::_Mem_fn_base(_MemFunPtr) [with _MemFunPtr = void (OneWireDriver::*)(); bool __is_mem_fn = true]	24	static

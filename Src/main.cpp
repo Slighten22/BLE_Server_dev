@@ -29,7 +29,9 @@
 #include "timer.hpp"
 #include "device_manager.hpp"
 #include "pin_data.hpp"
-
+#include "server_configuration.hpp"
+#include <vector>
+#include <memory>
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
 /* USER CODE END PTD */
@@ -51,17 +53,19 @@ SemaphoreHandle_t binarySem;
 
 DeviceManager deviceManager;
 
-//TODO: autokonfiguracja
+uint8_t receivedConfigurationMessage[20]; //globalne?
+std::shared_ptr<OneWireSensor> sensor(nullptr);
 PinData sensor1Data = {GPIOA, GPIO_PIN_4};
-OneWireSensor tempSensor1(&sensor1Data);
+//std::shared_ptr<OneWireSensor> tempSensor1 = std::make_shared<OneWireSensor>(sensor1Data);
 
-PinData sensor2Data = {GPIOA, GPIO_PIN_9};
-OneWireSensor tempSensor2(&sensor2Data);
+//PinData sensor2Data = {GPIOA, GPIO_PIN_9};
+//OneWireSensor tempSensor2(&sensor2Data);
 
 uint16_t delayTime = 3000;
 uint8_t data[5];
 char uartData[50];
 bool readDone;
+bool newConfig;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -75,6 +79,8 @@ static void MX_TIM7_Init(void);
 static void MX_TIM6_Init(void);
 static void MX_TIM4_Init(void);
 void delayMicroseconds(uint32_t us);
+void createNewSensorFromRcvMessage(uint8_t *message);
+void createNewSensor(SensorInfo sensorInfo);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -98,6 +104,14 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
+
+  newConfig = true;
+  receivedConfigurationMessage[0] = 0;
+  receivedConfigurationMessage[1] = 0;
+  receivedConfigurationMessage[2] = 3;
+  receivedConfigurationMessage[3] = 'T';
+  receivedConfigurationMessage[4] = 'A';
+  receivedConfigurationMessage[5] = '\0';
 
   /* USER CODE END Init */
 
@@ -142,7 +156,7 @@ int main(void)
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
-  osThreadDef(readoutTask, ReadoutTask, osPriorityNormal, 0, 256);
+  osThreadDef(readoutTask, ReadoutTask, osPriorityNormal, 0, 1024); //512B max
   readoutTaskHandle = osThreadCreate(osThread(readoutTask), NULL);
   /* USER CODE END RTOS_THREADS */
 
@@ -402,7 +416,16 @@ void ReadoutTask(void const * argument){
 	for (;;) {
 		xTaskNotifyWait(pdFALSE, 0xFF, &notifValue, portMAX_DELAY);
 		if ((notifValue & 0x01) != 0x00){
-			tempSensor1.startNewReadout();
+			//sprawdz, czy nie przyszla nowa konfiguracja
+			if(newConfig == true){
+				//createNewSensorFromRcvMessage(receivedConfigurationMessage);
+				//PinData sensor1Data = {GPIOA, GPIO_PIN_4};
+				sensor = std::make_shared<OneWireSensor>(sensor1Data);
+				newConfig = false;
+			}
+
+			sensor->startNewReadout();
+			//tempSensor1->startNewReadout();
 			//tempSensor2.startNewReadout();
 		}
 	}
@@ -480,10 +503,7 @@ void OneWireDriver::thirdStateHandler(void){
 			temp, tempDecimal, humid, humidDecimal);
 	HAL_UART_Transmit(&huart3, (uint8_t *)uartData, /*sizeof(uartData)*/ 42, 10);
 
-
-	//TODO: wypisz dane odebrane od mastera
-	HAL_UART_Transmit(&huart3, rcvBLE, sizeof(rcvBLE), 10);
-
+	HAL_UART_Transmit(&huart3, rcvBLE, sizeof(rcvBLE), 10); //dane odebrane od mastera
 
 	//powiadom glowny task ze juz zakonczyla sie cala robota
 	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
@@ -502,6 +522,46 @@ void delayMicroseconds(uint32_t us){
 	for(uint32_t tmp = 0; tmp < loopCounter; tmp++) {asm volatile("nop");}
 	//previously there was tmp < 800 giving 3200 processor cycles, each lasting 12.5 ns = 40 us delay
 	//UINT_MAX	Maximum value for a variable of type unsigned int	4,294,967,295 (0xffffffff)
+}
+
+void createNewSensorFromRcvMessage(uint8_t *message){
+	/* Format wiadomosci: <typ_sensora:1B> <interwal:2B> <nazwa:max.15B> */
+	SensorInfo sensorInfo;
+	SensorType senType;
+	switch(*(message + 0)){
+		case 0:
+			senType = OneWireSensorType;
+			break;
+		default:
+			break;
+	}
+	sensorInfo.sensorType = senType; //DHT22
+	sensorInfo.interval = (*(message + 1))*256 + *(message + 2); //zalozenie: MSB najpierw
+	for(int i=3; sensorInfo.name[i] != '\0'; i++){
+		sensorInfo.name[i] = *(message + i);
+	} //TODO: check
+	sensorInfo.pinData = deviceManager.getFreePin(); //gubiony wskaznik?
+
+	//stworz nowy obiekt sensora
+	createNewSensor(sensorInfo);
+}
+
+void createNewSensor(SensorInfo sensorInfo){
+	switch (sensorInfo.sensorType){
+		case OneWireSensorType:
+		{
+			//OneWireSensor *sensor = new OneWireSensor(sensorInfo->pinData, sensorInfo->name, sensorInfo->interval);
+			PinData sensor1Data = {GPIOA, GPIO_PIN_4};
+			sensor = std::make_shared<OneWireSensor>(sensor1Data);
+
+			//TODO: zwalnianie pamieci po sensorze gdy przyjdzie konfig z interwalem = 0
+			//TODO: odczyt z sensora tylko co odp. interwal!
+			//sensor->startNewReadout();
+			break;
+		}
+		default:
+			break;
+	}
 }
 
 /**

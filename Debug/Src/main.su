@@ -1,38 +1,103 @@
+new:146:14:void* operator new(std::size_t, void*)	16	static
+new:152:13:void operator delete(void*, void*)	16	static
 gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
-sensor.hpp:15:7:void Sensor::startNewReadout()	16	static
-main.cpp:89:5:int main()	72	static
-main.cpp:169:6:void SystemClock_Config()	232	static
-main.cpp:224:6:void MX_USART3_UART_Init()	8	static
-main.cpp:259:13:void MX_GPIO_Init()	48	static
-main.cpp:306:13:void MX_TIM7_Init()	24	static
-main.cpp:332:13:void MX_TIM6_Init()	24	static
-main.cpp:352:13:void MX_TIM4_Init()	24	static
-main.cpp:380:6:void StartDefaultTask(const void*)	24	static
-main.cpp:399:6:void ReadoutTask(const void*)	24	static
-main.cpp:411:6:void OneWireDriver::firstStateHandler()	16	static
-main.cpp:423:6:void OneWireDriver::secondStateHandler()	16	static
-main.cpp:434:6:void OneWireDriver::thirdStateHandler()	112	static
-main.cpp:494:6:void delayMicroseconds(uint32_t)	40	static
-main.cpp:515:6:void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*)	16	static
-main.cpp:538:6:void Error_Handler()	8	static
-unique_ptr.h:299:7:std::unique_ptr<_Tp, _Dp>::pointer std::unique_ptr<_Tp, _Dp>::operator->() const [with _Tp = GenericDriver; _Dp = std::default_delete<GenericDriver>]	16	static
-tuple:145:7:static constexpr const _Head& std::_Head_base<_Idx, _Head, false>::_M_head(const std::_Head_base<_Idx, _Head, false>&) [with unsigned int _Idx = 0u; _Head = GenericDriver*]	16	static
-tuple:193:7:>&) [with unsigned int _Idx = 0u; _Head = GenericDriver*; _Tail = {std::default_delete<GenericDriver>}]	16	static
-tuple:1252:5:>&) [with unsigned int __i = 0u; _Head = GenericDriver*; _Tail = {std::default_delete<GenericDriver>}]	16	static
-tuple:1264:5:>&) [with unsigned int __i = 0u; _Elements = {GenericDriver*, std::default_delete<GenericDriver>}]	16	static
-unique_ptr.h:307:7:std::unique_ptr<_Tp, _Dp>::pointer std::unique_ptr<_Tp, _Dp>::get() const [with _Tp = GenericDriver; _Dp = std::default_delete<GenericDriver>]	16	static
+shared_ptr_base.h:303:5:void std::_Sp_counted_base<_Lp>::_M_release() [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+sensor.hpp:17:7:void Sensor::startNewReadout()	16	static
+shared_ptr_base.h:563:17:constexpr std::__shared_count<_Lp>::__shared_count() [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+shared_ptr_base.h:928:7:std::__shared_ptr<_Tp, _Lp>::~__shared_ptr() [with _Tp = OneWireSensor; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+shared_ptr.h:93:11:std::shared_ptr<OneWireSensor>::~shared_ptr()	16	static
+main.cpp:95:5:int main()	72	static
+main.cpp:183:6:void SystemClock_Config()	232	static
+main.cpp:238:6:void MX_USART3_UART_Init()	8	static
+main.cpp:273:13:void MX_GPIO_Init()	48	static
+main.cpp:320:13:void MX_TIM7_Init()	24	static
+main.cpp:346:13:void MX_TIM6_Init()	24	static
+main.cpp:366:13:void MX_TIM4_Init()	24	static
+main.cpp:394:6:void StartDefaultTask(const void*)	24	static
+main.cpp:413:6:void ReadoutTask(const void*)	32	static
+main.cpp:434:6:void OneWireDriver::firstStateHandler()	16	static
+main.cpp:446:6:void OneWireDriver::secondStateHandler()	16	static
+main.cpp:457:6:void OneWireDriver::thirdStateHandler()	112	static
+main.cpp:514:6:void delayMicroseconds(uint32_t)	40	static
+server_configuration.hpp:11:16:SensorInfo::SensorInfo()	16	static
+server_configuration.hpp:11:16:SensorInfo::~SensorInfo()	16	static
+server_configuration.hpp:11:16:SensorInfo::SensorInfo(const SensorInfo&)	16	static
+main.cpp:527:6:void createNewSensorFromRcvMessage(uint8_t*)	88	static
+main.cpp:549:6:void createNewSensor(SensorInfo)	32	static
+main.cpp:575:6:void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*)	16	static
+main.cpp:598:6:void Error_Handler()	8	static
+shared_ptr_base.h:126:7:void std::_Sp_counted_base<_Lp>::_M_destroy() [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+shared_ptr_base.h:1055:7:_Tp* std::__shared_ptr<_Tp, _Lp>::operator->() const [with _Tp = GenericDriver; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+shared_ptr_base.h:659:7:std::__shared_count<_Lp>::~__shared_count() [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+move.h:76:5:constexpr _Tp&& std::forward(typename std::remove_reference<_From>::type&) [with _Tp = PinData&]	16	static
+shared_ptr.h:632:5:) [with _Tp = OneWireSensor; _Args = {PinData&}]	24	static
+move.h:101:5:constexpr typename std::remove_reference< <template-parameter-1-1> >::type&& std::move(_Tp&&) [with _Tp = std::shared_ptr<OneWireSensor>&]	16	static
+shared_ptr.h:292:7:std::shared_ptr<_Tp>& std::shared_ptr<_Tp>::operator=(std::shared_ptr<_Tp>&&) [with _Tp = OneWireSensor]	24	static
+shared_ptr_base.h:1055:7:_Tp* std::__shared_ptr<_Tp, _Lp>::operator->() const [with _Tp = OneWireSensor; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+shared_ptr_base.h:116:7:std::_Sp_counted_base<_Lp>::~_Sp_counted_base() [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+shared_ptr_base.h:116:7:std::_Sp_counted_base<_Lp>::~_Sp_counted_base() [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+allocator.h:131:7:std::allocator< <template-parameter-1-1> >::allocator() [with _Tp = OneWireSensor]	16	static
+allocator.h:139:7:std::allocator< <template-parameter-1-1> >::~allocator() [with _Tp = OneWireSensor]	16	static
+shared_ptr.h:617:5:) [with _Tp = OneWireSensor; _Alloc = std::allocator<OneWireSensor>; _Args = {PinData&}]	40	static
+move.h:101:5:constexpr typename std::remove_reference< <template-parameter-1-1> >::type&& std::move(_Tp&&) [with _Tp = std::__shared_ptr<OneWireSensor, (__gnu_cxx::_Lock_policy)0u>&]	16	static
+shared_ptr_base.h:1001:7:std::__shared_ptr<_Tp, _Lp>& std::__shared_ptr<_Tp, _Lp>::operator=(std::__shared_ptr<_Tp, _Lp>&&) [with _Tp = OneWireSensor; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	24	static
+new_allocator.h:79:7:__gnu_cxx::new_allocator<_Tp>::new_allocator() [with _Tp = OneWireSensor]	16	static
+new_allocator.h:86:7:__gnu_cxx::new_allocator<_Tp>::~new_allocator() [with _Tp = OneWireSensor]	16	static
+shared_ptr.h:317:2:) [with _Alloc = std::allocator<OneWireSensor>; _Args = {PinData&}; _Tp = OneWireSensor]	32	static
+shared_ptr_base.h:935:7:std::__shared_ptr<_Tp, _Lp>::__shared_ptr(std::__shared_ptr<_Tp, _Lp>&&) [with _Tp = OneWireSensor; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+shared_ptr_base.h:1077:7:void std::__shared_ptr<_Tp, _Lp>::swap(std::__shared_ptr<_Tp, _Lp>&) [with _Tp = OneWireSensor; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+shared_ptr_base.h:1097:2:) [with _Alloc = std::allocator<OneWireSensor>; _Args = {PinData&}; _Tp = OneWireSensor; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	48	static
+shared_ptr_base.h:688:7:void std::__shared_count<_Lp>::_M_swap(std::__shared_count<_Lp>&) [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	24	static
+move.h:101:5:constexpr typename std::remove_reference< <template-parameter-1-1> >::type&& std::move(_Tp&&) [with _Tp = OneWireSensor*&]	16	static
+move.h:179:5:typename std::enable_if<std::__and_<std::is_move_constructible<_Tp>, std::is_move_assignable<_Tp> >::value>::type std::swap(_Tp&, _Tp&) [with _Tp = OneWireSensor*]	24	static
+move.h:101:5:constexpr typename std::remove_reference< <template-parameter-1-1> >::type&& std::move(_Tp&&) [with _Tp = const std::allocator<OneWireSensor>&]	16	static
+shared_ptr_base.h:607:2:) [with _Tp = OneWireSensor; _Alloc = std::allocator<OneWireSensor>; _Args = {PinData&}; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	64	static
+shared_ptr_base.h:704:7:void* std::__shared_count<_Lp>::_M_get_deleter(const std::type_info&) const [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+shared_ptr_base.h:865:5:) [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	4	static
+allocator.h:137:9:std::allocator< <template-parameter-1-1> >::allocator(const std::allocator<_Tp1>&) [with _Tp1 = OneWireSensor; _Tp = std::_Sp_counted_ptr_inplace<OneWireSensor, std::allocator<OneWireSensor>, (__gnu_cxx::_Lock_policy)0u>]	16	static
+allocator.h:139:7:std::allocator< <template-parameter-1-1> >::~allocator() [with _Tp = std::_Sp_counted_ptr_inplace<OneWireSensor, std::allocator<OneWireSensor>, (__gnu_cxx::_Lock_policy)0u>]	16	static
+allocated_ptr.h:101:5:std::__allocated_ptr<_Alloc> std::__allocate_guarded(_Alloc&) [with _Alloc = std::allocator<std::_Sp_counted_ptr_inplace<OneWireSensor, std::allocator<OneWireSensor>, (__gnu_cxx::_Lock_policy)0u> >]	16	static
+allocated_ptr.h:70:7:std::__allocated_ptr<_Alloc>::~__allocated_ptr() [with _Alloc = std::allocator<std::_Sp_counted_ptr_inplace<OneWireSensor, std::allocator<OneWireSensor>, (__gnu_cxx::_Lock_policy)0u> >]	16	static
+allocated_ptr.h:85:19:std::__allocated_ptr<_Alloc>::value_type* std::__allocated_ptr<_Alloc>::get() [with _Alloc = std::allocator<std::_Sp_counted_ptr_inplace<OneWireSensor, std::allocator<OneWireSensor>, (__gnu_cxx::_Lock_policy)0u> >]	16	static
+allocator.h:133:7:std::allocator< <template-parameter-1-1> >::allocator(const std::allocator< <template-parameter-1-1> >&) [with _Tp = OneWireSensor]	16	static
+shared_ptr_base.h:407:12:std::_Sp_ebo_helper<0, std::allocator<OneWireSensor>, true>::~_Sp_ebo_helper()	16	static
+shared_ptr_base.h:499:13:std::_Sp_counted_ptr_inplace<OneWireSensor, std::allocator<OneWireSensor>, (__gnu_cxx::_Lock_policy)0u>::_Impl::~_Impl()	16	static
+shared_ptr_base.h:515:2:) [with _Args = {PinData&}; _Tp = OneWireSensor; _Alloc = std::allocator<OneWireSensor>; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	40	static
+allocated_ptr.h:78:7:std::__allocated_ptr<_Alloc>& std::__allocated_ptr<_Alloc>::operator=(std::nullptr_t) [with _Alloc = std::allocator<std::_Sp_counted_ptr_inplace<OneWireSensor, std::allocator<OneWireSensor>, (__gnu_cxx::_Lock_policy)0u> >]	16	static
+new_allocator.h:79:7:__gnu_cxx::new_allocator<_Tp>::new_allocator() [with _Tp = std::_Sp_counted_ptr_inplace<OneWireSensor, std::allocator<OneWireSensor>, (__gnu_cxx::_Lock_policy)0u>]	16	static
+new_allocator.h:86:7:__gnu_cxx::new_allocator<_Tp>::~new_allocator() [with _Tp = std::_Sp_counted_ptr_inplace<OneWireSensor, std::allocator<OneWireSensor>, (__gnu_cxx::_Lock_policy)0u>]	16	static
+alloc_traits.h:435:7:static _Tp* std::allocator_traits<std::allocator<_Tp1> >::allocate(std::allocator_traits<std::allocator<_Tp1> >::allocator_type&, std::allocator_traits<std::allocator<_Tp1> >::size_type) [with _Tp = std::_Sp_counted_ptr_inplace<OneWireSensor, std::allocator<OneWireSensor>, (__gnu_cxx::_Lock_policy)0u>]	16	static
+allocated_ptr.h:52:7:std::__allocated_ptr<_Alloc>::__allocated_ptr(_Alloc&, std::__allocated_ptr<_Alloc>::pointer) [with _Alloc = std::allocator<std::_Sp_counted_ptr_inplace<OneWireSensor, std::allocator<OneWireSensor>, (__gnu_cxx::_Lock_policy)0u> >]	24	static
+alloc_traits.h:461:7:static void std::allocator_traits<std::allocator<_Tp1> >::deallocate(std::allocator_traits<std::allocator<_Tp1> >::allocator_type&, std::allocator_traits<std::allocator<_Tp1> >::pointer, std::allocator_traits<std::allocator<_Tp1> >::size_type) [with _Tp = std::_Sp_counted_ptr_inplace<OneWireSensor, std::allocator<OneWireSensor>, (__gnu_cxx::_Lock_policy)0u>]	24	static
+allocated_ptr.h:88:19:std::__allocated_ptr<_Alloc>::value_type* std::__allocated_ptr<_Alloc>::_S_raw_ptr(std::__allocated_ptr<_Alloc>::value_type*) [with _Alloc = std::allocator<std::_Sp_counted_ptr_inplace<OneWireSensor, std::allocator<OneWireSensor>, (__gnu_cxx::_Lock_policy)0u> >]	16	static
+new_allocator.h:81:7:__gnu_cxx::new_allocator<_Tp>::new_allocator(const __gnu_cxx::new_allocator<_Tp>&) [with _Tp = OneWireSensor]	16	static
+shared_ptr_base.h:89:11:constexpr std::_Mutex_base<(__gnu_cxx::_Lock_policy)0u>::_Mutex_base()	16	static
+shared_ptr_base.h:112:7:std::_Sp_counted_base<_Lp>::_Sp_counted_base() [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+type_traits:2052:12:constexpr std::aligned_storage<44u, 4u>::aligned_storage()	16	static
+aligned_buffer.h:91:7:__gnu_cxx::__aligned_buffer<_Tp>::__aligned_buffer() [with _Tp = OneWireSensor]	16	static
+shared_ptr_base.h:504:11:std::_Sp_counted_ptr_inplace<_Tp, _Alloc, _Lp>::_Impl::_Impl(_Alloc) [with _Tp = OneWireSensor; _Alloc = std::allocator<OneWireSensor>; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+shared_ptr_base.h:553:12:_Tp* std::_Sp_counted_ptr_inplace<_Tp, _Alloc, _Lp>::_M_ptr() [with _Tp = OneWireSensor; _Alloc = std::allocator<OneWireSensor>; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+alloc_traits.h:474:2:) [with _Up = OneWireSensor; _Args = {PinData&}; _Tp = OneWireSensor]	24	static
+new_allocator.h:99:7:_Tp* __gnu_cxx::new_allocator<_Tp>::allocate(__gnu_cxx::new_allocator<_Tp>::size_type, const void*) [with _Tp = std::_Sp_counted_ptr_inplace<OneWireSensor, std::allocator<OneWireSensor>, (__gnu_cxx::_Lock_policy)0u>]	24	static
+move.h:47:5:_Tp* std::__addressof(_Tp&) [with _Tp = std::allocator<std::_Sp_counted_ptr_inplace<OneWireSensor, std::allocator<OneWireSensor>, (__gnu_cxx::_Lock_policy)0u> >]	16	static
+new_allocator.h:109:7:void __gnu_cxx::new_allocator<_Tp>::deallocate(__gnu_cxx::new_allocator<_Tp>::pointer, __gnu_cxx::new_allocator<_Tp>::size_type) [with _Tp = std::_Sp_counted_ptr_inplace<OneWireSensor, std::allocator<OneWireSensor>, (__gnu_cxx::_Lock_policy)0u>]	24	static
+shared_ptr_base.h:409:16:std::_Sp_ebo_helper<_Nm, _Tp, true>::_Sp_ebo_helper(const _Tp&) [with int _Nm = 0; _Tp = std::allocator<OneWireSensor>]	16	static
+aligned_buffer.h:109:7:_Tp* __gnu_cxx::__aligned_buffer<_Tp>::_M_ptr() [with _Tp = OneWireSensor]	16	static
+new_allocator.h:119:9:) [with _Up = OneWireSensor; _Args = {PinData&}; _Tp = OneWireSensor]	40	static
+new_allocator.h:113:7:__gnu_cxx::new_allocator<_Tp>::size_type __gnu_cxx::new_allocator<_Tp>::max_size() const [with _Tp = std::_Sp_counted_ptr_inplace<OneWireSensor, std::allocator<OneWireSensor>, (__gnu_cxx::_Lock_policy)0u>]	16	static
+aligned_buffer.h:97:7:void* __gnu_cxx::__aligned_buffer<_Tp>::_M_addr() [with _Tp = OneWireSensor]	16	static
+main.cpp:604:1:void __static_initialization_and_destruction_0(int, int)	16	static
+shared_ptr_base.h:524:7:std::_Sp_counted_ptr_inplace<_Tp, _Alloc, _Lp>::~_Sp_counted_ptr_inplace() [with _Tp = OneWireSensor; _Alloc = std::allocator<OneWireSensor>; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+shared_ptr_base.h:524:7:std::_Sp_counted_ptr_inplace<_Tp, _Alloc, _Lp>::~_Sp_counted_ptr_inplace() [with _Tp = OneWireSensor; _Alloc = std::allocator<OneWireSensor>; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+shared_ptr_base.h:527:7:void std::_Sp_counted_ptr_inplace<_Tp, _Alloc, _Lp>::_M_dispose() [with _Tp = OneWireSensor; _Alloc = std::allocator<OneWireSensor>; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	24	static
+shared_ptr_base.h:534:7:void std::_Sp_counted_ptr_inplace<_Tp, _Alloc, _Lp>::_M_destroy() [with _Tp = OneWireSensor; _Alloc = std::allocator<OneWireSensor>; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	32	static
+shared_ptr_base.h:543:7:void* std::_Sp_counted_ptr_inplace<_Tp, _Alloc, _Lp>::_M_get_deleter(const std::type_info&) [with _Tp = OneWireSensor; _Alloc = std::allocator<OneWireSensor>; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+shared_ptr_base.h:506:10:_Alloc& std::_Sp_counted_ptr_inplace<_Tp, _Alloc, _Lp>::_Impl::_M_alloc() [with _Tp = OneWireSensor; _Alloc = std::allocator<OneWireSensor>; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+alloc_traits.h:486:2:static void std::allocator_traits<std::allocator<_Tp1> >::destroy(std::allocator_traits<std::allocator<_Tp1> >::allocator_type&, _Up*) [with _Up = OneWireSensor; _Tp = OneWireSensor]	16	static
+shared_ptr_base.h:412:7:static _Tp& std::_Sp_ebo_helper<_Nm, _Tp, true>::_S_get(std::_Sp_ebo_helper<_Nm, _Tp, true>&) [with int _Nm = 0; _Tp = std::allocator<OneWireSensor>]	16	static
+shared_ptr_base.h:928:7:std::__shared_ptr<_Tp, _Lp>::~__shared_ptr() [with _Tp = GenericDriver; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+shared_ptr.h:93:11:std::shared_ptr<GenericDriver>::~shared_ptr()	16	static
 sensor.hpp:9:7:Sensor::~Sensor()	16	static
 one_wire_sensor.hpp:10:7:OneWireSensor::~OneWireSensor()	16	static
-main.cpp:544:1:void __static_initialization_and_destruction_0(int, int)	16	static
-tuple:142:7:static constexpr _Head& std::_Head_base<_Idx, _Head, false>::_M_head(std::_Head_base<_Idx, _Head, false>&) [with unsigned int _Idx = 0u; _Head = GenericDriver*]	16	static
-tuple:190:7:>&) [with unsigned int _Idx = 0u; _Head = GenericDriver*; _Tail = {std::default_delete<GenericDriver>}]	16	static
-tuple:1247:5:>&) [with unsigned int __i = 0u; _Head = GenericDriver*; _Tail = {std::default_delete<GenericDriver>}]	16	static
-tuple:1258:5:>&) [with unsigned int __i = 0u; _Elements = {GenericDriver*, std::default_delete<GenericDriver>}]	16	static
-unique_ptr.h:235:7:std::unique_ptr<_Tp, _Dp>::~unique_ptr() [with _Tp = GenericDriver; _Dp = std::default_delete<GenericDriver>]	24	static
-tuple:95:7:static constexpr _Head& std::_Head_base<_Idx, _Head, true>::_M_head(std::_Head_base<_Idx, _Head, true>&) [with unsigned int _Idx = 1u; _Head = std::default_delete<GenericDriver>]	16	static
-tuple:346:7:static constexpr _Head& std::_Tuple_impl<_Idx, _Head>::_M_head(std::_Tuple_impl<_Idx, _Head>&) [with unsigned int _Idx = 1u; _Head = std::default_delete<GenericDriver>]	16	static
-tuple:1247:5:>&) [with unsigned int __i = 1u; _Head = std::default_delete<GenericDriver>; _Tail = {}]	16	static
-tuple:1258:5:>&) [with unsigned int __i = 1u; _Elements = {GenericDriver*, std::default_delete<GenericDriver>}]	16	static
-unique_ptr.h:312:7:std::unique_ptr<_Tp, _Dp>::deleter_type& std::unique_ptr<_Tp, _Dp>::get_deleter() [with _Tp = GenericDriver; _Dp = std::default_delete<GenericDriver>]	16	static
-unique_ptr.h:70:7:void std::default_delete<_Tp>::operator()(_Tp*) const [with _Tp = GenericDriver]	16	static
-main.cpp:544:1:cpp)	8	static
+new_allocator.h:124:9:void __gnu_cxx::new_allocator<_Tp>::destroy(_Up*) [with _Up = OneWireSensor; _Tp = OneWireSensor]	16	static
+main.cpp:604:1:cpp)	8	static

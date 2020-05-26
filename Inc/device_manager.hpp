@@ -25,7 +25,6 @@ private:
 	uint8_t occupiedPinsCount;
 	uint8_t usedTimersCount;
 	PinData hardwarePinsList[5];
-	ServerConfiguration *currentConfig;
 public:
 	DeviceManager(); //inicjalizuje managera i jego tablice zasobow do rozdania
 	bool checkIfPinFree(PinData *data); //w konstruktorze sensora bedzie sprawdzane czy pin ktorego chcemy uzyc jest z listy i czy wolny
@@ -34,8 +33,7 @@ public:
 	Timer* getNewTimerHandle(void);
 	PinData* getFreePin(void);
 	int getTimerIndex(TIM_HandleTypeDef *htim);
-	ServerConfiguration* getCurrentConfig();
-	void setCurrentConfig(ServerConfiguration *newConfig);
+	void readWithCurrentConfig(void);
 };
 
 #endif

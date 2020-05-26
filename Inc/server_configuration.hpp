@@ -3,20 +3,16 @@
 
 #include "pin_data.hpp"
 
-#define MAX_SENSORS_NUMBER 16
-
 typedef enum {
-	OneWireSensorType
+	OneWireSensorType //DHT22
 	//... inne typy sensorow
 } SensorType;
 
-typedef struct ServerConfiguration {
-	uint8_t sensorsCount;
-	SensorType sensorTypes[MAX_SENSORS_NUMBER];
-	PinData pinAddresses[MAX_SENSORS_NUMBER];
-	uint8_t bytesAwaitedCount;
-	//... inne dane, np. interwal co ile robic odczyty
-} ServerConfiguration;
-
+typedef struct SensorInfo {
+	SensorType sensorType;
+	uint8_t interval; //co ile czytac
+	std::string name; //"kuchnia"
+	PinData *pinData; //PRZYDZIELONE PRZEZ deVmAN
+} SensorInfo;
 
 #endif /* SERVER_CONFIGURATION_HPP */

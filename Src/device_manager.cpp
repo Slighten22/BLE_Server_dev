@@ -1,4 +1,4 @@
-#include <device_manager.hpp>
+#include "device_manager.hpp"
 
 //Timery - docelowo:
 TIM_HandleTypeDef htim7;
@@ -77,13 +77,5 @@ int DeviceManager::getTimerIndex(TIM_HandleTypeDef *htim){
 			return i;
 	}
 	return 0; //TODO: zabezpieczyc to!
-}
-
-ServerConfiguration* DeviceManager::getCurrentConfig(){
-	return this->currentConfig;
-}
-
-void DeviceManager::setCurrentConfig(ServerConfiguration *newConfig){
-	this->currentConfig = newConfig;
 }
 

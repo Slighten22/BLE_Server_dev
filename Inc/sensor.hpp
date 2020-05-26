@@ -8,10 +8,12 @@
 
 class Sensor { //generyczna klasa sensora
 protected:
-	std::unique_ptr<GenericDriver> driver;
+	std::shared_ptr<GenericDriver> driver;
+//	std::unique_ptr<GenericDriver> driver;
+	std::string name; //TODO: "kuchnia"
+	uint16_t interval; //co ile czytac
 public:
-	//TODO: konstruktor ustawiajacy drivera
-//	Sensor(PinData *pinData){}
+	//Sensor(PinData *pinData){} //TODO: konstruktor ustawiajacy drivera
 	void startNewReadout(void){
 		this->driver->driverStartReadout();
 	}
