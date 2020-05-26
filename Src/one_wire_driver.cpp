@@ -1,18 +1,10 @@
 #include "one_wire_driver.hpp"
 
-//OneWireDriver::OneWireDriver(PinData *pinData) : GenericDriver(pinData) {
-//	this->timer->registerCallback(std::bind(&OneWireDriver::executeState, this));
-//	this->stateHandler = static_cast<StateHandler>(&OneWireDriver::firstStateHandler);
-//};
-
-
-
-OneWireDriver::OneWireDriver(PinData pinData) : GenericDriver(pinData) {
+OneWireDriver::OneWireDriver(PinData pinData, uint16_t interval, char name[], uint8_t name_len)
+							: GenericDriver(pinData, interval, name, name_len) {
 	this->stateHandler = static_cast<StateHandler>(&OneWireDriver::firstStateHandler);
 	this->timer->registerCallback(std::bind(&OneWireDriver::executeState, this));
 };
-
-
 
 void OneWireDriver::driverStartReadout(void){
 	this->stateHandler = static_cast<StateHandler>(&OneWireDriver::firstStateHandler);

@@ -20,12 +20,10 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 /* USER CODE END Includes */
-#include "sensor.hpp"
-#include "one_wire_sensor.hpp"
+#include "one_wire_driver.hpp"
 #include "timer.hpp"
 #include "device_manager.hpp"
 #include "pin_data.hpp"
@@ -53,19 +51,13 @@ SemaphoreHandle_t binarySem;
 
 DeviceManager deviceManager;
 
-uint8_t receivedConfigurationMessage[20]; //globalne?
-std::shared_ptr<OneWireSensor> sensor(nullptr);
-std::shared_ptr<OneWireSensor> sensor2(nullptr);
-std::shared_ptr<OneWireSensor> sensor3(nullptr);
-//PinData sensor1Data = {GPIOA, GPIO_PIN_4};
-//std::shared_ptr<OneWireSensor> tempSensor1 = std::make_shared<OneWireSensor>(sensor1Data);
+uint8_t rcvConfigurationMsg[20];
 
-//PinData sensor2Data = {GPIOA, GPIO_PIN_9};
-//OneWireSensor tempSensor2(&sensor2Data);
+std::vector<std::shared_ptr<OneWireDriver>> sensorsPtrs;
 
 uint16_t delayTime = 3000;
 uint8_t data[5];
-char uartData[50];
+char uartData[70];
 bool readDone;
 bool newConfig;
 /* USER CODE END PV */
@@ -108,12 +100,16 @@ int main(void)
   /* USER CODE BEGIN Init */
 
   newConfig = true;
-  receivedConfigurationMessage[0] = 0;
-  receivedConfigurationMessage[1] = 0;
-  receivedConfigurationMessage[2] = 3;
-  receivedConfigurationMessage[3] = 'T';
-  receivedConfigurationMessage[4] = 'A';
-  receivedConfigurationMessage[5] = '\0';
+  rcvConfigurationMsg[0] = DHT22;
+  rcvConfigurationMsg[1] = 0;
+  rcvConfigurationMsg[2] = 5;
+  rcvConfigurationMsg[3] = 'P';
+  rcvConfigurationMsg[4] = 'o';
+  rcvConfigurationMsg[5] = 'k';
+  rcvConfigurationMsg[6] = 'o';
+  rcvConfigurationMsg[7] = 'j';
+  rcvConfigurationMsg[8] = '1';
+  rcvConfigurationMsg[9] = '\0';
 
   /* USER CODE END Init */
 
@@ -420,31 +416,12 @@ void ReadoutTask(void const * argument){
 		if ((notifValue & 0x01) != 0x00){
 			//sprawdz, czy nie przyszla nowa konfiguracja
 			if(newConfig == true){
-				//createNewSensorFromRcvMessage(receivedConfigurationMessage);
-				PinData sensor1Data = {GPIOA, GPIO_PIN_4};
-				sensor = std::make_shared<OneWireSensor>(sensor1Data);
-
-				sprintf(uartData, "Sizeof sensor: %d\r\n", sizeof(sensor));
-				HAL_UART_Transmit(&huart3, (uint8_t *)uartData, sizeof(uartData), 10);
-
-				sprintf(uartData, "Sizeof sensor1Data: %d\r\n", sizeof(sensor1Data));
-				HAL_UART_Transmit(&huart3, (uint8_t *)uartData, sizeof(uartData), 10);
-
-				PinData sensor2Data = {GPIOA, GPIO_PIN_9};
-				sensor2 = std::make_shared<OneWireSensor>(sensor2Data);
-
-//				PinData sensor3Data = {GPIOA, GPIO_PIN_10};
-//				sensor3 = std::make_shared<OneWireSensor>(sensor3Data);
-
-//				PinData sensor4Data = {GPIOA, GPIO_PIN_11};
-//				std::shared_ptr<OneWireSensor> sensor4 = std::make_shared<OneWireSensor>(sensor4Data);
-
+				createNewSensorFromRcvMessage(rcvConfigurationMsg);
 				newConfig = false;
 			}
-
-			sensor->startNewReadout();
-			//tempSensor1->startNewReadout();
-			//tempSensor2.startNewReadout();
+			for(uint8_t i=0; i<sensorsPtrs.size(); i++){
+				sensorsPtrs[i]->driverStartReadout();
+			}
 		}
 	}
 }
@@ -503,23 +480,25 @@ void OneWireDriver::thirdStateHandler(void){
 		}
 		while (this->readPin());
 	}
-	uint8_t data[5];
-	data[0] = (rawBits >> 24) & 0xFF;//Copy raw data bits to an array of bytes
-	data[1] = (rawBits >> 16) & 0xFF;
-	data[2] = (rawBits >> 8) & 0xFF;
-	data[3] = (rawBits >> 0) & 0xFF;
-	data[4] = (checksumBits) & 0xFF;
-	uint16_t humid = (data[0] << 8) | data[1];
-	uint16_t temp = (data[2] << 8) | data[3];
+	uint8_t data[20]; uint8_t len;
+	for(int i=0; this->name[i] != '\0' && i<MAX_NAME_LEN; i++){
+		data[i] = (uint8_t)name[i]; len++;
+	}
+	data[len]   = (rawBits >> 24) & 0xFF;
+	data[len+1] = (rawBits >> 16) & 0xFF;
+	data[len+2] = (rawBits >> 8) & 0xFF;
+	data[len+3] = (rawBits >> 0) & 0xFF;
+	data[len+4] = (checksumBits) & 0xFF;
+	uint16_t humid = (data[len] << 8) | data[len+1];
+	uint16_t temp  = (data[len+2] << 8) | data[len+3];
 	uint16_t humidDecimal = humid % 10;
 	uint16_t tempDecimal = temp % 10;
 	temp = temp / (uint16_t) 10;
 	humid = humid / (uint16_t) 10;
 	MX_BlueNRG_MS_Process(data, sizeof(data)); //zamiast w glownym tasku po oddaniu semafora
-	char uartData[50];
-	sprintf(uartData, "\r\nTemperatura\t %hu.%huC\r\nWilgotnosc\t %hu.%hu%%\r\n",
-			temp, tempDecimal, humid, humidDecimal);
-	HAL_UART_Transmit(&huart3, (uint8_t *)uartData, /*sizeof(uartData)*/ 42, 10);
+	sprintf(uartData, "\r\n\r\nCzujnik %s\r\nTemperatura\t %hu.%huC\r\nWilgotnosc\t %hu.%hu%%\r\n",
+			this->name, temp, tempDecimal, humid, humidDecimal);
+	HAL_UART_Transmit(&huart3, (uint8_t *)uartData, sizeof(uartData), 10);
 
 	HAL_UART_Transmit(&huart3, rcvBLE, sizeof(rcvBLE), 10); //dane odebrane od mastera
 
@@ -545,36 +524,23 @@ void delayMicroseconds(uint32_t us){
 void createNewSensorFromRcvMessage(uint8_t *message){
 	/* Format wiadomosci: <typ_sensora:1B> <interwal:2B> <nazwa:max.15B> */
 	SensorInfo sensorInfo;
-	SensorType senType;
-	switch(*(message + 0)){
-		case 0:
-			senType = OneWireSensorType;
-			break;
-		default:
-			break;
-	}
-	sensorInfo.sensorType = senType; //DHT22
 	sensorInfo.interval = (*(message + 1))*256 + *(message + 2); //zalozenie: MSB najpierw
-	for(int i=3; sensorInfo.name[i] != '\0'; i++){
-		sensorInfo.name[i] = *(message + i);
-	} //TODO: check
-	sensorInfo.pinData = deviceManager.getFreePin(); //gubiony wskaznik?
+	int name_len = 0;
+	for(int i=3; message[i] != '\0' && name_len < MAX_NAME_LEN; i++){
+		sensorInfo.name[i-3] = (char)(*(message + i));
+		name_len++;
+	}
+	if(name_len < MAX_NAME_LEN)
+		sensorInfo.name[name_len] = '\0';
+	sensorInfo.pinData = deviceManager.getFreePin();
 
-	//stworz nowy obiekt sensora
-	createNewSensor(sensorInfo);
-}
-
-void createNewSensor(SensorInfo sensorInfo){
-	switch (sensorInfo.sensorType){
-		case OneWireSensorType:
+	switch(*(message + 0)){
+		case DHT22:
 		{
-			//OneWireSensor *sensor = new OneWireSensor(sensorInfo->pinData, sensorInfo->name, sensorInfo->interval);
-			PinData sensor1Data = {GPIOA, GPIO_PIN_4};
-			sensor = std::make_shared<OneWireSensor>(sensor1Data);
-
+			sensorInfo.sensorType = DHT22;
+			sensorsPtrs.push_back(std::make_shared<OneWireDriver>(sensorInfo.pinData, sensorInfo.interval, sensorInfo.name, name_len));
 			//TODO: zwalnianie pamieci po sensorze gdy przyjdzie konfig z interwalem = 0
 			//TODO: odczyt z sensora tylko co odp. interwal!
-			//sensor->startNewReadout();
 			break;
 		}
 		default:

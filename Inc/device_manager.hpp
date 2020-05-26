@@ -27,11 +27,11 @@ private:
 	PinData hardwarePinsList[5];
 public:
 	DeviceManager(); //inicjalizuje managera i jego tablice zasobow do rozdania
-	bool checkIfPinFree(PinData *data); //w konstruktorze sensora bedzie sprawdzane czy pin ktorego chcemy uzyc jest z listy i czy wolny
+	bool checkIfPinFree(PinData data); //w konstruktorze sensora bedzie sprawdzane czy pin ktorego chcemy uzyc jest z listy i czy wolny
 	uint8_t getOccupiedPinsCount(void);
 	uint8_t getUsedTimersCount(void);
 	Timer* getNewTimerHandle(void);
-	PinData* getFreePin(void);
+	PinData getFreePin(void);
 	int getTimerIndex(TIM_HandleTypeDef *htim);
 	void readWithCurrentConfig(void);
 };

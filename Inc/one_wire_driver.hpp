@@ -1,4 +1,3 @@
-/* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef ONE_WIRE_DRIVER_HPP
 #define ONE_WIRE_DRIVER_HPP
 
@@ -22,10 +21,7 @@ private:
 	void thirdStateHandler(void);
 	//.. moga byc kolejne stany wewnatrz odczytu
 public:
-	//OneWireDriver(PinData *pinData);
-
-	OneWireDriver(PinData pinData);
-
+	OneWireDriver(PinData pinData, uint16_t interval, char name[], uint8_t name_len);
 	void driverStartReadout(void);
 	void executeState(void);
 	void changePinMode(oneWireMode mode);

@@ -4,15 +4,15 @@
 #include "pin_data.hpp"
 
 typedef enum {
-	OneWireSensorType //DHT22
+	DHT22
 	//... inne typy sensorow
 } SensorType;
 
 typedef struct SensorInfo {
 	SensorType sensorType;
-	uint8_t interval; //co ile czytac
-	std::string name; //"kuchnia"
-	PinData *pinData; //PRZYDZIELONE PRZEZ deVmAN
+	uint16_t interval; //co ile czytac
+	char name[MAX_NAME_LEN]; //"kuchnia"
+	PinData pinData;
 } SensorInfo;
 
 #endif /* SERVER_CONFIGURATION_HPP */

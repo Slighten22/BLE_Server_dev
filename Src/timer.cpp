@@ -5,7 +5,7 @@ Timer::Timer(TIM_HandleTypeDef *htim){
 }
 
 void Timer::registerCallback(std::function<void(void)> callbackFunction){
-	this->callback = callbackFunction; //TODO: wybuch
+	this->callback = callbackFunction;
 }
 
 void Timer::executeCallback(void){

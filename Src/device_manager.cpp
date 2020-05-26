@@ -9,7 +9,7 @@ Timer tim7(&htim7);
 Timer tim6(&htim6);
 Timer tim4(&htim4);
 //docelowo cala tablica Timerow globalna
-Timer *timers[] = {&tim7, &tim6/*, &tim4*/}; //TODO: wiecej timerow + fix tim6, tim4
+Timer *timers[] = {&tim7, &tim6/*, &tim4*/}; //TODO: !wiecej timerow + fix tim6, tim4
 
 DeviceManager::DeviceManager(){
 	occupiedPinsCount = 0;
@@ -31,9 +31,9 @@ DeviceManager::DeviceManager(){
 	hardwarePinsList[4].occupied  = false;
 }
 
-bool DeviceManager::checkIfPinFree(PinData *pinData){
-	GPIO_TypeDef* reqPort = pinData->GPIO_Port;
-	uint16_t reqPin = pinData->GPIO_Pin;
+bool DeviceManager::checkIfPinFree(PinData pinData){
+	GPIO_TypeDef* reqPort = pinData.GPIO_Port;
+	uint16_t reqPin = pinData.GPIO_Pin;
 	for(uint8_t i=0; i<(sizeof(hardwarePinsList)/sizeof(hardwarePinsList[0])); i++){
 			if(reqPort == hardwarePinsList[i].GPIO_Port
 			   && reqPin == hardwarePinsList[i].GPIO_Pin
@@ -45,12 +45,12 @@ bool DeviceManager::checkIfPinFree(PinData *pinData){
 	return false;
 }
 
-PinData* DeviceManager::getFreePin(void){
+PinData DeviceManager::getFreePin(void){
 	for(uint8_t i=0; i<(sizeof(hardwarePinsList)/sizeof(hardwarePinsList[0])); i++){
 		if(hardwarePinsList[i].occupied == false)
-			return &hardwarePinsList[i];
+			return hardwarePinsList[i];
 	}
-	return &hardwarePinsList[0]; //TODO
+	return hardwarePinsList[0]; //TODO
 }
 
 Timer* DeviceManager::getNewTimerHandle(void){
@@ -58,7 +58,7 @@ Timer* DeviceManager::getNewTimerHandle(void){
 		return timers[usedTimersCount++];
 	}
 	else{
-		return timers[0]; //TODO
+		return timers[1]; //TODO
 	}
 }
 

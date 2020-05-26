@@ -12,33 +12,16 @@ class GenericDriver;
 typedef void (GenericDriver::*StateHandler)(void);
 
 class GenericDriver { //generyczna, abstrakcyjna klasa drivera
-protected:
-//	PinData *pinData;
-	Timer *timer; //WSKAZNIK, a nie obiekt timera
-
-	PinData pinData;
-//	Timer timer;
-
-	StateHandler stateHandler;
+//protected:
 public:
-//	GenericDriver(PinData *pinData) {
-//		if(deviceManager.checkIfPinFree(pinData)){
-//			this->pinData = pinData;
-//		}
-//		else {
-//			this->pinData = deviceManager.getFreePin();
-//		}
-//		this->timer = deviceManager.getNewTimerHandle();
-//	};
-
-
-	GenericDriver(PinData pinData){  //TODO: check
-		this->pinData = pinData; //TODO: sprawdzanie czy wolny pin
-		this->timer = deviceManager.getNewTimerHandle();
-		//this->timer = deviceManager.getNewTimer();
-	}; //dotad jest ok
-
-
+	Timer *timer; //wskaznik na timera od DeviceManagera
+	PinData pinData;
+	StateHandler stateHandler;
+	char name[MAX_NAME_LEN];
+	uint16_t interval;
+	uint8_t bytesToRead; //?
+public:
+	GenericDriver(PinData pinData, uint16_t interval, char name[], uint8_t name_len);
 	virtual void driverStartReadout(void) = 0;
 	virtual void executeState(void) = 0;
 };

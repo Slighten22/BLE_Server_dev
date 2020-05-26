@@ -1,8 +1,8 @@
 gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
 functional:1687:5:std::_Function_base::~_Function_base()	16	static
 device_manager.cpp:14:1:DeviceManager::DeviceManager()	16	static
-device_manager.cpp:34:6:bool DeviceManager::checkIfPinFree(PinData*)	32	static
-device_manager.cpp:48:10:PinData* DeviceManager::getFreePin()	24	static
+device_manager.cpp:34:6:bool DeviceManager::checkIfPinFree(PinData)	40	static
+device_manager.cpp:48:9:PinData DeviceManager::getFreePin()	24	static
 device_manager.cpp:56:8:Timer* DeviceManager::getNewTimerHandle()	16	static
 device_manager.cpp:65:9:uint8_t DeviceManager::getOccupiedPinsCount()	16	static
 device_manager.cpp:69:9:uint8_t DeviceManager::getUsedTimersCount()	16	static
