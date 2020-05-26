@@ -64,7 +64,7 @@
 #define configTICK_RATE_HZ                       ((TickType_t)1000)
 #define configMAX_PRIORITIES                     ( 7 )
 #define configMINIMAL_STACK_SIZE                 /*((uint16_t)128)*/ ((size_t)8000)
-#define configTOTAL_HEAP_SIZE                    /*((size_t)3000)*/ ((size_t)16000)
+#define configTOTAL_HEAP_SIZE                    /*((size_t)3000)*/ ((size_t)27000)
 #define configMAX_TASK_NAME_LEN                  ( 32 )
 #define configUSE_16_BIT_TICKS                   0
 #define configUSE_MUTEXES                        1
@@ -72,10 +72,7 @@
 #define configUSE_PORT_OPTIMISED_TASK_SELECTION  1
 
 /* USER CODE BEGIN 0 */
-//#define configUSE_TIMERS						1
-//#define configTIMER_QUEUE_LENGTH				16 //???
-//#define configTIMER_TASK_PRIORITY				0 //???
-//#define configTIMER_TASK_STACK_DEPTH			256 //???
+#define configRECORD_STACK_HIGH_ADDRESS			 1
 /* USER CODE END 0 */
 
 /* USER CODE BEGIN MESSAGE_BUFFER_LENGTH_TYPE */

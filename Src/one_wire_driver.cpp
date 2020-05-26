@@ -8,10 +8,8 @@
 
 
 OneWireDriver::OneWireDriver(PinData pinData) : GenericDriver(pinData) {
-	this->stateHandler = static_cast<StateHandler>(&OneWireDriver::firstStateHandler); //jest ok
-	this->timer->registerCallback(std::bind(&OneWireDriver::executeState, this)); //TODO: WYBUCH
-	int i = 0;
-	if(i == 0) ;
+	this->stateHandler = static_cast<StateHandler>(&OneWireDriver::firstStateHandler);
+	this->timer->registerCallback(std::bind(&OneWireDriver::executeState, this));
 };
 
 

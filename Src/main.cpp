@@ -55,7 +55,9 @@ DeviceManager deviceManager;
 
 uint8_t receivedConfigurationMessage[20]; //globalne?
 std::shared_ptr<OneWireSensor> sensor(nullptr);
-PinData sensor1Data = {GPIOA, GPIO_PIN_4};
+std::shared_ptr<OneWireSensor> sensor2(nullptr);
+std::shared_ptr<OneWireSensor> sensor3(nullptr);
+//PinData sensor1Data = {GPIOA, GPIO_PIN_4};
 //std::shared_ptr<OneWireSensor> tempSensor1 = std::make_shared<OneWireSensor>(sensor1Data);
 
 //PinData sensor2Data = {GPIOA, GPIO_PIN_9};
@@ -156,7 +158,7 @@ int main(void)
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
-  osThreadDef(readoutTask, ReadoutTask, osPriorityNormal, 0, 1024); //512B max
+  osThreadDef(readoutTask, ReadoutTask, osPriorityNormal, 0, 2048); //uwazac na rozmiar stosu FreeRTOSowego; rozmiar w slowach!
   readoutTaskHandle = osThreadCreate(osThread(readoutTask), NULL);
   /* USER CODE END RTOS_THREADS */
 
@@ -419,8 +421,24 @@ void ReadoutTask(void const * argument){
 			//sprawdz, czy nie przyszla nowa konfiguracja
 			if(newConfig == true){
 				//createNewSensorFromRcvMessage(receivedConfigurationMessage);
-				//PinData sensor1Data = {GPIOA, GPIO_PIN_4};
+				PinData sensor1Data = {GPIOA, GPIO_PIN_4};
 				sensor = std::make_shared<OneWireSensor>(sensor1Data);
+
+				sprintf(uartData, "Sizeof sensor: %d\r\n", sizeof(sensor));
+				HAL_UART_Transmit(&huart3, (uint8_t *)uartData, sizeof(uartData), 10);
+
+				sprintf(uartData, "Sizeof sensor1Data: %d\r\n", sizeof(sensor1Data));
+				HAL_UART_Transmit(&huart3, (uint8_t *)uartData, sizeof(uartData), 10);
+
+				PinData sensor2Data = {GPIOA, GPIO_PIN_9};
+				sensor2 = std::make_shared<OneWireSensor>(sensor2Data);
+
+//				PinData sensor3Data = {GPIOA, GPIO_PIN_10};
+//				sensor3 = std::make_shared<OneWireSensor>(sensor3Data);
+
+//				PinData sensor4Data = {GPIOA, GPIO_PIN_11};
+//				std::shared_ptr<OneWireSensor> sensor4 = std::make_shared<OneWireSensor>(sensor4Data);
+
 				newConfig = false;
 			}
 
