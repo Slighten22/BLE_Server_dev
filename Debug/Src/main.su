@@ -2,24 +2,26 @@ new:146:14:void* operator new(std::size_t, void*)	16	static
 new:152:13:void operator delete(void*, void*)	16	static
 gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
 shared_ptr_base.h:303:5:void std::_Sp_counted_base<_Lp>::_M_release() [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
-main.cpp:89:5:int main()	72	static
-main.cpp:181:6:void SystemClock_Config()	232	static
-main.cpp:236:6:void MX_USART3_UART_Init()	8	static
-main.cpp:271:13:void MX_GPIO_Init()	48	static
-main.cpp:318:13:void MX_TIM7_Init()	24	static
-main.cpp:344:13:void MX_TIM6_Init()	24	static
-main.cpp:364:13:void MX_TIM4_Init()	24	static
-main.cpp:392:6:void StartDefaultTask(const void*)	24	static
-main.cpp:411:6:void ReadoutTask(const void*)	32	static
-main.cpp:429:6:void OneWireDriver::firstStateHandler()	16	static
-main.cpp:441:6:void OneWireDriver::secondStateHandler()	16	static
-main.cpp:452:6:void OneWireDriver::thirdStateHandler()	88	static
-main.cpp:511:6:void delayMicroseconds(uint32_t)	40	static
+main.cpp:91:5:int main()	72	static
+main.cpp:171:6:void SystemClock_Config()	232	static
+main.cpp:226:6:void MX_USART3_UART_Init()	8	static
+main.cpp:261:13:void MX_GPIO_Init()	48	static
+main.cpp:308:13:void MX_TIM7_Init()	24	static
+main.cpp:334:13:void MX_TIM6_Init()	24	static
+main.cpp:354:13:void MX_TIM4_Init()	24	static
+main.cpp:382:6:void StartDefaultTask(const void*)	24	static
+main.cpp:400:6:void ReadoutTask(const void*)	32	static
+main.cpp:422:6:void OneWireDriver::firstStateHandler()	16	static
+main.cpp:434:6:void OneWireDriver::secondStateHandler()	16	static
+main.cpp:445:6:void OneWireDriver::thirdStateHandler()	32	static
+main.cpp:481:6:void delayMicroseconds(uint32_t)	40	static
 shared_ptr_base.h:928:7:std::__shared_ptr<_Tp, _Lp>::~__shared_ptr() [with _Tp = OneWireDriver; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
 shared_ptr.h:93:11:std::shared_ptr<OneWireDriver>::~shared_ptr()	16	static
-main.cpp:524:6:void createNewSensorFromRcvMessage(uint8_t*)	88	static
-main.cpp:559:6:void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*)	16	static
-main.cpp:582:6:void Error_Handler()	8	static
+main.cpp:494:6:void createNewSensorFromRcvMessage(uint8_t*)	88	static
+main.cpp:521:6:void prepareAndSendData(uint32_t, uint8_t, char*)	56	static
+main.cpp:535:6:void printReadData(uint32_t, char*)	40	static
+main.cpp:555:6:void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*)	16	static
+main.cpp:578:6:void Error_Handler()	8	static
 shared_ptr_base.h:126:7:void std::_Sp_counted_base<_Lp>::_M_destroy() [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
 stl_vector.h:255:7:std::vector<_Tp, _Alloc>::vector() [with _Tp = std::shared_ptr<OneWireDriver>; _Alloc = std::allocator<std::shared_ptr<OneWireDriver> >]	16	static
 stl_vector.h:655:7:std::vector<_Tp, _Alloc>::size_type std::vector<_Tp, _Alloc>::size() const [with _Tp = std::shared_ptr<OneWireDriver>; _Alloc = std::allocator<std::shared_ptr<OneWireDriver> >]	16	static
@@ -27,9 +29,9 @@ stl_vector.h:780:7:std::vector<_Tp, _Alloc>::reference std::vector<_Tp, _Alloc>:
 shared_ptr_base.h:1055:7:_Tp* std::__shared_ptr<_Tp, _Lp>::operator->() const [with _Tp = OneWireDriver; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
 move.h:76:5:constexpr _Tp&& std::forward(typename std::remove_reference<_From>::type&) [with _Tp = PinData&]	16	static
 move.h:76:5:constexpr _Tp&& std::forward(typename std::remove_reference<_From>::type&) [with _Tp = short unsigned int&]	16	static
-move.h:76:5:constexpr _Tp&& std::forward(typename std::remove_reference<_From>::type&) [with _Tp = char (&)[15]]	16	static
+move.h:76:5:constexpr _Tp&& std::forward(typename std::remove_reference<_From>::type&) [with _Tp = char (&)[14]]	16	static
 move.h:76:5:constexpr _Tp&& std::forward(typename std::remove_reference<_From>::type&) [with _Tp = int&]	16	static
-shared_ptr.h:632:5:) [with _Tp = OneWireDriver; _Args = {PinData&, short unsigned int&, char (&)[15], int&}]	56	static
+shared_ptr.h:632:5:) [with _Tp = OneWireDriver; _Args = {PinData&, short unsigned int&, char (&)[14], int&}]	56	static
 shared_ptr_base.h:659:7:std::__shared_count<_Lp>::~__shared_count() [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
 move.h:101:5:constexpr typename std::remove_reference< <template-parameter-1-1> >::type&& std::move(_Tp&&) [with _Tp = std::shared_ptr<OneWireDriver>&]	16	static
 stl_vector.h:932:7:void std::vector<_Tp, _Alloc>::push_back(std::vector<_Tp, _Alloc>::value_type&&) [with _Tp = std::shared_ptr<OneWireDriver>; _Alloc = std::allocator<std::shared_ptr<OneWireDriver> >]	16	static
@@ -40,7 +42,7 @@ stl_vector.h:124:7:std::_Vector_base<_Tp, _Alloc>::_Vector_base() [with _Tp = st
 stl_vector.h:159:7:std::_Vector_base<_Tp, _Alloc>::~_Vector_base() [with _Tp = std::shared_ptr<OneWireDriver>; _Alloc = std::allocator<std::shared_ptr<OneWireDriver> >]	16	static
 allocator.h:131:7:std::allocator< <template-parameter-1-1> >::allocator() [with _Tp = OneWireDriver]	16	static
 allocator.h:139:7:std::allocator< <template-parameter-1-1> >::~allocator() [with _Tp = OneWireDriver]	16	static
-shared_ptr.h:617:5:) [with _Tp = OneWireDriver; _Alloc = std::allocator<OneWireDriver>; _Args = {PinData&, short unsigned int&, char (&)[15], int&}]	64	static
+shared_ptr.h:617:5:) [with _Tp = OneWireDriver; _Alloc = std::allocator<OneWireDriver>; _Args = {PinData&, short unsigned int&, char (&)[14], int&}]	64	static
 shared_ptr.h:229:7:std::shared_ptr<_Tp>::shared_ptr(std::shared_ptr<_Tp>&&) [with _Tp = OneWireDriver]	24	static
 move.h:76:5:constexpr _Tp&& std::forward(typename std::remove_reference<_From>::type&) [with _Tp = std::shared_ptr<OneWireDriver>]	16	static
 vector.tcc:91:7:) [with _Args = {std::shared_ptr<OneWireDriver>}; _Tp = std::shared_ptr<OneWireDriver>; _Alloc = std::allocator<std::shared_ptr<OneWireDriver> >]	24	static
@@ -49,7 +51,7 @@ allocator.h:139:7:std::allocator< <template-parameter-1-1> >::~allocator() [with
 stl_vector.h:174:7:void std::_Vector_base<_Tp, _Alloc>::_M_deallocate(std::_Vector_base<_Tp, _Alloc>::pointer, std::size_t) [with _Tp = std::shared_ptr<OneWireDriver>; _Alloc = std::allocator<std::shared_ptr<OneWireDriver> >]	24	static
 new_allocator.h:79:7:__gnu_cxx::new_allocator<_Tp>::new_allocator() [with _Tp = OneWireDriver]	16	static
 new_allocator.h:86:7:__gnu_cxx::new_allocator<_Tp>::~new_allocator() [with _Tp = OneWireDriver]	16	static
-shared_ptr.h:317:2:) [with _Alloc = std::allocator<OneWireDriver>; _Args = {PinData&, short unsigned int&, char (&)[15], int&}; _Tp = OneWireDriver]	64	static
+shared_ptr.h:317:2:) [with _Alloc = std::allocator<OneWireDriver>; _Args = {PinData&, short unsigned int&, char (&)[14], int&}; _Tp = OneWireDriver]	64	static
 shared_ptr_base.h:563:17:constexpr std::__shared_count<_Lp>::__shared_count() [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
 shared_ptr_base.h:935:7:std::__shared_ptr<_Tp, _Lp>::__shared_ptr(std::__shared_ptr<_Tp, _Lp>&&) [with _Tp = OneWireDriver; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
 alloc_traits.h:474:2:) [with _Up = std::shared_ptr<OneWireDriver>; _Args = {std::shared_ptr<OneWireDriver>}; _Tp = std::shared_ptr<OneWireDriver>]	24	static
@@ -57,7 +59,7 @@ vector.tcc:407:7:) [with _Args = {std::shared_ptr<OneWireDriver>}; _Tp = std::sh
 allocator.h:131:7:std::allocator< <template-parameter-1-1> >::allocator() [with _Tp = std::shared_ptr<OneWireDriver>]	16	static
 new_allocator.h:86:7:__gnu_cxx::new_allocator<_Tp>::~new_allocator() [with _Tp = std::shared_ptr<OneWireDriver>]	16	static
 alloc_traits.h:461:7:static void std::allocator_traits<std::allocator<_CharT> >::deallocate(std::allocator_traits<std::allocator<_CharT> >::allocator_type&, std::allocator_traits<std::allocator<_CharT> >::pointer, std::allocator_traits<std::allocator<_CharT> >::size_type) [with _Tp = std::shared_ptr<OneWireDriver>]	24	static
-shared_ptr_base.h:1097:2:) [with _Alloc = std::allocator<OneWireDriver>; _Args = {PinData&, short unsigned int&, char (&)[15], int&}; _Tp = OneWireDriver; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	72	static
+shared_ptr_base.h:1097:2:) [with _Alloc = std::allocator<OneWireDriver>; _Args = {PinData&, short unsigned int&, char (&)[14], int&}; _Tp = OneWireDriver; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	72	static
 shared_ptr_base.h:688:7:void std::__shared_count<_Lp>::_M_swap(std::__shared_count<_Lp>&) [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	24	static
 new_allocator.h:119:9:) [with _Up = std::shared_ptr<OneWireDriver>; _Args = {std::shared_ptr<OneWireDriver>}; _Tp = std::shared_ptr<OneWireDriver>]	32	static
 stl_algobase.h:219:5:constexpr const _Tp& std::max(const _Tp&, const _Tp&) [with _Tp = unsigned int]	16	static
@@ -70,7 +72,7 @@ stl_construct.h:148:5:void std::_Destroy(_ForwardIterator, _ForwardIterator, std
 new_allocator.h:79:7:__gnu_cxx::new_allocator<_Tp>::new_allocator() [with _Tp = std::shared_ptr<OneWireDriver>]	16	static
 new_allocator.h:109:7:void __gnu_cxx::new_allocator<_Tp>::deallocate(__gnu_cxx::new_allocator<_Tp>::pointer, __gnu_cxx::new_allocator<_Tp>::size_type) [with _Tp = std::shared_ptr<OneWireDriver>]	24	static
 move.h:101:5:constexpr typename std::remove_reference< <template-parameter-1-1> >::type&& std::move(_Tp&&) [with _Tp = const std::allocator<OneWireDriver>&]	16	static
-shared_ptr_base.h:607:2:) [with _Tp = OneWireDriver; _Alloc = std::allocator<OneWireDriver>; _Args = {PinData&, short unsigned int&, char (&)[15], int&}; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	88	static
+shared_ptr_base.h:607:2:) [with _Tp = OneWireDriver; _Alloc = std::allocator<OneWireDriver>; _Args = {PinData&, short unsigned int&, char (&)[14], int&}; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	88	static
 shared_ptr_base.h:704:7:void* std::__shared_count<_Lp>::_M_get_deleter(const std::type_info&) const [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
 shared_ptr_base.h:865:5:) [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	4	static
 stl_vector.h:660:7:std::vector<_Tp, _Alloc>::size_type std::vector<_Tp, _Alloc>::max_size() const [with _Tp = std::shared_ptr<OneWireDriver>; _Alloc = std::allocator<std::shared_ptr<OneWireDriver> >]	16	static
@@ -87,7 +89,7 @@ allocated_ptr.h:85:19:std::__allocated_ptr<_Alloc>::value_type* std::__allocated
 allocator.h:133:7:std::allocator< <template-parameter-1-1> >::allocator(const std::allocator< <template-parameter-1-1> >&) [with _Tp = OneWireDriver]	16	static
 shared_ptr_base.h:407:12:std::_Sp_ebo_helper<0, std::allocator<OneWireDriver>, true>::~_Sp_ebo_helper()	16	static
 shared_ptr_base.h:499:13:std::_Sp_counted_ptr_inplace<OneWireDriver, std::allocator<OneWireDriver>, (__gnu_cxx::_Lock_policy)0u>::_Impl::~_Impl()	16	static
-shared_ptr_base.h:515:2:) [with _Args = {PinData&, short unsigned int&, char (&)[15], int&}; _Tp = OneWireDriver; _Alloc = std::allocator<OneWireDriver>; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	56	static
+shared_ptr_base.h:515:2:) [with _Args = {PinData&, short unsigned int&, char (&)[14], int&}; _Tp = OneWireDriver; _Alloc = std::allocator<OneWireDriver>; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	56	static
 allocated_ptr.h:78:7:std::__allocated_ptr<_Alloc>& std::__allocated_ptr<_Alloc>::operator=(std::nullptr_t) [with _Alloc = std::allocator<std::_Sp_counted_ptr_inplace<OneWireDriver, std::allocator<OneWireDriver>, (__gnu_cxx::_Lock_policy)0u> >]	16	static
 alloc_traits.h:495:7:static std::allocator_traits<std::allocator<_CharT> >::size_type std::allocator_traits<std::allocator<_CharT> >::max_size(const allocator_type&) [with _Tp = std::shared_ptr<OneWireDriver>]	16	static
 stl_vector.h:117:7:const _Tp_alloc_type& std::_Vector_base<_Tp, _Alloc>::_M_get_Tp_allocator() const [with _Tp = std::shared_ptr<OneWireDriver>; _Alloc = std::allocator<std::shared_ptr<OneWireDriver> >]	16	static
@@ -108,7 +110,7 @@ type_traits:2052:12:constexpr std::aligned_storage<44u, 4u>::aligned_storage()	1
 aligned_buffer.h:91:7:__gnu_cxx::__aligned_buffer<_Tp>::__aligned_buffer() [with _Tp = OneWireDriver]	16	static
 shared_ptr_base.h:504:11:std::_Sp_counted_ptr_inplace<_Tp, _Alloc, _Lp>::_Impl::_Impl(_Alloc) [with _Tp = OneWireDriver; _Alloc = std::allocator<OneWireDriver>; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
 shared_ptr_base.h:553:12:_Tp* std::_Sp_counted_ptr_inplace<_Tp, _Alloc, _Lp>::_M_ptr() [with _Tp = OneWireDriver; _Alloc = std::allocator<OneWireDriver>; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
-alloc_traits.h:474:2:) [with _Up = OneWireDriver; _Args = {PinData&, short unsigned int&, char (&)[15], int&}; _Tp = OneWireDriver]	48	static
+alloc_traits.h:474:2:) [with _Up = OneWireDriver; _Args = {PinData&, short unsigned int&, char (&)[14], int&}; _Tp = OneWireDriver]	48	static
 new_allocator.h:113:7:__gnu_cxx::new_allocator<_Tp>::size_type __gnu_cxx::new_allocator<_Tp>::max_size() const [with _Tp = std::shared_ptr<OneWireDriver>]	16	static
 stl_uninitialized.h:68:9:static _ForwardIterator std::__uninitialized_copy<_TrivialValueTypes>::__uninit_copy(_InputIterator, _InputIterator, _ForwardIterator) [with _InputIterator = std::move_iterator<std::shared_ptr<OneWireDriver>*>; _ForwardIterator = std::shared_ptr<OneWireDriver>*; bool _TrivialValueTypes = false]	40	static
 move.h:47:5:_Tp* std::__addressof(_Tp&) [with _Tp = std::shared_ptr<OneWireDriver>]	16	static
@@ -118,7 +120,7 @@ move.h:47:5:_Tp* std::__addressof(_Tp&) [with _Tp = std::allocator<std::_Sp_coun
 new_allocator.h:109:7:void __gnu_cxx::new_allocator<_Tp>::deallocate(__gnu_cxx::new_allocator<_Tp>::pointer, __gnu_cxx::new_allocator<_Tp>::size_type) [with _Tp = std::_Sp_counted_ptr_inplace<OneWireDriver, std::allocator<OneWireDriver>, (__gnu_cxx::_Lock_policy)0u>]	24	static
 shared_ptr_base.h:409:16:std::_Sp_ebo_helper<_Nm, _Tp, true>::_Sp_ebo_helper(const _Tp&) [with int _Nm = 0; _Tp = std::allocator<OneWireDriver>]	16	static
 aligned_buffer.h:109:7:_Tp* __gnu_cxx::__aligned_buffer<_Tp>::_M_ptr() [with _Tp = OneWireDriver]	16	static
-new_allocator.h:119:9:) [with _Up = OneWireDriver; _Args = {PinData&, short unsigned int&, char (&)[15], int&}; _Tp = OneWireDriver]	64	static
+new_allocator.h:119:9:) [with _Up = OneWireDriver; _Args = {PinData&, short unsigned int&, char (&)[14], int&}; _Tp = OneWireDriver]	64	static
 stl_iterator.h:1131:5:bool std::operator!=(const std::move_iterator<_IteratorL>&, const std::move_iterator<_IteratorL>&) [with _Iterator = std::shared_ptr<OneWireDriver>*]	16	static
 stl_iterator.h:1052:7:std::move_iterator<_Iterator>& std::move_iterator<_Iterator>::operator++() [with _Iterator = std::shared_ptr<OneWireDriver>*]	16	static
 stl_iterator.h:1044:7:std::move_iterator<_Iterator>::reference std::move_iterator<_Iterator>::operator*() const [with _Iterator = std::shared_ptr<OneWireDriver>*]	16	static
@@ -127,7 +129,7 @@ new_allocator.h:113:7:__gnu_cxx::new_allocator<_Tp>::size_type __gnu_cxx::new_al
 aligned_buffer.h:97:7:void* __gnu_cxx::__aligned_buffer<_Tp>::_M_addr() [with _Tp = OneWireDriver]	16	static
 stl_iterator.h:1119:5:bool std::operator==(const std::move_iterator<_IteratorL>&, const std::move_iterator<_IteratorL>&) [with _Iterator = std::shared_ptr<OneWireDriver>*]	24	static
 stl_iterator.h:1040:7:std::move_iterator<_Iterator>::iterator_type std::move_iterator<_Iterator>::base() const [with _Iterator = std::shared_ptr<OneWireDriver>*]	16	static
-main.cpp:588:1:void __static_initialization_and_destruction_0(int, int)	16	static
+main.cpp:584:1:void __static_initialization_and_destruction_0(int, int)	16	static
 shared_ptr_base.h:524:7:std::_Sp_counted_ptr_inplace<_Tp, _Alloc, _Lp>::~_Sp_counted_ptr_inplace() [with _Tp = OneWireDriver; _Alloc = std::allocator<OneWireDriver>; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
 shared_ptr_base.h:524:7:std::_Sp_counted_ptr_inplace<_Tp, _Alloc, _Lp>::~_Sp_counted_ptr_inplace() [with _Tp = OneWireDriver; _Alloc = std::allocator<OneWireDriver>; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
 shared_ptr_base.h:527:7:void std::_Sp_counted_ptr_inplace<_Tp, _Alloc, _Lp>::_M_dispose() [with _Tp = OneWireDriver; _Alloc = std::allocator<OneWireDriver>; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	24	static
@@ -138,4 +140,4 @@ shared_ptr_base.h:506:10:_Alloc& std::_Sp_counted_ptr_inplace<_Tp, _Alloc, _Lp>:
 alloc_traits.h:486:2:static void std::allocator_traits<std::allocator<_CharT> >::destroy(std::allocator_traits<std::allocator<_CharT> >::allocator_type&, _Up*) [with _Up = OneWireDriver; _Tp = OneWireDriver]	16	static
 shared_ptr_base.h:412:7:static _Tp& std::_Sp_ebo_helper<_Nm, _Tp, true>::_S_get(std::_Sp_ebo_helper<_Nm, _Tp, true>&) [with int _Nm = 0; _Tp = std::allocator<OneWireDriver>]	16	static
 new_allocator.h:124:9:void __gnu_cxx::new_allocator<_Tp>::destroy(_Up*) [with _Up = OneWireDriver; _Tp = OneWireDriver]	16	static
-main.cpp:588:1:cpp)	8	static
+main.cpp:584:1:cpp)	8	static

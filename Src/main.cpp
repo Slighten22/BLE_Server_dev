@@ -59,7 +59,7 @@ uint16_t delayTime = 3000;
 uint8_t data[5];
 char uartData[70];
 bool readDone;
-bool newConfig;
+bool newConfig = false;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -75,6 +75,8 @@ static void MX_TIM4_Init(void);
 void delayMicroseconds(uint32_t us);
 void createNewSensorFromRcvMessage(uint8_t *message);
 void createNewSensor(SensorInfo sensorInfo);
+void prepareAndSendData(uint32_t readValue, uint8_t readChecksum, char *name);
+void printReadData(uint32_t readData, char *name);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -98,18 +100,6 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-
-  newConfig = true;
-  rcvConfigurationMsg[0] = DHT22;
-  rcvConfigurationMsg[1] = 0;
-  rcvConfigurationMsg[2] = 5;
-  rcvConfigurationMsg[3] = 'P';
-  rcvConfigurationMsg[4] = 'o';
-  rcvConfigurationMsg[5] = 'k';
-  rcvConfigurationMsg[6] = 'o';
-  rcvConfigurationMsg[7] = 'j';
-  rcvConfigurationMsg[8] = '1';
-  rcvConfigurationMsg[9] = '\0';
 
   /* USER CODE END Init */
 
@@ -401,7 +391,6 @@ void StartDefaultTask(void const * argument)
 		xSemaphoreTake(binarySem, maxBlockTime);
 		//zeby tu dojsc, musial byc oddany semafor
 		HAL_UART_Transmit(&huart3, (uint8_t *)"notified\r\n", 10, 10);
-		//MX_BlueNRG_MS_Process(data, 5); //po wykonaniu odczytu
 		osDelay(delayTime);
 	}
 	/* USER CODE END 5 */
@@ -416,11 +405,15 @@ void ReadoutTask(void const * argument){
 		if ((notifValue & 0x01) != 0x00){
 			//sprawdz, czy nie przyszla nowa konfiguracja
 			if(newConfig == true){
-				createNewSensorFromRcvMessage(rcvConfigurationMsg);
 				newConfig = false;
+				createNewSensorFromRcvMessage(rcvConfigurationMsg);
 			}
+			//zrob odczyt ze wszystkich czujnikow ktore masz
 			for(uint8_t i=0; i<sensorsPtrs.size(); i++){
 				sensorsPtrs[i]->driverStartReadout();
+			}
+			if(sensorsPtrs.size() == 0){ //TODO
+				MX_BlueNRG_MS_Process((uint8_t *)"", 0);
 			}
 		}
 	}
@@ -450,13 +443,11 @@ void OneWireDriver::secondStateHandler(void){
 }
 
 void OneWireDriver::thirdStateHandler(void){
-	//to co ma zrobic w tym stanie
-	while(this->readPin()); //kolejne state'y
-	while(!this->readPin());//..
+	while(this->readPin());
+	while(!this->readPin());
 	while(this->readPin());
 	uint32_t rawBits = 0UL;
 	uint8_t checksumBits = 0;
-	//glowna czesc - odczyt danych i sumy kontrolnej
 	for (int8_t i = 31; i >= 0; i--){	//Read 32 bits of temp.&humidity data
 		/*
 		 * Bit data "0" signal: the level is LOW for 50ms and HIGH for 26-28ms;
@@ -472,7 +463,7 @@ void OneWireDriver::thirdStateHandler(void){
 		}
 		while (this->readPin());
 	}
-	for (int8_t i = 7; i >= 0; i--){		//Read 8 bits of checksum data
+	for (int8_t i = 7; i >= 0; i--){
 		while (!this->readPin());
 		delayMicroseconds(50);
 		if (this->readPin()) {
@@ -480,32 +471,11 @@ void OneWireDriver::thirdStateHandler(void){
 		}
 		while (this->readPin());
 	}
-	uint8_t data[20]; uint8_t len;
-	for(int i=0; this->name[i] != '\0' && i<MAX_NAME_LEN; i++){
-		data[i] = (uint8_t)name[i]; len++;
-	}
-	data[len]   = (rawBits >> 24) & 0xFF;
-	data[len+1] = (rawBits >> 16) & 0xFF;
-	data[len+2] = (rawBits >> 8) & 0xFF;
-	data[len+3] = (rawBits >> 0) & 0xFF;
-	data[len+4] = (checksumBits) & 0xFF;
-	uint16_t humid = (data[len] << 8) | data[len+1];
-	uint16_t temp  = (data[len+2] << 8) | data[len+3];
-	uint16_t humidDecimal = humid % 10;
-	uint16_t tempDecimal = temp % 10;
-	temp = temp / (uint16_t) 10;
-	humid = humid / (uint16_t) 10;
-	MX_BlueNRG_MS_Process(data, sizeof(data)); //zamiast w glownym tasku po oddaniu semafora
-	sprintf(uartData, "\r\n\r\nCzujnik %s\r\nTemperatura\t %hu.%huC\r\nWilgotnosc\t %hu.%hu%%\r\n",
-			this->name, temp, tempDecimal, humid, humidDecimal);
-	HAL_UART_Transmit(&huart3, (uint8_t *)uartData, sizeof(uartData), 10);
-
-	HAL_UART_Transmit(&huart3, rcvBLE, sizeof(rcvBLE), 10); //dane odebrane od mastera
-
-	//powiadom glowny task ze juz zakonczyla sie cala robota
+	prepareAndSendData(rawBits, checksumBits, this->name);
+	printReadData(rawBits, this->name);
 	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 	xSemaphoreGiveFromISR(binarySem, &xHigherPriorityTaskWoken);
-	portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+	portYIELD_FROM_ISR(xHigherPriorityTaskWoken);//powiadom glowny task ze juz zakonczyla sie cala robota
 }
 
 void delayMicroseconds(uint32_t us){
@@ -546,6 +516,32 @@ void createNewSensorFromRcvMessage(uint8_t *message){
 		default:
 			break;
 	}
+}
+
+void prepareAndSendData(uint32_t readValue, uint8_t readChecksum, char *name){
+	uint8_t data[20]; uint8_t len = 0;
+	for(int i=0; *(name+i) != '\0' && i<MAX_NAME_LEN; i++){
+		data[i] = (uint8_t)(*(name+i)); len++;
+	}
+	data[len] = '\0';
+	data[len+1] = (readValue >> 24) & 0xFF;
+	data[len+2] = (readValue >> 16) & 0xFF;
+	data[len+3] = (readValue >> 8) & 0xFF;
+	data[len+4] = (readValue >> 0) & 0xFF;
+	data[len+5] = (readChecksum) & 0xFF;
+	MX_BlueNRG_MS_Process(data, len+5); //zamiast w glownym tasku po oddaniu semafora
+}
+
+void printReadData(uint32_t readValue, char *name){
+	uint16_t humid = (((readValue >> 24)&0xFF) << 8) | ((readValue >> 16)&0xFF);
+	uint16_t temp  = (((readValue >> 8) &0xFF) << 8) | ((readValue >> 0) &0xFF);
+	uint16_t humidDecimal = humid % 10;
+	uint16_t tempDecimal = temp % 10;
+	temp = temp / (uint16_t) 10;
+	humid = humid / (uint16_t) 10;
+	sprintf(uartData, "\r\n\r\nCzujnik %s\r\nTemperatura\t %hu.%huC\r\nWilgotnosc\t %hu.%hu%%\r\n",
+			name, temp, tempDecimal, humid, humidDecimal);
+	HAL_UART_Transmit(&huart3, (uint8_t *)uartData, sizeof(uartData), 10);
 }
 
 /**

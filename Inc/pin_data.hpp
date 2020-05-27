@@ -4,7 +4,7 @@
 
 #include <stm32l476xx.h>
 
-#define MAX_NAME_LEN 15 //nazwa sensora
+#define MAX_NAME_LEN 14 //nazwa sensora
 
 typedef struct{
 	GPIO_TypeDef* GPIO_Port;

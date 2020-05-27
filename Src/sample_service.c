@@ -293,24 +293,21 @@ void enableNotification(void)
  */
 void Attribute_Modified_CB(uint16_t handle, uint8_t data_length, uint8_t *att_data)
 {
-  if(handle == RXCharHandle + 1){
-    receiveData(att_data, data_length);
-  } else if (handle == TXCharHandle + 2) {        
-    if(att_data[0] == 0x01)
-      notification_enabled = TRUE;
-  }
-
   /* Odbieranie info od Klienta przez Server - tutaj po wywolaniu aci_gatt_write_without_response() przez klienta do wysylania */
-  if (handle == RXCharHandle + 1) {
-	  int i;
-	  for(i=0; i<data_length && i<20; i++){
+  if(handle == RXCharHandle + 1){
+//    receiveData(att_data, data_length);
+	  for(int i=0; i<data_length && i<20; i++){
 		  rcvConfigurationMsg[i] = *(att_data + i);
 	  }
-	  if(i < 20){
-		  rcvConfigurationMsg[i+1] = '\0';
+	  if(data_length < 20){
+		  rcvConfigurationMsg[data_length] = '\0';
 	  }
 	  newConfig = true;
 	  /* TODO: zeby klient uzywal aci_gatt_write_charac_value() lub tego w wersji long, to serwer musi odeslac potwierdzenie (ACK) */
+  }
+  else if (handle == TXCharHandle + 2) {
+    if(att_data[0] == 0x01)
+      notification_enabled = TRUE;
   }
 }
 
