@@ -1,143 +1,114 @@
 new:146:14:void* operator new(std::size_t, void*)	16	static
-new:152:13:void operator delete(void*, void*)	16	static
 gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
-shared_ptr_base.h:303:5:void std::_Sp_counted_base<_Lp>::_M_release() [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
-main.cpp:91:5:int main()	72	static
-main.cpp:171:6:void SystemClock_Config()	232	static
-main.cpp:226:6:void MX_USART3_UART_Init()	8	static
-main.cpp:261:13:void MX_GPIO_Init()	48	static
-main.cpp:308:13:void MX_TIM7_Init()	24	static
-main.cpp:334:13:void MX_TIM6_Init()	24	static
-main.cpp:354:13:void MX_TIM4_Init()	24	static
-main.cpp:382:6:void StartDefaultTask(const void*)	24	static
-main.cpp:400:6:void ReadoutTask(const void*)	32	static
-main.cpp:422:6:void OneWireDriver::firstStateHandler()	16	static
-main.cpp:434:6:void OneWireDriver::secondStateHandler()	16	static
-main.cpp:445:6:void OneWireDriver::thirdStateHandler()	32	static
-main.cpp:481:6:void delayMicroseconds(uint32_t)	40	static
-shared_ptr_base.h:928:7:std::__shared_ptr<_Tp, _Lp>::~__shared_ptr() [with _Tp = OneWireDriver; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
-shared_ptr.h:93:11:std::shared_ptr<OneWireDriver>::~shared_ptr()	16	static
-main.cpp:494:6:void createNewSensorFromRcvMessage(uint8_t*)	88	static
-main.cpp:521:6:void prepareAndSendData(uint32_t, uint8_t, char*)	56	static
-main.cpp:535:6:void printReadData(uint32_t, char*)	40	static
-main.cpp:555:6:void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*)	16	static
-main.cpp:578:6:void Error_Handler()	8	static
-shared_ptr_base.h:126:7:void std::_Sp_counted_base<_Lp>::_M_destroy() [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
-stl_vector.h:255:7:std::vector<_Tp, _Alloc>::vector() [with _Tp = std::shared_ptr<OneWireDriver>; _Alloc = std::allocator<std::shared_ptr<OneWireDriver> >]	16	static
-stl_vector.h:655:7:std::vector<_Tp, _Alloc>::size_type std::vector<_Tp, _Alloc>::size() const [with _Tp = std::shared_ptr<OneWireDriver>; _Alloc = std::allocator<std::shared_ptr<OneWireDriver> >]	16	static
-stl_vector.h:780:7:std::vector<_Tp, _Alloc>::reference std::vector<_Tp, _Alloc>::operator[](std::vector<_Tp, _Alloc>::size_type) [with _Tp = std::shared_ptr<OneWireDriver>; _Alloc = std::allocator<std::shared_ptr<OneWireDriver> >]	16	static
-shared_ptr_base.h:1055:7:_Tp* std::__shared_ptr<_Tp, _Lp>::operator->() const [with _Tp = OneWireDriver; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
+main.cpp:87:5:int main()	72	static
+main.cpp:167:6:void SystemClock_Config()	232	static
+main.cpp:222:6:void MX_USART3_UART_Init()	8	static
+main.cpp:257:13:void MX_GPIO_Init()	48	static
+main.cpp:304:13:void MX_TIM7_Init()	24	static
+main.cpp:330:13:void MX_TIM6_Init()	24	static
+main.cpp:350:13:void MX_TIM4_Init()	24	static
+main.cpp:378:6:void StartDefaultTask(const void*)	24	static
+main.cpp:396:6:void ReadoutTask(const void*)	32	static
+main.cpp:419:6:void TemperatureSensor::firstStateHandler()	16	static
+main.cpp:430:6:void TemperatureSensor::secondStateHandler()	16	static
+main.cpp:441:6:void TemperatureSensor::thirdStateHandler()	80	static
+main.cpp:478:6:void delayMicroseconds(uint32_t)	40	static
+server_configuration.hpp:11:16:SensorInfo::SensorInfo()	16	static
+server_configuration.hpp:11:16:SensorInfo::~SensorInfo()	16	static
+main.cpp:491:6:void createNewSensorFromRcvMessage(uint8_t*)	104	static
+main.cpp:517:6:void prepareAndSendData(uint32_t, uint8_t, std::__cxx11::string)	56	static
+main.cpp:531:6:void printReadData(uint32_t, std::__cxx11::string)	48	static
+main.cpp:551:6:void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*)	16	static
+main.cpp:574:6:void Error_Handler()	8	static
+stl_vector.h:255:7:std::vector<_Tp, _Alloc>::vector() [with _Tp = std::unique_ptr<TemperatureSensor>; _Alloc = std::allocator<std::unique_ptr<TemperatureSensor> >]	16	static
+stl_vector.h:655:7:std::vector<_Tp, _Alloc>::size_type std::vector<_Tp, _Alloc>::size() const [with _Tp = std::unique_ptr<TemperatureSensor>; _Alloc = std::allocator<std::unique_ptr<TemperatureSensor> >]	16	static
+stl_vector.h:780:7:std::vector<_Tp, _Alloc>::reference std::vector<_Tp, _Alloc>::operator[](std::vector<_Tp, _Alloc>::size_type) [with _Tp = std::unique_ptr<TemperatureSensor>; _Alloc = std::allocator<std::unique_ptr<TemperatureSensor> >]	16	static
+unique_ptr.h:299:7:std::unique_ptr<_Tp, _Dp>::pointer std::unique_ptr<_Tp, _Dp>::operator->() const [with _Tp = TemperatureSensor; _Dp = std::default_delete<TemperatureSensor>]	16	static
 move.h:76:5:constexpr _Tp&& std::forward(typename std::remove_reference<_From>::type&) [with _Tp = PinData&]	16	static
 move.h:76:5:constexpr _Tp&& std::forward(typename std::remove_reference<_From>::type&) [with _Tp = short unsigned int&]	16	static
-move.h:76:5:constexpr _Tp&& std::forward(typename std::remove_reference<_From>::type&) [with _Tp = char (&)[14]]	16	static
+move.h:76:5:constexpr _Tp&& std::forward(typename std::remove_reference<_From>::type&) [with _Tp = std::__cxx11::basic_string<char>&]	16	static
 move.h:76:5:constexpr _Tp&& std::forward(typename std::remove_reference<_From>::type&) [with _Tp = int&]	16	static
-shared_ptr.h:632:5:) [with _Tp = OneWireDriver; _Args = {PinData&, short unsigned int&, char (&)[14], int&}]	56	static
-shared_ptr_base.h:659:7:std::__shared_count<_Lp>::~__shared_count() [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
-move.h:101:5:constexpr typename std::remove_reference< <template-parameter-1-1> >::type&& std::move(_Tp&&) [with _Tp = std::shared_ptr<OneWireDriver>&]	16	static
-stl_vector.h:932:7:void std::vector<_Tp, _Alloc>::push_back(std::vector<_Tp, _Alloc>::value_type&&) [with _Tp = std::shared_ptr<OneWireDriver>; _Alloc = std::allocator<std::shared_ptr<OneWireDriver> >]	16	static
-shared_ptr_base.h:116:7:std::_Sp_counted_base<_Lp>::~_Sp_counted_base() [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
-shared_ptr_base.h:116:7:std::_Sp_counted_base<_Lp>::~_Sp_counted_base() [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
-stl_vector.h:79:14:std::_Vector_base<std::shared_ptr<OneWireDriver>, std::allocator<std::shared_ptr<OneWireDriver> > >::_Vector_impl::~_Vector_impl()	16	static
-stl_vector.h:124:7:std::_Vector_base<_Tp, _Alloc>::_Vector_base() [with _Tp = std::shared_ptr<OneWireDriver>; _Alloc = std::allocator<std::shared_ptr<OneWireDriver> >]	16	static
-stl_vector.h:159:7:std::_Vector_base<_Tp, _Alloc>::~_Vector_base() [with _Tp = std::shared_ptr<OneWireDriver>; _Alloc = std::allocator<std::shared_ptr<OneWireDriver> >]	16	static
-allocator.h:131:7:std::allocator< <template-parameter-1-1> >::allocator() [with _Tp = OneWireDriver]	16	static
-allocator.h:139:7:std::allocator< <template-parameter-1-1> >::~allocator() [with _Tp = OneWireDriver]	16	static
-shared_ptr.h:617:5:) [with _Tp = OneWireDriver; _Alloc = std::allocator<OneWireDriver>; _Args = {PinData&, short unsigned int&, char (&)[14], int&}]	64	static
-shared_ptr.h:229:7:std::shared_ptr<_Tp>::shared_ptr(std::shared_ptr<_Tp>&&) [with _Tp = OneWireDriver]	24	static
-move.h:76:5:constexpr _Tp&& std::forward(typename std::remove_reference<_From>::type&) [with _Tp = std::shared_ptr<OneWireDriver>]	16	static
-vector.tcc:91:7:) [with _Args = {std::shared_ptr<OneWireDriver>}; _Tp = std::shared_ptr<OneWireDriver>; _Alloc = std::allocator<std::shared_ptr<OneWireDriver> >]	24	static
-stl_vector.h:86:2:std::_Vector_base<_Tp, _Alloc>::_Vector_impl::_Vector_impl() [with _Tp = std::shared_ptr<OneWireDriver>; _Alloc = std::allocator<std::shared_ptr<OneWireDriver> >]	16	static
-allocator.h:139:7:std::allocator< <template-parameter-1-1> >::~allocator() [with _Tp = std::shared_ptr<OneWireDriver>]	16	static
-stl_vector.h:174:7:void std::_Vector_base<_Tp, _Alloc>::_M_deallocate(std::_Vector_base<_Tp, _Alloc>::pointer, std::size_t) [with _Tp = std::shared_ptr<OneWireDriver>; _Alloc = std::allocator<std::shared_ptr<OneWireDriver> >]	24	static
-new_allocator.h:79:7:__gnu_cxx::new_allocator<_Tp>::new_allocator() [with _Tp = OneWireDriver]	16	static
-new_allocator.h:86:7:__gnu_cxx::new_allocator<_Tp>::~new_allocator() [with _Tp = OneWireDriver]	16	static
-shared_ptr.h:317:2:) [with _Alloc = std::allocator<OneWireDriver>; _Args = {PinData&, short unsigned int&, char (&)[14], int&}; _Tp = OneWireDriver]	64	static
-shared_ptr_base.h:563:17:constexpr std::__shared_count<_Lp>::__shared_count() [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
-shared_ptr_base.h:935:7:std::__shared_ptr<_Tp, _Lp>::__shared_ptr(std::__shared_ptr<_Tp, _Lp>&&) [with _Tp = OneWireDriver; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
-alloc_traits.h:474:2:) [with _Up = std::shared_ptr<OneWireDriver>; _Args = {std::shared_ptr<OneWireDriver>}; _Tp = std::shared_ptr<OneWireDriver>]	24	static
-vector.tcc:407:7:) [with _Args = {std::shared_ptr<OneWireDriver>}; _Tp = std::shared_ptr<OneWireDriver>; _Alloc = std::allocator<std::shared_ptr<OneWireDriver> >]	40	static
-allocator.h:131:7:std::allocator< <template-parameter-1-1> >::allocator() [with _Tp = std::shared_ptr<OneWireDriver>]	16	static
-new_allocator.h:86:7:__gnu_cxx::new_allocator<_Tp>::~new_allocator() [with _Tp = std::shared_ptr<OneWireDriver>]	16	static
-alloc_traits.h:461:7:static void std::allocator_traits<std::allocator<_CharT> >::deallocate(std::allocator_traits<std::allocator<_CharT> >::allocator_type&, std::allocator_traits<std::allocator<_CharT> >::pointer, std::allocator_traits<std::allocator<_CharT> >::size_type) [with _Tp = std::shared_ptr<OneWireDriver>]	24	static
-shared_ptr_base.h:1097:2:) [with _Alloc = std::allocator<OneWireDriver>; _Args = {PinData&, short unsigned int&, char (&)[14], int&}; _Tp = OneWireDriver; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	72	static
-shared_ptr_base.h:688:7:void std::__shared_count<_Lp>::_M_swap(std::__shared_count<_Lp>&) [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	24	static
-new_allocator.h:119:9:) [with _Up = std::shared_ptr<OneWireDriver>; _Args = {std::shared_ptr<OneWireDriver>}; _Tp = std::shared_ptr<OneWireDriver>]	32	static
+unique_ptr.h:790:5:) [with _Tp = TemperatureSensor; _Args = {PinData&, short unsigned int&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, int&}]	80	static
+tuple:142:7:static constexpr _Head& std::_Head_base<_Idx, _Head, false>::_M_head(std::_Head_base<_Idx, _Head, false>&) [with unsigned int _Idx = 0u; _Head = TemperatureSensor*]	16	static
+tuple:190:7:>&) [with unsigned int _Idx = 0u; _Head = TemperatureSensor*; _Tail = {std::default_delete<TemperatureSensor>}]	16	static
+tuple:1247:5:>&) [with unsigned int __i = 0u; _Head = TemperatureSensor*; _Tail = {std::default_delete<TemperatureSensor>}]	16	static
+tuple:1258:5:>&) [with unsigned int __i = 0u; _Elements = {TemperatureSensor*, std::default_delete<TemperatureSensor>}]	16	static
+unique_ptr.h:235:7:std::unique_ptr<_Tp, _Dp>::~unique_ptr() [with _Tp = TemperatureSensor; _Dp = std::default_delete<TemperatureSensor>]	24	static
+move.h:101:5:constexpr typename std::remove_reference< <template-parameter-1-1> >::type&& std::move(_Tp&&) [with _Tp = std::unique_ptr<TemperatureSensor>&]	16	static
+stl_vector.h:932:7:void std::vector<_Tp, _Alloc>::push_back(std::vector<_Tp, _Alloc>::value_type&&) [with _Tp = std::unique_ptr<TemperatureSensor>; _Alloc = std::allocator<std::unique_ptr<TemperatureSensor> >]	16	static
+stl_vector.h:79:14:std::_Vector_base<std::unique_ptr<TemperatureSensor>, std::allocator<std::unique_ptr<TemperatureSensor> > >::_Vector_impl::~_Vector_impl()	16	static
+stl_vector.h:124:7:std::_Vector_base<_Tp, _Alloc>::_Vector_base() [with _Tp = std::unique_ptr<TemperatureSensor>; _Alloc = std::allocator<std::unique_ptr<TemperatureSensor> >]	16	static
+stl_vector.h:159:7:std::_Vector_base<_Tp, _Alloc>::~_Vector_base() [with _Tp = std::unique_ptr<TemperatureSensor>; _Alloc = std::allocator<std::unique_ptr<TemperatureSensor> >]	16	static
+tuple:145:7:static constexpr const _Head& std::_Head_base<_Idx, _Head, false>::_M_head(const std::_Head_base<_Idx, _Head, false>&) [with unsigned int _Idx = 0u; _Head = TemperatureSensor*]	16	static
+tuple:193:7:>&) [with unsigned int _Idx = 0u; _Head = TemperatureSensor*; _Tail = {std::default_delete<TemperatureSensor>}]	16	static
+tuple:1252:5:>&) [with unsigned int __i = 0u; _Head = TemperatureSensor*; _Tail = {std::default_delete<TemperatureSensor>}]	16	static
+tuple:1264:5:>&) [with unsigned int __i = 0u; _Elements = {TemperatureSensor*, std::default_delete<TemperatureSensor>}]	16	static
+unique_ptr.h:307:7:std::unique_ptr<_Tp, _Dp>::pointer std::unique_ptr<_Tp, _Dp>::get() const [with _Tp = TemperatureSensor; _Dp = std::default_delete<TemperatureSensor>]	16	static
+unique_ptr.h:57:17:constexpr std::default_delete<_Tp>::default_delete() [with _Tp = TemperatureSensor]	16	static
+tuple:58:17:constexpr std::_Head_base<_Idx, _Head, true>::_Head_base() [with unsigned int _Idx = 1u; _Head = std::default_delete<TemperatureSensor>]	16	static
+tuple:351:17:constexpr std::_Tuple_impl<_Idx, _Head>::_Tuple_impl() [with unsigned int _Idx = 1u; _Head = std::default_delete<TemperatureSensor>]	16	static
+tuple:104:17:constexpr std::_Head_base<_Idx, _Head, false>::_Head_base() [with unsigned int _Idx = 0u; _Head = TemperatureSensor*]	16	static
+tuple:201:17:>::_Tuple_impl() [with unsigned int _Idx = 0u; _Head = TemperatureSensor*; _Tail = {std::default_delete<TemperatureSensor>}]	16	static
+tuple:878:17:constexpr std::tuple<_T1, _T2>::tuple() [with _U1 = TemperatureSensor*; _U2 = std::default_delete<TemperatureSensor>; typename std::enable_if<std::__and_<std::__is_implicitly_default_constructible<_U1>, std::__is_implicitly_default_constructible<_U2> >::value, bool>::type <anonymous> = 1u; _T1 = TemperatureSensor*; _T2 = std::default_delete<TemperatureSensor>]	16	static
+unique_ptr.h:170:7:std::unique_ptr<_Tp, _Dp>::unique_ptr(std::unique_ptr<_Tp, _Dp>::pointer) [with _Tp = TemperatureSensor; _Dp = std::default_delete<TemperatureSensor>]	16	static
+move.h:76:5:constexpr _Tp&& std::forward(typename std::remove_reference<_From>::type&) [with _Tp = std::default_delete<TemperatureSensor>]	16	static
+move.h:76:5:constexpr _Tp&& std::forward(typename std::remove_reference<_From>::type&) [with _Tp = TemperatureSensor*]	16	static
+tuple:68:19:constexpr std::_Head_base<_Idx, _Head, true>::_Head_base(_UHead&&) [with _UHead = std::default_delete<TemperatureSensor>; unsigned int _Idx = 1u; _Head = std::default_delete<TemperatureSensor>]	16	static
+tuple:360:19:constexpr std::_Tuple_impl<_Idx, _Head>::_Tuple_impl(_UHead&&) [with _UHead = std::default_delete<TemperatureSensor>; unsigned int _Idx = 1u; _Head = std::default_delete<TemperatureSensor>]	16	static
+tuple:114:19:constexpr std::_Head_base<_Idx, _Head, false>::_Head_base(_UHead&&) [with _UHead = TemperatureSensor*; unsigned int _Idx = 0u; _Head = TemperatureSensor*]	16	static
+tuple:211:19:) [with _UHead = TemperatureSensor*; _UTail = {std::default_delete<TemperatureSensor>}; <template-parameter-2-3> = void; unsigned int _Idx = 0u; _Head = TemperatureSensor*; _Tail = {std::default_delete<TemperatureSensor>}]	32	static
+tuple:930:19:constexpr std::tuple<_T1, _T2>::tuple(_U1&&, _U2&&) [with _U1 = TemperatureSensor*; _U2 = std::default_delete<TemperatureSensor>; typename std::enable_if<((std::_TC<true, _T1, _T2>::_MoveConstructibleTuple<_U1, _U2>() && std::_TC<true, _T1, _T2>::_ImplicitlyMoveConvertibleTuple<_U1, _U2>()) && (! std::is_same<typename std::decay<_U1>::type, std::allocator_arg_t>::value)), bool>::type <anonymous> = 1u; _T1 = TemperatureSensor*; _T2 = std::default_delete<TemperatureSensor>]	32	static
+unique_ptr.h:209:7:std::unique_ptr<_Tp, _Dp>::unique_ptr(std::unique_ptr<_Tp, _Dp>&&) [with _Tp = TemperatureSensor; _Dp = std::default_delete<TemperatureSensor>]	32	static
+tuple:95:7:static constexpr _Head& std::_Head_base<_Idx, _Head, true>::_M_head(std::_Head_base<_Idx, _Head, true>&) [with unsigned int _Idx = 1u; _Head = std::default_delete<TemperatureSensor>]	16	static
+tuple:346:7:static constexpr _Head& std::_Tuple_impl<_Idx, _Head>::_M_head(std::_Tuple_impl<_Idx, _Head>&) [with unsigned int _Idx = 1u; _Head = std::default_delete<TemperatureSensor>]	16	static
+tuple:1247:5:>&) [with unsigned int __i = 1u; _Head = std::default_delete<TemperatureSensor>; _Tail = {}]	16	static
+tuple:1258:5:>&) [with unsigned int __i = 1u; _Elements = {TemperatureSensor*, std::default_delete<TemperatureSensor>}]	16	static
+unique_ptr.h:312:7:std::unique_ptr<_Tp, _Dp>::deleter_type& std::unique_ptr<_Tp, _Dp>::get_deleter() [with _Tp = TemperatureSensor; _Dp = std::default_delete<TemperatureSensor>]	16	static
+temperature_sensor.hpp:17:7:TemperatureSensor::~TemperatureSensor()	16	static
+unique_ptr.h:70:7:void std::default_delete<_Tp>::operator()(_Tp*) const [with _Tp = TemperatureSensor]	24	static
+move.h:76:5:constexpr _Tp&& std::forward(typename std::remove_reference<_From>::type&) [with _Tp = std::unique_ptr<TemperatureSensor>]	16	static
+vector.tcc:91:7:) [with _Args = {std::unique_ptr<TemperatureSensor, std::default_delete<TemperatureSensor> >}; _Tp = std::unique_ptr<TemperatureSensor>; _Alloc = std::allocator<std::unique_ptr<TemperatureSensor> >]	24	static
+stl_vector.h:86:2:std::_Vector_base<_Tp, _Alloc>::_Vector_impl::_Vector_impl() [with _Tp = std::unique_ptr<TemperatureSensor>; _Alloc = std::allocator<std::unique_ptr<TemperatureSensor> >]	16	static
+allocator.h:139:7:std::allocator< <template-parameter-1-1> >::~allocator() [with _Tp = std::unique_ptr<TemperatureSensor>]	16	static
+stl_vector.h:174:7:void std::_Vector_base<_Tp, _Alloc>::_M_deallocate(std::_Vector_base<_Tp, _Alloc>::pointer, std::size_t) [with _Tp = std::unique_ptr<TemperatureSensor>; _Alloc = std::allocator<std::unique_ptr<TemperatureSensor> >]	24	static
+unique_ptr.h:328:7:std::unique_ptr<_Tp, _Dp>::pointer std::unique_ptr<_Tp, _Dp>::release() [with _Tp = TemperatureSensor; _Dp = std::default_delete<TemperatureSensor>]	24	static
+alloc_traits.h:474:2:) [with _Up = std::unique_ptr<TemperatureSensor>; _Args = {std::unique_ptr<TemperatureSensor, std::default_delete<TemperatureSensor> >}; _Tp = std::unique_ptr<TemperatureSensor>]	24	static
+vector.tcc:407:7:) [with _Args = {std::unique_ptr<TemperatureSensor, std::default_delete<TemperatureSensor> >}; _Tp = std::unique_ptr<TemperatureSensor>; _Alloc = std::allocator<std::unique_ptr<TemperatureSensor> >]	40	static
+allocator.h:131:7:std::allocator< <template-parameter-1-1> >::allocator() [with _Tp = std::unique_ptr<TemperatureSensor>]	16	static
+new_allocator.h:86:7:__gnu_cxx::new_allocator<_Tp>::~new_allocator() [with _Tp = std::unique_ptr<TemperatureSensor>]	16	static
+alloc_traits.h:461:7:static void std::allocator_traits<std::allocator<_Tp1> >::deallocate(std::allocator_traits<std::allocator<_Tp1> >::allocator_type&, std::allocator_traits<std::allocator<_Tp1> >::pointer, std::allocator_traits<std::allocator<_Tp1> >::size_type) [with _Tp = std::unique_ptr<TemperatureSensor>]	24	static
+new_allocator.h:119:9:) [with _Up = std::unique_ptr<TemperatureSensor>; _Args = {std::unique_ptr<TemperatureSensor, std::default_delete<TemperatureSensor> >}; _Tp = std::unique_ptr<TemperatureSensor>]	32	static
 stl_algobase.h:219:5:constexpr const _Tp& std::max(const _Tp&, const _Tp&) [with _Tp = unsigned int]	16	static
-stl_vector.h:1420:7:std::vector<_Tp, _Alloc>::size_type std::vector<_Tp, _Alloc>::_M_check_len(std::vector<_Tp, _Alloc>::size_type, const char*) const [with _Tp = std::shared_ptr<OneWireDriver>; _Alloc = std::allocator<std::shared_ptr<OneWireDriver> >]	40	static
-stl_vector.h:167:7:std::_Vector_base<_Tp, _Alloc>::pointer std::_Vector_base<_Tp, _Alloc>::_M_allocate(std::size_t) [with _Tp = std::shared_ptr<OneWireDriver>; _Alloc = std::allocator<std::shared_ptr<OneWireDriver> >]	16	static
-stl_vector.h:113:7:std::_Vector_base<_Tp, _Alloc>::_Tp_alloc_type& std::_Vector_base<_Tp, _Alloc>::_M_get_Tp_allocator() [with _Tp = std::shared_ptr<OneWireDriver>; _Alloc = std::allocator<std::shared_ptr<OneWireDriver> >]	16	static
-stl_uninitialized.h:297:5:_ForwardIterator std::__uninitialized_move_if_noexcept_a(_InputIterator, _InputIterator, _ForwardIterator, _Allocator&) [with _InputIterator = std::shared_ptr<OneWireDriver>*; _ForwardIterator = std::shared_ptr<OneWireDriver>*; _Allocator = std::allocator<std::shared_ptr<OneWireDriver> >]	32	static
-alloc_traits.h:486:2:static void std::allocator_traits<std::allocator<_CharT> >::destroy(std::allocator_traits<std::allocator<_CharT> >::allocator_type&, _Up*) [with _Up = std::shared_ptr<OneWireDriver>; _Tp = std::shared_ptr<OneWireDriver>]	16	static
-stl_construct.h:148:5:void std::_Destroy(_ForwardIterator, _ForwardIterator, std::allocator<_T2>&) [with _ForwardIterator = std::shared_ptr<OneWireDriver>*; _Tp = std::shared_ptr<OneWireDriver>]	24	static
-new_allocator.h:79:7:__gnu_cxx::new_allocator<_Tp>::new_allocator() [with _Tp = std::shared_ptr<OneWireDriver>]	16	static
-new_allocator.h:109:7:void __gnu_cxx::new_allocator<_Tp>::deallocate(__gnu_cxx::new_allocator<_Tp>::pointer, __gnu_cxx::new_allocator<_Tp>::size_type) [with _Tp = std::shared_ptr<OneWireDriver>]	24	static
-move.h:101:5:constexpr typename std::remove_reference< <template-parameter-1-1> >::type&& std::move(_Tp&&) [with _Tp = const std::allocator<OneWireDriver>&]	16	static
-shared_ptr_base.h:607:2:) [with _Tp = OneWireDriver; _Alloc = std::allocator<OneWireDriver>; _Args = {PinData&, short unsigned int&, char (&)[14], int&}; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	88	static
-shared_ptr_base.h:704:7:void* std::__shared_count<_Lp>::_M_get_deleter(const std::type_info&) const [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
-shared_ptr_base.h:865:5:) [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	4	static
-stl_vector.h:660:7:std::vector<_Tp, _Alloc>::size_type std::vector<_Tp, _Alloc>::max_size() const [with _Tp = std::shared_ptr<OneWireDriver>; _Alloc = std::allocator<std::shared_ptr<OneWireDriver> >]	16	static
-alloc_traits.h:435:7:static _Tp* std::allocator_traits<std::allocator<_CharT> >::allocate(std::allocator_traits<std::allocator<_CharT> >::allocator_type&, std::allocator_traits<std::allocator<_CharT> >::size_type) [with _Tp = std::shared_ptr<OneWireDriver>]	16	static
-stl_iterator.h:1223:5:_ReturnType std::__make_move_if_noexcept_iterator(_Tp*) [with _Tp = std::shared_ptr<OneWireDriver>; _ReturnType = std::move_iterator<std::shared_ptr<OneWireDriver>*>]	24	static
-stl_uninitialized.h:279:5:_ForwardIterator std::__uninitialized_copy_a(_InputIterator, _InputIterator, _ForwardIterator, std::allocator<_Tp>&) [with _InputIterator = std::move_iterator<std::shared_ptr<OneWireDriver>*>; _ForwardIterator = std::shared_ptr<OneWireDriver>*; _Tp = std::shared_ptr<OneWireDriver>]	24	static
-new_allocator.h:124:9:void __gnu_cxx::new_allocator<_Tp>::destroy(_Up*) [with _Up = std::shared_ptr<OneWireDriver>; _Tp = std::shared_ptr<OneWireDriver>]	16	static
-stl_construct.h:122:5:void std::_Destroy(_ForwardIterator, _ForwardIterator) [with _ForwardIterator = std::shared_ptr<OneWireDriver>*]	16	static
-allocator.h:137:9:std::allocator< <template-parameter-1-1> >::allocator(const std::allocator<_Tp1>&) [with _Tp1 = OneWireDriver; _Tp = std::_Sp_counted_ptr_inplace<OneWireDriver, std::allocator<OneWireDriver>, (__gnu_cxx::_Lock_policy)0u>]	16	static
-allocator.h:139:7:std::allocator< <template-parameter-1-1> >::~allocator() [with _Tp = std::_Sp_counted_ptr_inplace<OneWireDriver, std::allocator<OneWireDriver>, (__gnu_cxx::_Lock_policy)0u>]	16	static
-allocated_ptr.h:101:5:std::__allocated_ptr<_Alloc> std::__allocate_guarded(_Alloc&) [with _Alloc = std::allocator<std::_Sp_counted_ptr_inplace<OneWireDriver, std::allocator<OneWireDriver>, (__gnu_cxx::_Lock_policy)0u> >]	16	static
-allocated_ptr.h:70:7:std::__allocated_ptr<_Alloc>::~__allocated_ptr() [with _Alloc = std::allocator<std::_Sp_counted_ptr_inplace<OneWireDriver, std::allocator<OneWireDriver>, (__gnu_cxx::_Lock_policy)0u> >]	16	static
-allocated_ptr.h:85:19:std::__allocated_ptr<_Alloc>::value_type* std::__allocated_ptr<_Alloc>::get() [with _Alloc = std::allocator<std::_Sp_counted_ptr_inplace<OneWireDriver, std::allocator<OneWireDriver>, (__gnu_cxx::_Lock_policy)0u> >]	16	static
-allocator.h:133:7:std::allocator< <template-parameter-1-1> >::allocator(const std::allocator< <template-parameter-1-1> >&) [with _Tp = OneWireDriver]	16	static
-shared_ptr_base.h:407:12:std::_Sp_ebo_helper<0, std::allocator<OneWireDriver>, true>::~_Sp_ebo_helper()	16	static
-shared_ptr_base.h:499:13:std::_Sp_counted_ptr_inplace<OneWireDriver, std::allocator<OneWireDriver>, (__gnu_cxx::_Lock_policy)0u>::_Impl::~_Impl()	16	static
-shared_ptr_base.h:515:2:) [with _Args = {PinData&, short unsigned int&, char (&)[14], int&}; _Tp = OneWireDriver; _Alloc = std::allocator<OneWireDriver>; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	56	static
-allocated_ptr.h:78:7:std::__allocated_ptr<_Alloc>& std::__allocated_ptr<_Alloc>::operator=(std::nullptr_t) [with _Alloc = std::allocator<std::_Sp_counted_ptr_inplace<OneWireDriver, std::allocator<OneWireDriver>, (__gnu_cxx::_Lock_policy)0u> >]	16	static
-alloc_traits.h:495:7:static std::allocator_traits<std::allocator<_CharT> >::size_type std::allocator_traits<std::allocator<_CharT> >::max_size(const allocator_type&) [with _Tp = std::shared_ptr<OneWireDriver>]	16	static
-stl_vector.h:117:7:const _Tp_alloc_type& std::_Vector_base<_Tp, _Alloc>::_M_get_Tp_allocator() const [with _Tp = std::shared_ptr<OneWireDriver>; _Alloc = std::allocator<std::shared_ptr<OneWireDriver> >]	16	static
-new_allocator.h:99:7:_Tp* __gnu_cxx::new_allocator<_Tp>::allocate(__gnu_cxx::new_allocator<_Tp>::size_type, const void*) [with _Tp = std::shared_ptr<OneWireDriver>]	24	static
-stl_iterator.h:1032:7:std::move_iterator<_Iterator>::move_iterator(std::move_iterator<_Iterator>::iterator_type) [with _Iterator = std::shared_ptr<OneWireDriver>*]	16	static
-stl_uninitialized.h:107:5:_ForwardIterator std::uninitialized_copy(_InputIterator, _InputIterator, _ForwardIterator) [with _InputIterator = std::move_iterator<std::shared_ptr<OneWireDriver>*>; _ForwardIterator = std::shared_ptr<OneWireDriver>*]	32	static
-stl_construct.h:100:9:static void std::_Destroy_aux<<anonymous> >::__destroy(_ForwardIterator, _ForwardIterator) [with _ForwardIterator = std::shared_ptr<OneWireDriver>*; bool <anonymous> = false]	16	static
-new_allocator.h:79:7:__gnu_cxx::new_allocator<_Tp>::new_allocator() [with _Tp = std::_Sp_counted_ptr_inplace<OneWireDriver, std::allocator<OneWireDriver>, (__gnu_cxx::_Lock_policy)0u>]	16	static
-new_allocator.h:86:7:__gnu_cxx::new_allocator<_Tp>::~new_allocator() [with _Tp = std::_Sp_counted_ptr_inplace<OneWireDriver, std::allocator<OneWireDriver>, (__gnu_cxx::_Lock_policy)0u>]	16	static
-alloc_traits.h:435:7:static _Tp* std::allocator_traits<std::allocator<_CharT> >::allocate(std::allocator_traits<std::allocator<_CharT> >::allocator_type&, std::allocator_traits<std::allocator<_CharT> >::size_type) [with _Tp = std::_Sp_counted_ptr_inplace<OneWireDriver, std::allocator<OneWireDriver>, (__gnu_cxx::_Lock_policy)0u>]	16	static
-allocated_ptr.h:52:7:std::__allocated_ptr<_Alloc>::__allocated_ptr(_Alloc&, std::__allocated_ptr<_Alloc>::pointer) [with _Alloc = std::allocator<std::_Sp_counted_ptr_inplace<OneWireDriver, std::allocator<OneWireDriver>, (__gnu_cxx::_Lock_policy)0u> >]	24	static
-alloc_traits.h:461:7:static void std::allocator_traits<std::allocator<_CharT> >::deallocate(std::allocator_traits<std::allocator<_CharT> >::allocator_type&, std::allocator_traits<std::allocator<_CharT> >::pointer, std::allocator_traits<std::allocator<_CharT> >::size_type) [with _Tp = std::_Sp_counted_ptr_inplace<OneWireDriver, std::allocator<OneWireDriver>, (__gnu_cxx::_Lock_policy)0u>]	24	static
-allocated_ptr.h:88:19:std::__allocated_ptr<_Alloc>::value_type* std::__allocated_ptr<_Alloc>::_S_raw_ptr(std::__allocated_ptr<_Alloc>::value_type*) [with _Alloc = std::allocator<std::_Sp_counted_ptr_inplace<OneWireDriver, std::allocator<OneWireDriver>, (__gnu_cxx::_Lock_policy)0u> >]	16	static
-new_allocator.h:81:7:__gnu_cxx::new_allocator<_Tp>::new_allocator(const __gnu_cxx::new_allocator<_Tp>&) [with _Tp = OneWireDriver]	16	static
-shared_ptr_base.h:89:11:constexpr std::_Mutex_base<(__gnu_cxx::_Lock_policy)0u>::_Mutex_base()	16	static
-shared_ptr_base.h:112:7:std::_Sp_counted_base<_Lp>::_Sp_counted_base() [with __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
-type_traits:2052:12:constexpr std::aligned_storage<44u, 4u>::aligned_storage()	16	static
-aligned_buffer.h:91:7:__gnu_cxx::__aligned_buffer<_Tp>::__aligned_buffer() [with _Tp = OneWireDriver]	16	static
-shared_ptr_base.h:504:11:std::_Sp_counted_ptr_inplace<_Tp, _Alloc, _Lp>::_Impl::_Impl(_Alloc) [with _Tp = OneWireDriver; _Alloc = std::allocator<OneWireDriver>; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
-shared_ptr_base.h:553:12:_Tp* std::_Sp_counted_ptr_inplace<_Tp, _Alloc, _Lp>::_M_ptr() [with _Tp = OneWireDriver; _Alloc = std::allocator<OneWireDriver>; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
-alloc_traits.h:474:2:) [with _Up = OneWireDriver; _Args = {PinData&, short unsigned int&, char (&)[14], int&}; _Tp = OneWireDriver]	48	static
-new_allocator.h:113:7:__gnu_cxx::new_allocator<_Tp>::size_type __gnu_cxx::new_allocator<_Tp>::max_size() const [with _Tp = std::shared_ptr<OneWireDriver>]	16	static
-stl_uninitialized.h:68:9:static _ForwardIterator std::__uninitialized_copy<_TrivialValueTypes>::__uninit_copy(_InputIterator, _InputIterator, _ForwardIterator) [with _InputIterator = std::move_iterator<std::shared_ptr<OneWireDriver>*>; _ForwardIterator = std::shared_ptr<OneWireDriver>*; bool _TrivialValueTypes = false]	40	static
-move.h:47:5:_Tp* std::__addressof(_Tp&) [with _Tp = std::shared_ptr<OneWireDriver>]	16	static
-stl_construct.h:92:5:void std::_Destroy(_Tp*) [with _Tp = std::shared_ptr<OneWireDriver>]	16	static
-new_allocator.h:99:7:_Tp* __gnu_cxx::new_allocator<_Tp>::allocate(__gnu_cxx::new_allocator<_Tp>::size_type, const void*) [with _Tp = std::_Sp_counted_ptr_inplace<OneWireDriver, std::allocator<OneWireDriver>, (__gnu_cxx::_Lock_policy)0u>]	24	static
-move.h:47:5:_Tp* std::__addressof(_Tp&) [with _Tp = std::allocator<std::_Sp_counted_ptr_inplace<OneWireDriver, std::allocator<OneWireDriver>, (__gnu_cxx::_Lock_policy)0u> >]	16	static
-new_allocator.h:109:7:void __gnu_cxx::new_allocator<_Tp>::deallocate(__gnu_cxx::new_allocator<_Tp>::pointer, __gnu_cxx::new_allocator<_Tp>::size_type) [with _Tp = std::_Sp_counted_ptr_inplace<OneWireDriver, std::allocator<OneWireDriver>, (__gnu_cxx::_Lock_policy)0u>]	24	static
-shared_ptr_base.h:409:16:std::_Sp_ebo_helper<_Nm, _Tp, true>::_Sp_ebo_helper(const _Tp&) [with int _Nm = 0; _Tp = std::allocator<OneWireDriver>]	16	static
-aligned_buffer.h:109:7:_Tp* __gnu_cxx::__aligned_buffer<_Tp>::_M_ptr() [with _Tp = OneWireDriver]	16	static
-new_allocator.h:119:9:) [with _Up = OneWireDriver; _Args = {PinData&, short unsigned int&, char (&)[14], int&}; _Tp = OneWireDriver]	64	static
-stl_iterator.h:1131:5:bool std::operator!=(const std::move_iterator<_IteratorL>&, const std::move_iterator<_IteratorL>&) [with _Iterator = std::shared_ptr<OneWireDriver>*]	16	static
-stl_iterator.h:1052:7:std::move_iterator<_Iterator>& std::move_iterator<_Iterator>::operator++() [with _Iterator = std::shared_ptr<OneWireDriver>*]	16	static
-stl_iterator.h:1044:7:std::move_iterator<_Iterator>::reference std::move_iterator<_Iterator>::operator*() const [with _Iterator = std::shared_ptr<OneWireDriver>*]	16	static
-stl_construct.h:74:5:) [with _T1 = std::shared_ptr<OneWireDriver>; _Args = {std::shared_ptr<OneWireDriver>}]	24	static
-new_allocator.h:113:7:__gnu_cxx::new_allocator<_Tp>::size_type __gnu_cxx::new_allocator<_Tp>::max_size() const [with _Tp = std::_Sp_counted_ptr_inplace<OneWireDriver, std::allocator<OneWireDriver>, (__gnu_cxx::_Lock_policy)0u>]	16	static
-aligned_buffer.h:97:7:void* __gnu_cxx::__aligned_buffer<_Tp>::_M_addr() [with _Tp = OneWireDriver]	16	static
-stl_iterator.h:1119:5:bool std::operator==(const std::move_iterator<_IteratorL>&, const std::move_iterator<_IteratorL>&) [with _Iterator = std::shared_ptr<OneWireDriver>*]	24	static
-stl_iterator.h:1040:7:std::move_iterator<_Iterator>::iterator_type std::move_iterator<_Iterator>::base() const [with _Iterator = std::shared_ptr<OneWireDriver>*]	16	static
-main.cpp:584:1:void __static_initialization_and_destruction_0(int, int)	16	static
-shared_ptr_base.h:524:7:std::_Sp_counted_ptr_inplace<_Tp, _Alloc, _Lp>::~_Sp_counted_ptr_inplace() [with _Tp = OneWireDriver; _Alloc = std::allocator<OneWireDriver>; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
-shared_ptr_base.h:524:7:std::_Sp_counted_ptr_inplace<_Tp, _Alloc, _Lp>::~_Sp_counted_ptr_inplace() [with _Tp = OneWireDriver; _Alloc = std::allocator<OneWireDriver>; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
-shared_ptr_base.h:527:7:void std::_Sp_counted_ptr_inplace<_Tp, _Alloc, _Lp>::_M_dispose() [with _Tp = OneWireDriver; _Alloc = std::allocator<OneWireDriver>; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	24	static
-shared_ptr_base.h:534:7:void std::_Sp_counted_ptr_inplace<_Tp, _Alloc, _Lp>::_M_destroy() [with _Tp = OneWireDriver; _Alloc = std::allocator<OneWireDriver>; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	32	static
-shared_ptr_base.h:543:7:void* std::_Sp_counted_ptr_inplace<_Tp, _Alloc, _Lp>::_M_get_deleter(const std::type_info&) [with _Tp = OneWireDriver; _Alloc = std::allocator<OneWireDriver>; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
-stl_vector.h:425:7:std::vector<_Tp, _Alloc>::~vector() [with _Tp = std::shared_ptr<OneWireDriver>; _Alloc = std::allocator<std::shared_ptr<OneWireDriver> >]	24	static
-shared_ptr_base.h:506:10:_Alloc& std::_Sp_counted_ptr_inplace<_Tp, _Alloc, _Lp>::_Impl::_M_alloc() [with _Tp = OneWireDriver; _Alloc = std::allocator<OneWireDriver>; __gnu_cxx::_Lock_policy _Lp = (__gnu_cxx::_Lock_policy)0u]	16	static
-alloc_traits.h:486:2:static void std::allocator_traits<std::allocator<_CharT> >::destroy(std::allocator_traits<std::allocator<_CharT> >::allocator_type&, _Up*) [with _Up = OneWireDriver; _Tp = OneWireDriver]	16	static
-shared_ptr_base.h:412:7:static _Tp& std::_Sp_ebo_helper<_Nm, _Tp, true>::_S_get(std::_Sp_ebo_helper<_Nm, _Tp, true>&) [with int _Nm = 0; _Tp = std::allocator<OneWireDriver>]	16	static
-new_allocator.h:124:9:void __gnu_cxx::new_allocator<_Tp>::destroy(_Up*) [with _Up = OneWireDriver; _Tp = OneWireDriver]	16	static
-main.cpp:584:1:cpp)	8	static
+stl_vector.h:1420:7:std::vector<_Tp, _Alloc>::size_type std::vector<_Tp, _Alloc>::_M_check_len(std::vector<_Tp, _Alloc>::size_type, const char*) const [with _Tp = std::unique_ptr<TemperatureSensor>; _Alloc = std::allocator<std::unique_ptr<TemperatureSensor> >]	40	static
+stl_vector.h:167:7:std::_Vector_base<_Tp, _Alloc>::pointer std::_Vector_base<_Tp, _Alloc>::_M_allocate(std::size_t) [with _Tp = std::unique_ptr<TemperatureSensor>; _Alloc = std::allocator<std::unique_ptr<TemperatureSensor> >]	16	static
+stl_vector.h:113:7:std::_Vector_base<_Tp, _Alloc>::_Tp_alloc_type& std::_Vector_base<_Tp, _Alloc>::_M_get_Tp_allocator() [with _Tp = std::unique_ptr<TemperatureSensor>; _Alloc = std::allocator<std::unique_ptr<TemperatureSensor> >]	16	static
+stl_uninitialized.h:297:5:_ForwardIterator std::__uninitialized_move_if_noexcept_a(_InputIterator, _InputIterator, _ForwardIterator, _Allocator&) [with _InputIterator = std::unique_ptr<TemperatureSensor>*; _ForwardIterator = std::unique_ptr<TemperatureSensor>*; _Allocator = std::allocator<std::unique_ptr<TemperatureSensor> >]	32	static
+alloc_traits.h:486:2:static void std::allocator_traits<std::allocator<_Tp1> >::destroy(std::allocator_traits<std::allocator<_Tp1> >::allocator_type&, _Up*) [with _Up = std::unique_ptr<TemperatureSensor>; _Tp = std::unique_ptr<TemperatureSensor>]	16	static
+stl_construct.h:148:5:void std::_Destroy(_ForwardIterator, _ForwardIterator, std::allocator<_T2>&) [with _ForwardIterator = std::unique_ptr<TemperatureSensor>*; _Tp = std::unique_ptr<TemperatureSensor>]	24	static
+new_allocator.h:79:7:__gnu_cxx::new_allocator<_Tp>::new_allocator() [with _Tp = std::unique_ptr<TemperatureSensor>]	16	static
+new_allocator.h:109:7:void __gnu_cxx::new_allocator<_Tp>::deallocate(__gnu_cxx::new_allocator<_Tp>::pointer, __gnu_cxx::new_allocator<_Tp>::size_type) [with _Tp = std::unique_ptr<TemperatureSensor>]	24	static
+stl_vector.h:660:7:std::vector<_Tp, _Alloc>::size_type std::vector<_Tp, _Alloc>::max_size() const [with _Tp = std::unique_ptr<TemperatureSensor>; _Alloc = std::allocator<std::unique_ptr<TemperatureSensor> >]	16	static
+alloc_traits.h:435:7:static _Tp* std::allocator_traits<std::allocator<_Tp1> >::allocate(std::allocator_traits<std::allocator<_Tp1> >::allocator_type&, std::allocator_traits<std::allocator<_Tp1> >::size_type) [with _Tp = std::unique_ptr<TemperatureSensor>]	16	static
+stl_iterator.h:1223:5:_ReturnType std::__make_move_if_noexcept_iterator(_Tp*) [with _Tp = std::unique_ptr<TemperatureSensor>; _ReturnType = std::move_iterator<std::unique_ptr<TemperatureSensor>*>]	24	static
+stl_uninitialized.h:279:5:_ForwardIterator std::__uninitialized_copy_a(_InputIterator, _InputIterator, _ForwardIterator, std::allocator<_Tp>&) [with _InputIterator = std::move_iterator<std::unique_ptr<TemperatureSensor>*>; _ForwardIterator = std::unique_ptr<TemperatureSensor>*; _Tp = std::unique_ptr<TemperatureSensor>]	24	static
+new_allocator.h:124:9:void __gnu_cxx::new_allocator<_Tp>::destroy(_Up*) [with _Up = std::unique_ptr<TemperatureSensor>; _Tp = std::unique_ptr<TemperatureSensor>]	16	static
+stl_construct.h:122:5:void std::_Destroy(_ForwardIterator, _ForwardIterator) [with _ForwardIterator = std::unique_ptr<TemperatureSensor>*]	16	static
+alloc_traits.h:495:7:static std::allocator_traits<std::allocator<_Tp1> >::size_type std::allocator_traits<std::allocator<_Tp1> >::max_size(const allocator_type&) [with _Tp = std::unique_ptr<TemperatureSensor>]	16	static
+stl_vector.h:117:7:const _Tp_alloc_type& std::_Vector_base<_Tp, _Alloc>::_M_get_Tp_allocator() const [with _Tp = std::unique_ptr<TemperatureSensor>; _Alloc = std::allocator<std::unique_ptr<TemperatureSensor> >]	16	static
+new_allocator.h:99:7:_Tp* __gnu_cxx::new_allocator<_Tp>::allocate(__gnu_cxx::new_allocator<_Tp>::size_type, const void*) [with _Tp = std::unique_ptr<TemperatureSensor>]	24	static
+stl_iterator.h:1032:7:std::move_iterator<_Iterator>::move_iterator(std::move_iterator<_Iterator>::iterator_type) [with _Iterator = std::unique_ptr<TemperatureSensor>*]	16	static
+stl_uninitialized.h:107:5:_ForwardIterator std::uninitialized_copy(_InputIterator, _InputIterator, _ForwardIterator) [with _InputIterator = std::move_iterator<std::unique_ptr<TemperatureSensor>*>; _ForwardIterator = std::unique_ptr<TemperatureSensor>*]	32	static
+stl_construct.h:100:9:static void std::_Destroy_aux<<anonymous> >::__destroy(_ForwardIterator, _ForwardIterator) [with _ForwardIterator = std::unique_ptr<TemperatureSensor>*; bool <anonymous> = false]	16	static
+new_allocator.h:113:7:__gnu_cxx::new_allocator<_Tp>::size_type __gnu_cxx::new_allocator<_Tp>::max_size() const [with _Tp = std::unique_ptr<TemperatureSensor>]	16	static
+stl_uninitialized.h:68:9:static _ForwardIterator std::__uninitialized_copy<_TrivialValueTypes>::__uninit_copy(_InputIterator, _InputIterator, _ForwardIterator) [with _InputIterator = std::move_iterator<std::unique_ptr<TemperatureSensor>*>; _ForwardIterator = std::unique_ptr<TemperatureSensor>*; bool _TrivialValueTypes = false]	40	static
+move.h:47:5:_Tp* std::__addressof(_Tp&) [with _Tp = std::unique_ptr<TemperatureSensor>]	16	static
+stl_construct.h:92:5:void std::_Destroy(_Tp*) [with _Tp = std::unique_ptr<TemperatureSensor>]	16	static
+stl_iterator.h:1131:5:bool std::operator!=(const std::move_iterator<_IteratorL>&, const std::move_iterator<_IteratorL>&) [with _Iterator = std::unique_ptr<TemperatureSensor>*]	16	static
+stl_iterator.h:1052:7:std::move_iterator<_Iterator>& std::move_iterator<_Iterator>::operator++() [with _Iterator = std::unique_ptr<TemperatureSensor>*]	16	static
+stl_iterator.h:1044:7:std::move_iterator<_Iterator>::reference std::move_iterator<_Iterator>::operator*() const [with _Iterator = std::unique_ptr<TemperatureSensor>*]	16	static
+stl_construct.h:74:5:) [with _T1 = std::unique_ptr<TemperatureSensor>; _Args = {std::unique_ptr<TemperatureSensor, std::default_delete<TemperatureSensor> >}]	24	static
+stl_iterator.h:1119:5:bool std::operator==(const std::move_iterator<_IteratorL>&, const std::move_iterator<_IteratorL>&) [with _Iterator = std::unique_ptr<TemperatureSensor>*]	24	static
+stl_iterator.h:1040:7:std::move_iterator<_Iterator>::iterator_type std::move_iterator<_Iterator>::base() const [with _Iterator = std::unique_ptr<TemperatureSensor>*]	16	static
+main.cpp:580:1:void __static_initialization_and_destruction_0(int, int)	16	static
+stl_vector.h:425:7:std::vector<_Tp, _Alloc>::~vector() [with _Tp = std::unique_ptr<TemperatureSensor>; _Alloc = std::allocator<std::unique_ptr<TemperatureSensor> >]	24	static
+main.cpp:580:1:cpp)	8	static

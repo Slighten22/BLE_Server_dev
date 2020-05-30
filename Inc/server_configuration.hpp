@@ -11,7 +11,8 @@ typedef enum {
 typedef struct SensorInfo {
 	SensorType sensorType;
 	uint16_t interval; //co ile czytac
-	char name[MAX_NAME_LEN]; //"kuchnia"
+	char charName[MAX_NAME_LEN]; //"kuchnia"
+	std::string name;
 	PinData pinData;
 } SensorInfo;
 

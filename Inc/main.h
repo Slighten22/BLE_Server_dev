@@ -23,17 +23,10 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 
-//#ifdef __cplusplus
-
 /* Project header files */
 /* USER CODE BEGIN Project header files */
-//#include "device_manager.hpp"
-//#include "one_wire_driver.hpp"
-//#include "sensor.hpp"
-//#include "timer.hpp"
+
 /* USER CODE END Project header files */
-//extern "C" {
-//#endif
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l4xx_hal.h"
@@ -51,9 +44,11 @@
 #include "app_x-cube-ble1.h"
 #include "bluenrg_types.h"
 //
+uint8_t rcvBLE[VARIABLE_SIZE];
+#define CONF_MSG_LEN 20
 
 /* USER CODE END Includes */
-uint8_t rcvBLE[VARIABLE_SIZE];
+
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
 

@@ -8,20 +8,15 @@
 
 extern DeviceManager deviceManager;
 
-class GenericDriver;
-typedef void (GenericDriver::*StateHandler)(void);
+class GenericOnePinDriver;
+typedef void (GenericOnePinDriver::*StateHandler)(void);
 
-class GenericDriver { //generyczna, abstrakcyjna klasa drivera
-//protected:
-public:
-	Timer *timer; //wskaznik na timera od DeviceManagera
+class GenericOnePinDriver { //generyczna, abstrakcyjna klasa drivera dla sensorow wykorzystujacych 1 pin do komunikacji
+protected:
 	PinData pinData;
 	StateHandler stateHandler;
-	char name[MAX_NAME_LEN];
-	uint16_t interval;
-	uint8_t bytesToRead; //?
 public:
-	GenericDriver(PinData pinData, uint16_t interval, char name[], uint8_t name_len);
+	GenericOnePinDriver(PinData pinData);
 	virtual void driverStartReadout(void) = 0;
 	virtual void executeState(void) = 0;
 };

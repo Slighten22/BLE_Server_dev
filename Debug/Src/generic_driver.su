@@ -1,2 +1,2 @@
 gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
-generic_driver.cpp:3:1:GenericDriver::GenericDriver(PinData, uint16_t, char*, uint8_t)	48	static
+generic_driver.cpp:3:1:GenericOnePinDriver::GenericOnePinDriver(PinData)	40	static

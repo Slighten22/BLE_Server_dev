@@ -23,13 +23,13 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 /* USER CODE END Includes */
-#include "one_wire_driver.hpp"
-#include "timer.hpp"
-#include "device_manager.hpp"
-#include "pin_data.hpp"
-#include "server_configuration.hpp"
 #include <vector>
 #include <memory>
+#include "timer.hpp"
+#include "pin_data.hpp"
+#include "device_manager.hpp"
+#include "temperature_sensor.hpp"
+#include "server_configuration.hpp"
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
 /* USER CODE END PTD */
@@ -48,13 +48,9 @@ TaskHandle_t defaultTaskHandle;
 /* USER CODE BEGIN PV */
 TaskHandle_t readoutTaskHandle;
 SemaphoreHandle_t binarySem;
-
 DeviceManager deviceManager;
-
-uint8_t rcvConfigurationMsg[20];
-
-std::vector<std::shared_ptr<OneWireDriver>> sensorsPtrs;
-
+std::vector<std::unique_ptr<TemperatureSensor>> sensorsPtrs;
+uint8_t rcvConfigurationMsg[CONF_MSG_LEN];
 uint16_t delayTime = 3000;
 uint8_t data[5];
 char uartData[70];
@@ -75,8 +71,8 @@ static void MX_TIM4_Init(void);
 void delayMicroseconds(uint32_t us);
 void createNewSensorFromRcvMessage(uint8_t *message);
 void createNewSensor(SensorInfo sensorInfo);
-void prepareAndSendData(uint32_t readValue, uint8_t readChecksum, char *name);
-void printReadData(uint32_t readData, char *name);
+void prepareAndSendData(uint32_t readValue, uint8_t readChecksum, std::string nme);
+void printReadData(uint32_t readData, std::string name);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -388,7 +384,7 @@ void StartDefaultTask(void const * argument)
 		xTaskNotify(readoutTaskHandle, 0x01, eSetBits); //a domyslnie kolejka (queue) requestow
 
 		TickType_t maxBlockTime = pdMS_TO_TICKS(300UL);
-		xSemaphoreTake(binarySem, maxBlockTime);
+		xSemaphoreTake(binarySem, maxBlockTime); //do synchr. taska z ISR: https://www.freertos.org/Embedded-RTOS-Binary-Semaphores.html
 		//zeby tu dojsc, musial byc oddany semafor
 		HAL_UART_Transmit(&huart3, (uint8_t *)"notified\r\n", 10, 10);
 		osDelay(delayTime);
@@ -399,6 +395,7 @@ void StartDefaultTask(void const * argument)
 /* USER CODE BEGIN 6 */
 void ReadoutTask(void const * argument){
 	uint32_t notifValue;
+
 	/* Infinite loop */
 	for (;;) {
 		xTaskNotifyWait(pdFALSE, 0xFF, &notifValue, portMAX_DELAY);
@@ -406,7 +403,7 @@ void ReadoutTask(void const * argument){
 			//sprawdz, czy nie przyszla nowa konfiguracja
 			if(newConfig == true){
 				newConfig = false;
-				createNewSensorFromRcvMessage(rcvConfigurationMsg);
+				createNewSensorFromRcvMessage(rcvConfigurationMsg); //29: zwraca obiekt sensor, na ktorym zrobimy push_back do wektora
 			}
 			//zrob odczyt ze wszystkich czujnikow ktore masz
 			for(uint8_t i=0; i<sensorsPtrs.size(); i++){
@@ -419,30 +416,29 @@ void ReadoutTask(void const * argument){
 	}
 }
 
-void OneWireDriver::firstStateHandler(void){
-//std::function<void()> OneWireDriver::firstStateHandler{
+void TemperatureSensor::firstStateHandler(void){
 	//to co ma zrobic w tym stanie
 	HAL_UART_Transmit(&huart3, (uint8_t *)"First state!\r\n", 14, 10);
 	this->changePinMode(ONE_WIRE_OUTPUT);
 	this->writePin(0);
 	//ustaw kolejny stan
-	this->stateHandler = static_cast<StateHandler>(&OneWireDriver::secondStateHandler);
+	this->stateHandler = static_cast<StateHandler>(&TemperatureSensor::secondStateHandler);
 	//przestaw i uruchom timer
 	this->timer->wakeMeUpAfterMicroseconds(800);
 }
 
-void OneWireDriver::secondStateHandler(void){
+void TemperatureSensor::secondStateHandler(void){
 	//to co ma zrobic w tym stanie
 	HAL_UART_Transmit(&huart3, (uint8_t *)"Second state!\r\n", 15, 10);
 	this->writePin(1);
 	this->changePinMode(ONE_WIRE_INPUT);
 	//ustaw kolejny stan
-	this->stateHandler = static_cast<StateHandler>(&OneWireDriver::thirdStateHandler);
+	this->stateHandler = static_cast<StateHandler>(&TemperatureSensor::thirdStateHandler);
 	//przestaw i uruchom timer
 	this->timer->wakeMeUpAfterMicroseconds(10);
 }
 
-void OneWireDriver::thirdStateHandler(void){
+void TemperatureSensor::thirdStateHandler(void){
 	while(this->readPin());
 	while(!this->readPin());
 	while(this->readPin());
@@ -471,8 +467,9 @@ void OneWireDriver::thirdStateHandler(void){
 		}
 		while (this->readPin());
 	}
-	prepareAndSendData(rawBits, checksumBits, this->name);
-	printReadData(rawBits, this->name);
+	prepareAndSendData(rawBits, checksumBits, this->name); //29:gdzie indziej!! wysylanie danych w innym miejscu! / powiadomic kolejke/task od kom.
+	printReadData(rawBits, this->name); //29:nie wewn. obslugi przerwania!
+	//zamiast tego ^^ zapamietac ostatni odczyt i powiadomic kogos (task wysylki?) ze go mamy
 	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 	xSemaphoreGiveFromISR(binarySem, &xHigherPriorityTaskWoken);
 	portYIELD_FROM_ISR(xHigherPriorityTaskWoken);//powiadom glowny task ze juz zakonczyla sie cala robota
@@ -497,18 +494,17 @@ void createNewSensorFromRcvMessage(uint8_t *message){
 	sensorInfo.interval = (*(message + 1))*256 + *(message + 2); //zalozenie: MSB najpierw
 	int name_len = 0;
 	for(int i=3; message[i] != '\0' && name_len < MAX_NAME_LEN; i++){
-		sensorInfo.name[i-3] = (char)(*(message + i));
+		sensorInfo.charName[i-3] = (char)(*(message + i));
 		name_len++;
 	}
-	if(name_len < MAX_NAME_LEN)
-		sensorInfo.name[name_len] = '\0';
+	sensorInfo.name = sensorInfo.charName;
 	sensorInfo.pinData = deviceManager.getFreePin();
 
 	switch(*(message + 0)){
 		case DHT22:
 		{
 			sensorInfo.sensorType = DHT22;
-			sensorsPtrs.push_back(std::make_shared<OneWireDriver>(sensorInfo.pinData, sensorInfo.interval, sensorInfo.name, name_len));
+			sensorsPtrs.push_back(std::make_unique<TemperatureSensor>(sensorInfo.pinData, sensorInfo.interval, sensorInfo.name, name_len));
 			//TODO: zwalnianie pamieci po sensorze gdy przyjdzie konfig z interwalem = 0
 			//TODO: odczyt z sensora tylko co odp. interwal!
 			break;
@@ -518,10 +514,10 @@ void createNewSensorFromRcvMessage(uint8_t *message){
 	}
 }
 
-void prepareAndSendData(uint32_t readValue, uint8_t readChecksum, char *name){
-	uint8_t data[20]; uint8_t len = 0;
-	for(int i=0; *(name+i) != '\0' && i<MAX_NAME_LEN; i++){
-		data[i] = (uint8_t)(*(name+i)); len++;
+void prepareAndSendData(uint32_t readValue, uint8_t readChecksum, std::string name){
+	uint8_t data[CONF_MSG_LEN]; uint8_t len = 0;
+	for(int i=0; name[i] != '\0' && i<MAX_NAME_LEN; i++){
+		data[i] = (uint8_t)name[i]; len++;
 	}
 	data[len] = '\0';
 	data[len+1] = (readValue >> 24) & 0xFF;
@@ -529,10 +525,10 @@ void prepareAndSendData(uint32_t readValue, uint8_t readChecksum, char *name){
 	data[len+3] = (readValue >> 8) & 0xFF;
 	data[len+4] = (readValue >> 0) & 0xFF;
 	data[len+5] = (readChecksum) & 0xFF;
-	MX_BlueNRG_MS_Process(data, len+5); //zamiast w glownym tasku po oddaniu semafora
+	MX_BlueNRG_MS_Process(data, len+5); //zamiast w glownym tasku po oddaniu semafora; 29: NIE tutaj - przekazanie do kolejki/taska
 }
 
-void printReadData(uint32_t readValue, char *name){
+void printReadData(uint32_t readValue, std::string name){
 	uint16_t humid = (((readValue >> 24)&0xFF) << 8) | ((readValue >> 16)&0xFF);
 	uint16_t temp  = (((readValue >> 8) &0xFF) << 8) | ((readValue >> 0) &0xFF);
 	uint16_t humidDecimal = humid % 10;
@@ -540,7 +536,7 @@ void printReadData(uint32_t readValue, char *name){
 	temp = temp / (uint16_t) 10;
 	humid = humid / (uint16_t) 10;
 	sprintf(uartData, "\r\n\r\nCzujnik %s\r\nTemperatura\t %hu.%huC\r\nWilgotnosc\t %hu.%hu%%\r\n",
-			name, temp, tempDecimal, humid, humidDecimal);
+			name.c_str(), temp, tempDecimal, humid, humidDecimal);
 	HAL_UART_Transmit(&huart3, (uint8_t *)uartData, sizeof(uartData), 10);
 }
 
