@@ -475,6 +475,7 @@ void TemperatureSensor::thirdStateHandler(void){
 	portYIELD_FROM_ISR(xHigherPriorityTaskWoken);//powiadom glowny task ze juz zakonczyla sie cala robota
 }
 
+
 void delayMicroseconds(uint32_t us){
 	//Average, experimental time for 1 rotation of the 'for' loop with nops: ~140ns
 	//for an 80MHz processor@max speed; that gives ~7.143 loop rotations for 1 ms
