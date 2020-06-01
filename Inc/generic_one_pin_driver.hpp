@@ -17,7 +17,7 @@ protected:
 	StateHandler stateHandler;
 public:
 	GenericOnePinDriver(PinData pinData);
-	virtual void driverStartReadout(void) = 0;
+	virtual void startReadout(std::function<void(uint8_t *)> readoutFinishedHandler) = 0;
 	virtual void executeState(void) = 0;
 };
 

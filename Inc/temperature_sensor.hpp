@@ -19,6 +19,10 @@ private:
 	void firstStateHandler(void);
 	void secondStateHandler(void);
 	void thirdStateHandler(void); //.. moga byc kolejne stany wewnatrz odczytu
+
+	//void readoutFinishedHandler(uint8_t *data);
+	std::function<void(uint8_t *)> readoutFinishedHandler;
+
 	Timer *timer; //wskaznik na timera od DeviceManagera;
 	std::string name;
 	uint16_t interval;
@@ -28,7 +32,7 @@ private:
 	//29: w ostatnim stanie nadpisuje wynik i wysyla powiadomienie, ze mozna wyslac jego nowe dane
 public:
 	TemperatureSensor(PinData pinData, uint16_t interval, std::string name);
-	void driverStartReadout(void);
+	void startReadout(std::function<void(uint8_t *)> readoutFinishedHandler);
 	void executeState(void);
 	void changePinMode(oneWireMode mode);
 	void writePin(bool state);

@@ -9,8 +9,9 @@ TemperatureSensor::TemperatureSensor(PinData pinData, uint16_t interval, std::st
 	this->timer->registerCallback(std::bind(&TemperatureSensor::executeState, this));
 };
 
-void TemperatureSensor::driverStartReadout(void){
+void TemperatureSensor::startReadout(std::function<void(uint8_t *)> readoutFinishedHandler){
 	this->stateHandler = static_cast<StateHandler>(&TemperatureSensor::firstStateHandler);
+	this->readoutFinishedHandler = readoutFinishedHandler;
 	this->executeState();
 }
 

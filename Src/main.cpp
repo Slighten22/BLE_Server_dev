@@ -25,6 +25,7 @@
 /* USER CODE END Includes */
 #include <vector>
 #include <memory>
+#include <functional>
 #include "timer.hpp"
 #include "pin_data.hpp"
 #include "device_manager.hpp"
@@ -52,11 +53,14 @@ SemaphoreHandle_t binarySem;
 /* The stream buffer that is used to send data from an interrupt to the task. */
 StreamBufferHandle_t xStreamBuffer = NULL;
 
+uint8_t readData[MSG_LEN];
+std::function<void(uint8_t *)> sendDataOnReadoutFinishedHandler;
+
 DeviceManager deviceManager;
 std::vector<std::unique_ptr<TemperatureSensor>> sensorsPtrs;
 uint8_t rcvConfigurationMsg[MSG_LEN];
 uint16_t delayTime = 3000;
-uint8_t data[5];
+//uint8_t data[5];
 char uartData[70];
 bool readDone;
 bool newConfig = false;
@@ -74,9 +78,9 @@ static void MX_TIM7_Init(void);
 static void MX_TIM6_Init(void);
 static void MX_TIM4_Init(void);
 void delayMicroseconds(uint32_t us);
-void createNewSensorFromRcvMessage(uint8_t *message);
+void pushNewSensorToVectorFromRcvMessage(uint8_t *message);
 void createNewSensor(SensorInfo sensorInfo);
-void prepareAndSendData(uint32_t readValue, uint8_t readChecksum, std::string nme);
+void prepareAndSendData(uint32_t readValue, uint8_t readChecksum, std::string name);
 void printReadData(uint32_t readData, std::string name);
 /* USER CODE END PFP */
 
@@ -137,6 +141,13 @@ int main(void)
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
   xStreamBuffer = xStreamBufferCreate(MSG_LEN, MSG_LEN);
+
+  sendDataOnReadoutFinishedHandler = [](uint8_t *data){
+		BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+
+		xStreamBufferSendFromISR(xStreamBuffer, (void *)(data), MSG_LEN, &xHigherPriorityTaskWoken /*NULL*/);
+		portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+  };
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
@@ -150,7 +161,7 @@ int main(void)
   readoutTaskHandle = osThreadCreate(osThread(readoutTask), NULL);
 
   //task do wysylania i wyswietlania odczytanych danych
-  osThreadDef(communicationTask, CommunicationTask, osPriorityNormal, 0, 256);
+  osThreadDef(communicationTask, CommunicationTask, osPriorityNormal, 0, 1024);
   communicationTaskHandle = osThreadCreate(osThread(communicationTask), NULL);
   /* USER CODE END RTOS_THREADS */
 
@@ -401,7 +412,6 @@ void StartDefaultTask(void const * argument)
 /* USER CODE BEGIN 6 */
 void ReadoutTask(void const * argument){
 	uint32_t notifValue;
-
 	/* Infinite loop */
 	for (;;) {
 		xTaskNotifyWait(pdFALSE, 0xFF, &notifValue, portMAX_DELAY);
@@ -409,11 +419,11 @@ void ReadoutTask(void const * argument){
 			//sprawdz, czy nie przyszla nowa konfiguracja
 			if(newConfig == true){
 				newConfig = false;
-				createNewSensorFromRcvMessage(rcvConfigurationMsg); //29: zwraca obiekt sensor, na ktorym zrobimy push_back do wektora
+				pushNewSensorToVectorFromRcvMessage(rcvConfigurationMsg);
 			}
 			//zrob odczyt ze wszystkich czujnikow ktore masz
 			for(uint8_t i=0; i<sensorsPtrs.size(); i++){
-				sensorsPtrs[i]->driverStartReadout(); //TODO: podczepienie funkcji do zrobienia po odczycie
+				sensorsPtrs[i]->startReadout(sendDataOnReadoutFinishedHandler); //TODO: podczepienie funkcji do zrobienia po odczycie
 			}
 			if(sensorsPtrs.size() == 0){ //TODO
 				MX_BlueNRG_MS_Process((uint8_t *)"", 0);
@@ -428,14 +438,14 @@ void CommunicationTask(void const * argument){
 
 	for(;;)
 	{
-		xStreamBufferReceive(xStreamBuffer, (void *)&(cRxBuffer), MSG_LEN*sizeof(char), portMAX_DELAY /*3500*//*0*/); //!!delay = ?
-		int name_len;
+		xStreamBufferReceive(xStreamBuffer, (void *)&(cRxBuffer), MSG_LEN*sizeof(char), portMAX_DELAY);
 		char charName[MAX_NAME_LEN];
-		for(name_len=0; cRxBuffer[name_len+1] != '\0' && name_len < MAX_NAME_LEN; name_len++){
-			charName[name_len] = (char)(cRxBuffer[name_len+1]);
+		int name_len;
+		for(name_len=0; cRxBuffer[name_len] != '\0' && name_len < MAX_NAME_LEN; name_len++){
+			charName[name_len] = (char)(cRxBuffer[name_len]);
 		}
-		uint16_t humid = (cRxBuffer[name_len+2] << 8) | (cRxBuffer[name_len+3]);
-		uint16_t temp  = (cRxBuffer[name_len+4] << 8) | (cRxBuffer[name_len+5]);
+		uint16_t humid = (cRxBuffer[name_len+1] << 8) | (cRxBuffer[name_len+2]);
+		uint16_t temp  = (cRxBuffer[name_len+3] << 8) | (cRxBuffer[name_len+4]);
 		uint16_t humidDecimal = humid % 10;
 		uint16_t tempDecimal = temp % 10;
 		temp = temp / (uint16_t) 10;
@@ -445,7 +455,7 @@ void CommunicationTask(void const * argument){
 		HAL_UART_Transmit(&huart3, (uint8_t *)uartData, sizeof(uartData), 10);
 
 		//wysylanie:
-		MX_BlueNRG_MS_Process((uint8_t *)cRxBuffer+1, name_len+6);
+		MX_BlueNRG_MS_Process((uint8_t *)cRxBuffer, name_len+6);
 
 		memset(cRxBuffer, 0x00, sizeof(cRxBuffer)); //przygotowanie na kolejny komunikat
 		xStreamBufferReset(xStreamBuffer);
@@ -506,22 +516,24 @@ void TemperatureSensor::thirdStateHandler(void){
 	//TODO: podczepienie funkcji do wykonania po odczycie
 	//np. powiadomienie jakiegos taska ze mamy dane do wysylki, albo wstawienie danych do kolejki (?i powiadomienie tej kolejki?)
 	//powiadomienie taska = z przerwania wybudzamy task ktory zrobi za nas wysylke (i np. wypisze dane)
-	uint8_t data[MSG_LEN]; uint8_t len = 1;
-	data[0] = '!'; //znacznik poczatku wiadomosci
-	for(int i=1; name[i-1] != '\0' && i<MAX_NAME_LEN; i++){
-		data[i] = (uint8_t)name[i-1]; len++;
+	uint8_t len;
+	for(len=0; name[len] != '\0' && len<MAX_NAME_LEN; len++){
+		readData[len] = (uint8_t)name[len];
 	}
-	data[len] = '\0';
-	data[len+1] = (dataBits >> 24) & 0xFF;
-	data[len+2] = (dataBits >> 16) & 0xFF;
-	data[len+3] = (dataBits >> 8) & 0xFF;
-	data[len+4] = (dataBits >> 0) & 0xFF;
-	data[len+5] = (checksumBits) & 0xFF;
-	data[len+6] = '?'; //znacznik konca wiadomosci
+	readData[len] = '\0';
+	readData[len+1] = (dataBits >> 24) & 0xFF;
+	readData[len+2] = (dataBits >> 16) & 0xFF;
+	readData[len+3] = (dataBits >> 8) & 0xFF;
+	readData[len+4] = (dataBits >> 0) & 0xFF;
+	readData[len+5] = (checksumBits) & 0xFF;
 
-	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-	xStreamBufferSendFromISR(xStreamBuffer, (void *)(data), sizeof(data), &xHigherPriorityTaskWoken /*NULL*/);
-	portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+	//TODO: podczepiona funkcja
+	this->readoutFinishedHandler(readData);
+
+//	//dziala
+//	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+//	xStreamBufferSendFromISR(xStreamBuffer, (void *)(readData), sizeof(readData), &xHigherPriorityTaskWoken /*NULL*/);
+//	portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 }
 
 void delayMicroseconds(uint32_t us){
@@ -537,7 +549,7 @@ void delayMicroseconds(uint32_t us){
 	//UINT_MAX	Maximum value for a variable of type unsigned int	4,294,967,295 (0xffffffff)
 }
 
-void createNewSensorFromRcvMessage(uint8_t *message){
+void pushNewSensorToVectorFromRcvMessage(uint8_t *message){
 	/* Format wiadomosci: <typ_sensora:1B> <interwal:2B> <nazwa:max.15B> */
 	SensorInfo sensorInfo;
 	sensorInfo.sensorType = (SensorType)*(message + 0);
