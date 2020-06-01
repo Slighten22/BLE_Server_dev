@@ -7,6 +7,10 @@ TemperatureSensor::TemperatureSensor(PinData pinData, uint16_t interval, std::st
 	this->stateHandler = static_cast<StateHandler>(&TemperatureSensor::firstStateHandler);
 	this->timer = deviceManager.getNewTimerHandle();
 	this->timer->registerCallback(std::bind(&TemperatureSensor::executeState, this));
+
+
+	this->timer->setARR_Register(12500*interval-1); //aby dostac przerwanie co <interval> sekund
+	this->timer->startGeneratingInterrupts();
 };
 
 void TemperatureSensor::startReadout(std::function<void(void)> readoutFinishedHandler){

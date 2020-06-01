@@ -92,8 +92,7 @@ void printReadData(uint32_t readData, std::string name);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-  delayTime = 3000;
-  newConfig = false;
+
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -120,6 +119,8 @@ int main(void)
   MX_TIM7_Init();
   MX_TIM6_Init();
   MX_TIM4_Init();
+  delayTime = 3000;
+  newConfig = false;
   /* USER CODE END 2 */
 
   /* USER CODE BEGIN RTOS_MUTEX */
@@ -326,9 +327,9 @@ static void MX_TIM7_Init(void)
   /* USER CODE BEGIN TIM7_Init 1 */
   /* USER CODE END TIM7_Init 1 */
   htim7.Instance = TIM7;
-  htim7.Init.Prescaler = 7999;
+  htim7.Init.Prescaler = 6400 - 1; //tick co 80 mikro
   htim7.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim7.Init.Period = 9;
+  htim7.Init.Period = 9; //do zmiany przy tworzeniu nowego sensora
   htim7.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim7) != HAL_OK)
   {
@@ -417,14 +418,14 @@ void ReadoutTask(void const * argument){
 				newConfig = false;
 				pushNewSensorFromRcvMessageToVector(rcvConfigurationMsg);
 			}
-			//zrob odczyt ze wszystkich czujnikow ktore masz. TODO: kazdy czujnik zyje swoim zyciem
-			for(uint8_t i=0; i<sensorsPtrs.size(); i++){
-				sensorsPtrs[i]->startReadout([](){ //podczepienie funkcji do zrobienia po odczycie
-					BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-					xStreamBufferSendFromISR(xStreamBuffer, (void *)(readData), MSG_LEN, &xHigherPriorityTaskWoken);
-					portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
-				});
-			}
+			//zrob odczyt ze wszystkich czujnikow ktore masz. TODO: kazdy czujnik zyje swoim zyciem!!
+//			for(uint8_t i=0; i<sensorsPtrs.size(); i++){
+//				sensorsPtrs[i]->startReadout([](){ //TODO: podczepienie funkcji do zrobienia po odczycie gdy wywolanie z timera
+//					BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+//					xStreamBufferSendFromISR(xStreamBuffer, (void *)(readData), MSG_LEN, &xHigherPriorityTaskWoken);
+//					portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+//				});
+//			}
 			if(sensorsPtrs.size() == 0){ //TODO
 				MX_BlueNRG_MS_Process((uint8_t *)"", 0);
 			}
@@ -462,28 +463,25 @@ void CommunicationTask(void const * argument){
 }
 
 void TemperatureSensor::firstStateHandler(void){
+	//zatrzymac counter timera
+	this->timer->stopCounter();
 	//to co ma zrobic w tym stanie
 	HAL_UART_Transmit(&huart3, (uint8_t *)"First state!\r\n", 14, 10);
 	this->changePinMode(ONE_WIRE_OUTPUT);
 	this->writePin(0);
 	//ustaw kolejny stan
 	this->stateHandler = static_cast<StateHandler>(&TemperatureSensor::secondStateHandler);
-	//przestaw i uruchom timer
-	this->timer->wakeMeUpAfterMicroseconds(800);  //TODO
+	//przestaw i uruchom timer TODO: wakeMeUpAfterMicroseconds moze robic wlasnie to
+	this->timer->wakeMeUpAfterMicroseconds(800);
 }
 
 void TemperatureSensor::secondStateHandler(void){
+	//zatrzymac counter timera
+	this->timer->stopCounter();
 	//to co ma zrobic w tym stanie
 	HAL_UART_Transmit(&huart3, (uint8_t *)"Second state!\r\n", 15, 10);
 	this->writePin(1);
 	this->changePinMode(ONE_WIRE_INPUT);
-	//ustaw kolejny stan
-	this->stateHandler = static_cast<StateHandler>(&TemperatureSensor::thirdStateHandler);
-	//przestaw i uruchom timer
-	this->timer->wakeMeUpAfterMicroseconds(10);
-}
-
-void TemperatureSensor::thirdStateHandler(void){
 	while(this->readPin());
 	while(!this->readPin());
 	while(this->readPin());
@@ -523,7 +521,19 @@ void TemperatureSensor::thirdStateHandler(void){
 	readData[len+4] = (dataBits >> 0) & 0xFF;
 	readData[len+5] = (checksumBits) & 0xFF;
 
+	//ustaw kolejny stan
+	this->stateHandler = static_cast<StateHandler>(&TemperatureSensor::firstStateHandler);
+	//przestaw i uruchom timer TODO: wakeMeUpAfterMicroseconds moze robic wlasnie to
+	this->timer->wakeMeUpAfterSeconds(5);
+
+	//TODO!!!
+	this->readoutFinishedHandler = [](){
+	  	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+		xStreamBufferSendFromISR(xStreamBuffer, (void *)(readData), MSG_LEN, &xHigherPriorityTaskWoken);
+		portYIELD_FROM_ISR(xHigherPriorityTaskWoken)};
+
 	this->readoutFinishedHandler();
+
 }
 
 void delayMicroseconds(uint32_t us){
