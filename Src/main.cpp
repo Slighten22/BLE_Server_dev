@@ -417,7 +417,7 @@ void ReadoutTask(void const * argument){
 				newConfig = false;
 				pushNewSensorFromRcvMessageToVector(rcvConfigurationMsg);
 			}
-			//zrob odczyt ze wszystkich czujnikow ktore masz
+			//zrob odczyt ze wszystkich czujnikow ktore masz. TODO: kazdy czujnik zyje swoim zyciem
 			for(uint8_t i=0; i<sensorsPtrs.size(); i++){
 				sensorsPtrs[i]->startReadout([](){ //podczepienie funkcji do zrobienia po odczycie
 					BaseType_t xHigherPriorityTaskWoken = pdFALSE;
@@ -469,7 +469,7 @@ void TemperatureSensor::firstStateHandler(void){
 	//ustaw kolejny stan
 	this->stateHandler = static_cast<StateHandler>(&TemperatureSensor::secondStateHandler);
 	//przestaw i uruchom timer
-	this->timer->wakeMeUpAfterMicroseconds(800);
+	this->timer->wakeMeUpAfterMicroseconds(800);  //TODO
 }
 
 void TemperatureSensor::secondStateHandler(void){
