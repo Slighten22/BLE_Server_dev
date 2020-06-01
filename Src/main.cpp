@@ -50,20 +50,16 @@ TaskHandle_t defaultTaskHandle;
 TaskHandle_t readoutTaskHandle;
 TaskHandle_t communicationTaskHandle;
 SemaphoreHandle_t binarySem;
-/* The stream buffer that is used to send data from an interrupt to the task. */
-StreamBufferHandle_t xStreamBuffer = NULL;
-
-uint8_t readData[MSG_LEN];
-std::function<void(uint8_t *)> sendDataOnReadoutFinishedHandler;
-
 DeviceManager deviceManager;
+StreamBufferHandle_t xStreamBuffer; /* The stream buffer that is used to send data from an interrupt to the task. */
+uint8_t readData[MSG_LEN];
+std::function<void(void)> sendDataOnReadoutFinishedHandler;
 std::vector<std::unique_ptr<TemperatureSensor>> sensorsPtrs;
 uint8_t rcvConfigurationMsg[MSG_LEN];
-uint16_t delayTime = 3000;
-//uint8_t data[5];
+uint16_t delayTime;
 char uartData[70];
 bool readDone;
-bool newConfig = false;
+bool newConfig;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -78,7 +74,7 @@ static void MX_TIM7_Init(void);
 static void MX_TIM6_Init(void);
 static void MX_TIM4_Init(void);
 void delayMicroseconds(uint32_t us);
-void pushNewSensorToVectorFromRcvMessage(uint8_t *message);
+void pushNewSensorFromRcvMessageToVector(uint8_t *message);
 void createNewSensor(SensorInfo sensorInfo);
 void prepareAndSendData(uint32_t readValue, uint8_t readChecksum, std::string name);
 void printReadData(uint32_t readData, std::string name);
@@ -96,7 +92,8 @@ void printReadData(uint32_t readData, std::string name);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+  delayTime = 3000;
+  newConfig = false;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -142,10 +139,9 @@ int main(void)
   /* add queues, ... */
   xStreamBuffer = xStreamBufferCreate(MSG_LEN, MSG_LEN);
 
-  sendDataOnReadoutFinishedHandler = [](uint8_t *data){
-		BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-
-		xStreamBufferSendFromISR(xStreamBuffer, (void *)(data), MSG_LEN, &xHigherPriorityTaskWoken /*NULL*/);
+  sendDataOnReadoutFinishedHandler = [](){
+	  	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+		xStreamBufferSendFromISR(xStreamBuffer, (void *)(readData), MSG_LEN, &xHigherPriorityTaskWoken);
 		portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
   };
   /* USER CODE END RTOS_QUEUES */
@@ -419,11 +415,15 @@ void ReadoutTask(void const * argument){
 			//sprawdz, czy nie przyszla nowa konfiguracja
 			if(newConfig == true){
 				newConfig = false;
-				pushNewSensorToVectorFromRcvMessage(rcvConfigurationMsg);
+				pushNewSensorFromRcvMessageToVector(rcvConfigurationMsg);
 			}
 			//zrob odczyt ze wszystkich czujnikow ktore masz
 			for(uint8_t i=0; i<sensorsPtrs.size(); i++){
-				sensorsPtrs[i]->startReadout(sendDataOnReadoutFinishedHandler); //TODO: podczepienie funkcji do zrobienia po odczycie
+				sensorsPtrs[i]->startReadout([](){ //podczepienie funkcji do zrobienia po odczycie
+					BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+					xStreamBufferSendFromISR(xStreamBuffer, (void *)(readData), MSG_LEN, &xHigherPriorityTaskWoken);
+					portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+				});
 			}
 			if(sensorsPtrs.size() == 0){ //TODO
 				MX_BlueNRG_MS_Process((uint8_t *)"", 0);
@@ -454,8 +454,7 @@ void CommunicationTask(void const * argument){
 				charName, temp, tempDecimal, humid, humidDecimal);
 		HAL_UART_Transmit(&huart3, (uint8_t *)uartData, sizeof(uartData), 10);
 
-		//wysylanie:
-		MX_BlueNRG_MS_Process((uint8_t *)cRxBuffer, name_len+6);
+		MX_BlueNRG_MS_Process((uint8_t *)cRxBuffer, name_len+6); //wysylanie (moze byc z jakims parametrem)
 
 		memset(cRxBuffer, 0x00, sizeof(cRxBuffer)); //przygotowanie na kolejny komunikat
 		xStreamBufferReset(xStreamBuffer);
@@ -513,9 +512,6 @@ void TemperatureSensor::thirdStateHandler(void){
 		}
 		while (this->readPin());
 	}
-	//TODO: podczepienie funkcji do wykonania po odczycie
-	//np. powiadomienie jakiegos taska ze mamy dane do wysylki, albo wstawienie danych do kolejki (?i powiadomienie tej kolejki?)
-	//powiadomienie taska = z przerwania wybudzamy task ktory zrobi za nas wysylke (i np. wypisze dane)
 	uint8_t len;
 	for(len=0; name[len] != '\0' && len<MAX_NAME_LEN; len++){
 		readData[len] = (uint8_t)name[len];
@@ -527,13 +523,7 @@ void TemperatureSensor::thirdStateHandler(void){
 	readData[len+4] = (dataBits >> 0) & 0xFF;
 	readData[len+5] = (checksumBits) & 0xFF;
 
-	//TODO: podczepiona funkcja
-	this->readoutFinishedHandler(readData);
-
-//	//dziala
-//	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-//	xStreamBufferSendFromISR(xStreamBuffer, (void *)(readData), sizeof(readData), &xHigherPriorityTaskWoken /*NULL*/);
-//	portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+	this->readoutFinishedHandler();
 }
 
 void delayMicroseconds(uint32_t us){
@@ -549,7 +539,7 @@ void delayMicroseconds(uint32_t us){
 	//UINT_MAX	Maximum value for a variable of type unsigned int	4,294,967,295 (0xffffffff)
 }
 
-void pushNewSensorToVectorFromRcvMessage(uint8_t *message){
+void pushNewSensorFromRcvMessageToVector(uint8_t *message){
 	/* Format wiadomosci: <typ_sensora:1B> <interwal:2B> <nazwa:max.15B> */
 	SensorInfo sensorInfo;
 	sensorInfo.sensorType = (SensorType)*(message + 0);
@@ -574,32 +564,6 @@ void pushNewSensorToVectorFromRcvMessage(uint8_t *message){
 		default:
 			break;
 	}
-}
-
-void prepareAndSendData(uint32_t readValue, uint8_t readChecksum, std::string name){
-	uint8_t data[MSG_LEN]; uint8_t len = 0;
-	for(int i=0; name[i] != '\0' && i<MAX_NAME_LEN; i++){
-		data[i] = (uint8_t)name[i]; len++;
-	}
-	data[len] = '\0';
-	data[len+1] = (readValue >> 24) & 0xFF;
-	data[len+2] = (readValue >> 16) & 0xFF;
-	data[len+3] = (readValue >> 8) & 0xFF;
-	data[len+4] = (readValue >> 0) & 0xFF;
-	data[len+5] = (readChecksum) & 0xFF;
-	MX_BlueNRG_MS_Process(data, len+5); //zamiast w glownym tasku po oddaniu semafora; 29: NIE tutaj - przekazanie do kolejki/taska
-}
-
-void printReadData(uint32_t readValue, std::string name){
-	uint16_t humid = (((readValue >> 24)&0xFF) << 8) | ((readValue >> 16)&0xFF);
-	uint16_t temp  = (((readValue >> 8) &0xFF) << 8) | ((readValue >> 0) &0xFF);
-	uint16_t humidDecimal = humid % 10;
-	uint16_t tempDecimal = temp % 10;
-	temp = temp / (uint16_t) 10;
-	humid = humid / (uint16_t) 10;
-	sprintf(uartData, "\r\n\r\nCzujnik %s\r\nTemperatura\t %hu.%huC\r\nWilgotnosc\t %hu.%hu%%\r\n",
-			name.c_str(), temp, tempDecimal, humid, humidDecimal);
-	HAL_UART_Transmit(&huart3, (uint8_t *)uartData, sizeof(uartData), 10);
 }
 
 /**
