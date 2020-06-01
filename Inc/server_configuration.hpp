@@ -10,10 +10,9 @@ typedef enum {
 
 typedef struct SensorInfo {
 	SensorType sensorType;
-	uint16_t interval; //co ile czytac
-	char charName[MAX_NAME_LEN]; //"kuchnia"
 	std::string name;
 	PinData pinData;
+	uint16_t interval;
 } SensorInfo;
 
 #endif /* SERVER_CONFIGURATION_HPP */

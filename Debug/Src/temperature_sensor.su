@@ -5,7 +5,7 @@ functional:1685:5:std::_Function_base::_Function_base()	16	static
 functional:1687:5:std::_Function_base::~_Function_base()	16	static
 move.h:76:5:constexpr _Tp&& std::forward(typename std::remove_reference<_From>::type&) [with _Tp = TemperatureSensor*&]	16	static
 functional:1834:11:std::function<void()>::~function()	16	static
-temperature_sensor.cpp:3:1:TemperatureSensor::TemperatureSensor(PinData, uint16_t, std::__cxx11::string, uint8_t)	72	static
+temperature_sensor.cpp:3:1:TemperatureSensor::TemperatureSensor(PinData, uint16_t, std::__cxx11::string)	72	static
 temperature_sensor.cpp:12:6:virtual void TemperatureSensor::driverStartReadout()	16	static
 temperature_sensor.cpp:17:6:virtual void TemperatureSensor::executeState()	16	static
 temperature_sensor.cpp:21:6:void TemperatureSensor::changePinMode(oneWireMode)	40	static

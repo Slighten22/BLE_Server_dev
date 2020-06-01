@@ -1,6 +1,6 @@
 #include "temperature_sensor.hpp"
 
-TemperatureSensor::TemperatureSensor(PinData pinData, uint16_t interval, std::string name, uint8_t name_len)
+TemperatureSensor::TemperatureSensor(PinData pinData, uint16_t interval, std::string name)
 							: GenericOnePinDriver(pinData) {
 	this->interval = interval;
 	this->name = name;

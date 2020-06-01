@@ -47,10 +47,14 @@ UART_HandleTypeDef huart3;
 TaskHandle_t defaultTaskHandle;
 /* USER CODE BEGIN PV */
 TaskHandle_t readoutTaskHandle;
+TaskHandle_t communicationTaskHandle;
 SemaphoreHandle_t binarySem;
+/* The stream buffer that is used to send data from an interrupt to the task. */
+StreamBufferHandle_t xStreamBuffer = NULL;
+
 DeviceManager deviceManager;
 std::vector<std::unique_ptr<TemperatureSensor>> sensorsPtrs;
-uint8_t rcvConfigurationMsg[CONF_MSG_LEN];
+uint8_t rcvConfigurationMsg[MSG_LEN];
 uint16_t delayTime = 3000;
 uint8_t data[5];
 char uartData[70];
@@ -65,6 +69,7 @@ void MX_USART3_UART_Init(void);
 void StartDefaultTask(void const * argument);
 /* USER CODE BEGIN PFP */
 void ReadoutTask(void const * argument);
+void CommunicationTask(void const * argument);
 static void MX_TIM7_Init(void);
 static void MX_TIM6_Init(void);
 static void MX_TIM4_Init(void);
@@ -131,6 +136,7 @@ int main(void)
 
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
+  xStreamBuffer = xStreamBufferCreate(MSG_LEN, MSG_LEN);
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
@@ -142,6 +148,10 @@ int main(void)
   /* add threads, ... */
   osThreadDef(readoutTask, ReadoutTask, osPriorityNormal, 0, 2048); //uwazac na rozmiar stosu FreeRTOSowego; rozmiar w slowach!
   readoutTaskHandle = osThreadCreate(osThread(readoutTask), NULL);
+
+  //task do wysylania i wyswietlania odczytanych danych
+  osThreadDef(communicationTask, CommunicationTask, osPriorityNormal, 0, 256);
+  communicationTaskHandle = osThreadCreate(osThread(communicationTask), NULL);
   /* USER CODE END RTOS_THREADS */
 
   /* Start scheduler */
@@ -383,10 +393,6 @@ void StartDefaultTask(void const * argument)
 		//wyslij sygnal do taska drivera zeby pryzgotowal dane (ew. parametry = zmienne globalne?)
 		xTaskNotify(readoutTaskHandle, 0x01, eSetBits); //a domyslnie kolejka (queue) requestow
 
-		TickType_t maxBlockTime = pdMS_TO_TICKS(300UL);
-		xSemaphoreTake(binarySem, maxBlockTime); //do synchr. taska z ISR: https://www.freertos.org/Embedded-RTOS-Binary-Semaphores.html
-		//zeby tu dojsc, musial byc oddany semafor
-		HAL_UART_Transmit(&huart3, (uint8_t *)"notified\r\n", 10, 10);
 		osDelay(delayTime);
 	}
 	/* USER CODE END 5 */
@@ -407,12 +413,42 @@ void ReadoutTask(void const * argument){
 			}
 			//zrob odczyt ze wszystkich czujnikow ktore masz
 			for(uint8_t i=0; i<sensorsPtrs.size(); i++){
-				sensorsPtrs[i]->driverStartReadout();
+				sensorsPtrs[i]->driverStartReadout(); //TODO: podczepienie funkcji do zrobienia po odczycie
 			}
 			if(sensorsPtrs.size() == 0){ //TODO
 				MX_BlueNRG_MS_Process((uint8_t *)"", 0);
 			}
 		}
+	}
+}
+
+void CommunicationTask(void const * argument){
+	char cRxBuffer[MSG_LEN];
+	memset(cRxBuffer, 0x00, sizeof(cRxBuffer));
+
+	for(;;)
+	{
+		xStreamBufferReceive(xStreamBuffer, (void *)&(cRxBuffer), MSG_LEN*sizeof(char), portMAX_DELAY /*3500*//*0*/); //!!delay = ?
+		int name_len;
+		char charName[MAX_NAME_LEN];
+		for(name_len=0; cRxBuffer[name_len+1] != '\0' && name_len < MAX_NAME_LEN; name_len++){
+			charName[name_len] = (char)(cRxBuffer[name_len+1]);
+		}
+		uint16_t humid = (cRxBuffer[name_len+2] << 8) | (cRxBuffer[name_len+3]);
+		uint16_t temp  = (cRxBuffer[name_len+4] << 8) | (cRxBuffer[name_len+5]);
+		uint16_t humidDecimal = humid % 10;
+		uint16_t tempDecimal = temp % 10;
+		temp = temp / (uint16_t) 10;
+		humid = humid / (uint16_t) 10;
+		sprintf(uartData, "\r\n\r\nCzujnik %s\r\nTemperatura\t %hu.%huC\r\nWilgotnosc\t %hu.%hu%%\r\n",
+				charName, temp, tempDecimal, humid, humidDecimal);
+		HAL_UART_Transmit(&huart3, (uint8_t *)uartData, sizeof(uartData), 10);
+
+		//wysylanie:
+		MX_BlueNRG_MS_Process((uint8_t *)cRxBuffer+1, name_len+6);
+
+		memset(cRxBuffer, 0x00, sizeof(cRxBuffer)); //przygotowanie na kolejny komunikat
+		xStreamBufferReset(xStreamBuffer);
 	}
 }
 
@@ -442,7 +478,7 @@ void TemperatureSensor::thirdStateHandler(void){
 	while(this->readPin());
 	while(!this->readPin());
 	while(this->readPin());
-	uint32_t rawBits = 0UL;
+	uint32_t dataBits = 0UL;
 	uint8_t checksumBits = 0;
 	for (int8_t i = 31; i >= 0; i--){	//Read 32 bits of temp.&humidity data
 		/*
@@ -455,7 +491,7 @@ void TemperatureSensor::thirdStateHandler(void){
 		while (!this->readPin());
 		delayMicroseconds(50);
 		if (this->readPin()) {
-			rawBits |= (1UL << i);
+			dataBits |= (1UL << i);
 		}
 		while (this->readPin());
 	}
@@ -467,14 +503,26 @@ void TemperatureSensor::thirdStateHandler(void){
 		}
 		while (this->readPin());
 	}
-	prepareAndSendData(rawBits, checksumBits, this->name); //29:gdzie indziej!! wysylanie danych w innym miejscu! / powiadomic kolejke/task od kom.
-	printReadData(rawBits, this->name); //29:nie wewn. obslugi przerwania!
-	//zamiast tego ^^ zapamietac ostatni odczyt i powiadomic kogos (task wysylki?) ze go mamy
-	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-	xSemaphoreGiveFromISR(binarySem, &xHigherPriorityTaskWoken);
-	portYIELD_FROM_ISR(xHigherPriorityTaskWoken);//powiadom glowny task ze juz zakonczyla sie cala robota
-}
+	//TODO: podczepienie funkcji do wykonania po odczycie
+	//np. powiadomienie jakiegos taska ze mamy dane do wysylki, albo wstawienie danych do kolejki (?i powiadomienie tej kolejki?)
+	//powiadomienie taska = z przerwania wybudzamy task ktory zrobi za nas wysylke (i np. wypisze dane)
+	uint8_t data[MSG_LEN]; uint8_t len = 1;
+	data[0] = '!'; //znacznik poczatku wiadomosci
+	for(int i=1; name[i-1] != '\0' && i<MAX_NAME_LEN; i++){
+		data[i] = (uint8_t)name[i-1]; len++;
+	}
+	data[len] = '\0';
+	data[len+1] = (dataBits >> 24) & 0xFF;
+	data[len+2] = (dataBits >> 16) & 0xFF;
+	data[len+3] = (dataBits >> 8) & 0xFF;
+	data[len+4] = (dataBits >> 0) & 0xFF;
+	data[len+5] = (checksumBits) & 0xFF;
+	data[len+6] = '?'; //znacznik konca wiadomosci
 
+	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+	xStreamBufferSendFromISR(xStreamBuffer, (void *)(data), sizeof(data), &xHigherPriorityTaskWoken /*NULL*/);
+	portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+}
 
 void delayMicroseconds(uint32_t us){
 	//Average, experimental time for 1 rotation of the 'for' loop with nops: ~140ns
@@ -492,20 +540,21 @@ void delayMicroseconds(uint32_t us){
 void createNewSensorFromRcvMessage(uint8_t *message){
 	/* Format wiadomosci: <typ_sensora:1B> <interwal:2B> <nazwa:max.15B> */
 	SensorInfo sensorInfo;
-	sensorInfo.interval = (*(message + 1))*256 + *(message + 2); //zalozenie: MSB najpierw
+	sensorInfo.sensorType = (SensorType)*(message + 0);
+	sensorInfo.interval = (*(message + 1))*256 + *(message + 2);
 	int name_len = 0;
+	char charName[MAX_NAME_LEN];
 	for(int i=3; message[i] != '\0' && name_len < MAX_NAME_LEN; i++){
-		sensorInfo.charName[i-3] = (char)(*(message + i));
+		charName[i-3] = (char)(*(message + i));
 		name_len++;
 	}
-	sensorInfo.name = sensorInfo.charName;
-	sensorInfo.pinData = deviceManager.getFreePin();
+	sensorInfo.name = charName;
+	PinData pinData = deviceManager.getFreePin();
 
-	switch(*(message + 0)){
+	switch(sensorInfo.sensorType){
 		case DHT22:
 		{
-			sensorInfo.sensorType = DHT22;
-			sensorsPtrs.push_back(std::make_unique<TemperatureSensor>(sensorInfo.pinData, sensorInfo.interval, sensorInfo.name, name_len));
+			sensorsPtrs.push_back(std::make_unique<TemperatureSensor>(pinData, sensorInfo.interval, sensorInfo.name));
 			//TODO: zwalnianie pamieci po sensorze gdy przyjdzie konfig z interwalem = 0
 			//TODO: odczyt z sensora tylko co odp. interwal!
 			break;
@@ -516,7 +565,7 @@ void createNewSensorFromRcvMessage(uint8_t *message){
 }
 
 void prepareAndSendData(uint32_t readValue, uint8_t readChecksum, std::string name){
-	uint8_t data[CONF_MSG_LEN]; uint8_t len = 0;
+	uint8_t data[MSG_LEN]; uint8_t len = 0;
 	for(int i=0; name[i] != '\0' && i<MAX_NAME_LEN; i++){
 		data[i] = (uint8_t)name[i]; len++;
 	}

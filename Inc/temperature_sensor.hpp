@@ -27,7 +27,7 @@ private:
 	float lastHumidReadout;
 	//29: w ostatnim stanie nadpisuje wynik i wysyla powiadomienie, ze mozna wyslac jego nowe dane
 public:
-	TemperatureSensor(PinData pinData, uint16_t interval, std::string name, uint8_t name_len);
+	TemperatureSensor(PinData pinData, uint16_t interval, std::string name);
 	void driverStartReadout(void);
 	void executeState(void);
 	void changePinMode(oneWireMode mode);
