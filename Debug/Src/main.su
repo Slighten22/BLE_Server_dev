@@ -5,26 +5,27 @@ functional:1459:17:const void* std::_Any_data::_M_access() const	16	static
 functional:1685:5:std::_Function_base::_Function_base()	16	static
 functional:1687:5:std::_Function_base::~_Function_base()	16	static
 functional:1694:10:bool std::_Function_base::_M_empty() const	16	static
-main.cpp:149:41:main()::<lambda()>	24	static
-main.cpp:96:5:int main()	104	static
-main.cpp:191:6:void SystemClock_Config()	232	static
-main.cpp:246:6:void MX_USART3_UART_Init()	8	static
-main.cpp:281:13:void MX_GPIO_Init()	48	static
-main.cpp:328:13:void MX_TIM7_Init()	24	static
-main.cpp:354:13:void MX_TIM6_Init()	24	static
-main.cpp:374:13:void MX_TIM4_Init()	24	static
-main.cpp:443:6:void StartDefaultTask(const void*)	16	static
-main.cpp:457:6:void ReadoutTask(const void*)	24	static
-main.cpp:483:6:void CommunicationTask(const void*)	88	static
-main.cpp:511:6:void TemperatureSensor::firstStateHandler()	16	static
-main.cpp:523:6:void TemperatureSensor::secondStateHandler()	48	static
-main.cpp:588:6:void delayMicroseconds(uint32_t)	40	static
+main.cpp:152:41:main()::<lambda()>	24	static
+main.cpp:97:5:int main()	104	static
+main.cpp:194:6:void SystemClock_Config()	232	static
+main.cpp:249:6:void MX_USART3_UART_Init()	8	static
+main.cpp:284:13:void MX_GPIO_Init()	48	static
+main.cpp:331:13:void MX_TIM7_Init()	24	static
+main.cpp:357:13:void MX_TIM6_Init()	24	static
+main.cpp:377:13:void MX_TIM4_Init()	24	static
+main.cpp:446:6:void StartDefaultTask(const void*)	16	static
+main.cpp:459:6:void ReadoutTask(const void*)	24	static
+main.cpp:485:6:void CommunicationTask(const void*)	40	static
+main.cpp:502:6:void TemperatureSensor::firstStateHandler()	16	static
+main.cpp:516:6:void TemperatureSensor::secondStateHandler()	24	static
 server_configuration.hpp:11:16:SensorInfo::SensorInfo()	16	static
 server_configuration.hpp:11:16:SensorInfo::~SensorInfo()	16	static
-main.cpp:619:12:pushNewSensorFromRcvMessageToVector(uint8_t*)::<lambda()>	24	static
-main.cpp:601:6:void pushNewSensorFromRcvMessageToVector(uint8_t*)	112	static
-main.cpp:642:6:void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*)	16	static
-main.cpp:683:6:void Error_Handler()	8	static
+main.cpp:556:12:pushNewSensorFromRcvMessageToVector(uint8_t*)::<lambda()>	24	static
+main.cpp:538:6:void pushNewSensorFromRcvMessageToVector(uint8_t*)	112	static
+main.cpp:569:6:void prepareAndSendReadData(char*)	64	static
+main.cpp:588:6:void delayMicroseconds(uint32_t)	40	static
+main.cpp:609:6:void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*)	16	static
+main.cpp:650:6:void Error_Handler()	8	static
 functional:525:12:constexpr std::_Maybe_unary_or_binary_function<void>::_Maybe_unary_or_binary_function()	16	static
 functional:1861:7:)>::function() [with _Res = void; _ArgTypes = {}]	16	static
 stl_vector.h:255:7:std::vector<_Tp, _Alloc>::vector() [with _Tp = std::unique_ptr<TemperatureSensor>; _Alloc = std::allocator<std::unique_ptr<TemperatureSensor> >]	16	static
@@ -73,7 +74,7 @@ tuple:346:7:static constexpr _Head& std::_Tuple_impl<_Idx, _Head>::_M_head(std::
 tuple:1247:5:>&) [with unsigned int __i = 1u; _Head = std::default_delete<TemperatureSensor>; _Tail = {}]	16	static
 tuple:1258:5:>&) [with unsigned int __i = 1u; _Elements = {TemperatureSensor*, std::default_delete<TemperatureSensor>}]	16	static
 unique_ptr.h:312:7:std::unique_ptr<_Tp, _Dp>::deleter_type& std::unique_ptr<_Tp, _Dp>::get_deleter() [with _Tp = TemperatureSensor; _Dp = std::default_delete<TemperatureSensor>]	16	static
-temperature_sensor.hpp:17:7:TemperatureSensor::~TemperatureSensor()	16	static
+temperature_sensor.hpp:20:7:TemperatureSensor::~TemperatureSensor()	16	static
 unique_ptr.h:70:7:void std::default_delete<_Tp>::operator()(_Tp*) const [with _Tp = TemperatureSensor]	24	static
 move.h:76:5:constexpr _Tp&& std::forward(typename std::remove_reference<_From>::type&) [with _Tp = std::unique_ptr<TemperatureSensor>]	16	static
 vector.tcc:91:7:) [with _Args = {std::unique_ptr<TemperatureSensor, std::default_delete<TemperatureSensor> >}; _Tp = std::unique_ptr<TemperatureSensor>; _Alloc = std::allocator<std::unique_ptr<TemperatureSensor> >]	24	static
@@ -154,6 +155,6 @@ stl_iterator.h:1044:7:std::move_iterator<_Iterator>::reference std::move_iterato
 stl_construct.h:74:5:) [with _T1 = std::unique_ptr<TemperatureSensor>; _Args = {std::unique_ptr<TemperatureSensor, std::default_delete<TemperatureSensor> >}]	24	static
 stl_iterator.h:1119:5:bool std::operator==(const std::move_iterator<_IteratorL>&, const std::move_iterator<_IteratorL>&) [with _Iterator = std::unique_ptr<TemperatureSensor>*]	24	static
 stl_iterator.h:1040:7:std::move_iterator<_Iterator>::iterator_type std::move_iterator<_Iterator>::base() const [with _Iterator = std::unique_ptr<TemperatureSensor>*]	16	static
-main.cpp:689:1:void __static_initialization_and_destruction_0(int, int)	16	static
+main.cpp:656:1:void __static_initialization_and_destruction_0(int, int)	16	static
 stl_vector.h:425:7:std::vector<_Tp, _Alloc>::~vector() [with _Tp = std::unique_ptr<TemperatureSensor>; _Alloc = std::allocator<std::unique_ptr<TemperatureSensor> >]	24	static
-main.cpp:689:1:cpp)	8	static
+main.cpp:656:1:cpp)	8	static

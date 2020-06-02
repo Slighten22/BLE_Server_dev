@@ -12,6 +12,8 @@ temperature_sensor.cpp:23:6:virtual void TemperatureSensor::executeState()	16	st
 temperature_sensor.cpp:27:6:void TemperatureSensor::changePinMode(oneWireMode)	40	static
 temperature_sensor.cpp:41:6:void TemperatureSensor::writePin(bool)	16	static
 temperature_sensor.cpp:47:6:bool TemperatureSensor::readPin()	16	static
+temperature_sensor.cpp:51:6:void TemperatureSensor::performDataReadout(uint32_t&, uint8_t&)	32	static
+temperature_sensor.cpp:80:6:bool TemperatureSensor::hasTempOrHumidChanged(uint32_t, uint8_t)	48	static
 functional:525:12:constexpr std::_Maybe_unary_or_binary_function<void>::_Maybe_unary_or_binary_function()	16	static
 functional:1861:7:)>::function() [with _Res = void; _ArgTypes = {}]	16	static
 functional:1929:7:)>&) [with _Res = void; _ArgTypes = {}]	32	static

@@ -50,6 +50,8 @@ TaskHandle_t defaultTaskHandle;
 TaskHandle_t readoutTaskHandle;
 TaskHandle_t communicationTaskHandle;
 SemaphoreHandle_t binarySem;
+SemaphoreHandle_t singleReadoutSem;
+SemaphoreHandle_t singleSendingSem;
 DeviceManager deviceManager;
 StreamBufferHandle_t xStreamBuffer; /* The stream buffer that is used to send data from an interrupt to the task. */
 uint8_t readData[MSG_LEN];
@@ -78,10 +80,9 @@ static void MX_TIM4_Init(void);
 //static void MX_TIM5_Init(void);
 //static void MX_TIM2_Init(void);
 void delayMicroseconds(uint32_t us);
+void prepareAndSendReadData(char *cRxBuffer);
 void pushNewSensorFromRcvMessageToVector(uint8_t *message);
 void createNewSensor(SensorInfo sensorInfo);
-void prepareAndSendData(uint32_t readValue, uint8_t readChecksum, std::string name);
-void printReadData(uint32_t readData, std::string name);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -136,6 +137,8 @@ int main(void)
   /* USER CODE BEGIN RTOS_SEMAPHORES */
   /* add semaphores, ... */
   binarySem = xSemaphoreCreateBinary();
+  singleReadoutSem = xSemaphoreCreateBinary();
+  singleSendingSem = xSemaphoreCreateBinary();
   /* USER CODE END RTOS_SEMAPHORES */
 
   /* USER CODE BEGIN RTOS_TIMERS */
@@ -445,9 +448,8 @@ void StartDefaultTask(void const * argument)
 	/* USER CODE BEGIN 5 */
 	/* Infinite loop */
 	for (;;) {
-		//wyslij sygnal do taska drivera zeby pryzgotowal dane (ew. parametry = zmienne globalne?)
-		xTaskNotify(readoutTaskHandle, 0x01, eSetBits); //a domyslnie kolejka (queue) requestow
-
+		//wyslij sygnal do taska drivera zeby pryzgotowal dane
+		xTaskNotify(readoutTaskHandle, 0x01, eSetBits);
 		osDelay(delayTime);
 	}
 	/* USER CODE END 5 */
@@ -483,34 +485,25 @@ void ReadoutTask(void const * argument){
 void CommunicationTask(void const * argument){
 	char cRxBuffer[MSG_LEN];
 	memset(cRxBuffer, 0x00, sizeof(cRxBuffer));
-
 	for(;;)
 	{
+		//wez semafor pilnujacy pojedynczego wysylania
+		xSemaphoreTake(singleSendingSem, pdMS_TO_TICKS(300));
 		xStreamBufferReceive(xStreamBuffer, (void *)&(cRxBuffer), MSG_LEN*sizeof(char), portMAX_DELAY);
-		char charName[MAX_NAME_LEN];
-		memset(charName, 0x00, sizeof(charName));
-		int name_len;
-		for(name_len=0; cRxBuffer[name_len] != '\0' && name_len < MAX_NAME_LEN; name_len++){
-			charName[name_len] = (char)(cRxBuffer[name_len]);
-		}
-		uint16_t humid = (cRxBuffer[name_len+1] << 8) | (cRxBuffer[name_len+2]);
-		uint16_t temp  = (cRxBuffer[name_len+3] << 8) | (cRxBuffer[name_len+4]);
-		uint16_t humidDecimal = humid % 10;
-		uint16_t tempDecimal = temp % 10;
-		temp = temp / (uint16_t) 10;
-		humid = humid / (uint16_t) 10;
-		sprintf(uartData, "\r\n\r\nOdczyt: Czujnik %s\r\nTemperatura\t %hu.%huC\r\nWilgotnosc\t %hu.%hu%%\r\n",
-				charName, temp, tempDecimal, humid, humidDecimal);
-		HAL_UART_Transmit(&huart3, (uint8_t *)uartData, sizeof(uartData), 10);
-		MX_BlueNRG_MS_Process((uint8_t *)cRxBuffer, name_len+6); //wysylanie BLE
-		memset(cRxBuffer, 0x00, sizeof(cRxBuffer)); //przygotowanie na kolejny komunikat
+		prepareAndSendReadData(cRxBuffer);
+		//przygotowanie na kolejny komunikat
+		memset(cRxBuffer, 0x00, sizeof(cRxBuffer));
 		xStreamBufferReset(xStreamBuffer);
+		//oddaj semafor pilnujacy pojedynczego wysylania
+		xSemaphoreGive(singleSendingSem);
 	}
 }
 
 void TemperatureSensor::firstStateHandler(void){
 	//zatrzymac counter timera
 	this->timer->stopCounter();
+	//wziac semafor pilnujacy pojedynczego odczytu
+	xSemaphoreTakeFromISR(singleReadoutSem, NULL);
 	//to co ma zrobic w tym stanie
 	this->changePinMode(ONE_WIRE_OUTPUT);
 	this->writePin(0);
@@ -526,76 +519,20 @@ void TemperatureSensor::secondStateHandler(void){
 	//to co ma zrobic w tym stanie
 	this->writePin(1);
 	this->changePinMode(ONE_WIRE_INPUT);
-	while(this->readPin());
-	while(!this->readPin());
-	while(this->readPin());
 	uint32_t dataBits = 0UL;
 	uint8_t checksumBits = 0;
-	for (int8_t i = 31; i >= 0; i--){	//Read 32 bits of temp.&humidity data
-		/*
-		 * Bit data "0" signal: the level is LOW for 50ms and HIGH for 26-28ms;
-		 * Bit data "1" signal: the level is LOW for 50ms and HIGH for 70ms;
-		 * MAX FREQUENCY ON STM32L476RG = 80MHz
-		 * SO IT TAKES 12,5 ns FOR ONE INSTRUCTION TO EXECUTE
-		 * A DELAY OF 1 SECOND (x TICKS): 80 MILLION NOP INSTRUCTIONS TO EXECUTE
-		 */
-		while (!this->readPin());
-		delayMicroseconds(50);
-		if (this->readPin()) {
-			dataBits |= (1UL << i);
-		}
-		while (this->readPin());
-	}
-	for (int8_t i = 7; i >= 0; i--){
-		while (!this->readPin());
-		delayMicroseconds(50);
-		if (this->readPin()) {
-			checksumBits |= (1UL << i);
-		}
-		while (this->readPin());
-	}
+	performDataReadout(dataBits, checksumBits);
 	//ustaw kolejny stan
 	this->stateHandler = static_cast<StateHandler>(&TemperatureSensor::firstStateHandler);
 	//przestaw i uruchom timer
 	this->timer->wakeMeUpAfterSeconds(5);
 
-	//po odczycie: sprawdz czy zmienila sie temp./wilg. i jesli tak, to wykonaj podczpiona funkcje po odczycie
-	uint8_t len;
-	for(len=0; len<MSG_LEN; len++){
-		readData[len] = '\0';
-	}
-	for(len=0; this->name[len] != '\0' && len<MAX_NAME_LEN; len++){
-		readData[len] = (uint8_t)this->name[len];
-	}
-	readData[len] = '\0';
-	readData[len+1] = (dataBits >> 24) & 0xFF;
-	readData[len+2] = (dataBits >> 16) & 0xFF;
-	readData[len+3] = (dataBits >> 8) & 0xFF;
-	readData[len+4] = (dataBits >> 0) & 0xFF;
-	readData[len+5] = (checksumBits) & 0xFF;
-	uint16_t humidTimesTen = (readData[len+1] << 8) | (readData[len+2]);
-	uint16_t tempTimesTen  = (readData[len+3] << 8) | (readData[len+4]);
-	float newHumidVal = (float)(humidTimesTen / 10.0F);
-	float newTempVal  = (float)(tempTimesTen / 10.0F);
-	//byla zmiana temp./wilgotnosci => wyslij nowa wartosc
-	if(newTempVal != this->lastTempValue || newHumidVal != this->lastHumidValue){
-		this->lastTempValue = newTempVal;
-		this->lastHumidValue = newHumidVal;
+	//po odczycie: sprawdz czy zmienila sie temp./wilg. i jesli tak, to wykonaj podczepiona funkcje
+	if(hasTempOrHumidChanged(dataBits, checksumBits) == true)
 		this->readoutFinishedHandler();
-	}
-}
 
-void delayMicroseconds(uint32_t us){
-	//Average, experimental time for 1 rotation of the 'for' loop with nops: ~140ns
-	//for an 80MHz processor@max speed; that gives ~7.143 loop rotations for 1 ms
-	//Use this fact and the processor frequency to adjust the loop counter value for any processor speed
-	uint32_t clockFreq = HAL_RCC_GetHCLKFreq();	//Current processor frequency
-	float clockFreqRel = clockFreq/(float)80000000.0;//Current processor freq. relative to base of 80MHz
-	uint32_t loopCounter = (us > 0 ? (uint32_t)(us*clockFreqRel*7.143) : (uint32_t)(clockFreqRel*7.143));
-	//uint32_t loopCounter = (us > 0 ? (uint32_t)(us*7.143) : 7); //A minimum delay of 1 us - 80MHz only
-	for(uint32_t tmp = 0; tmp < loopCounter; tmp++) {asm volatile("nop");}
-	//previously there was tmp < 800 giving 3200 processor cycles, each lasting 12.5 ns = 40 us delay
-	//UINT_MAX	Maximum value for a variable of type unsigned int	4,294,967,295 (0xffffffff)
+	//oddaj semafor pilnujacy pojedynczego odczytu
+	xSemaphoreGiveFromISR(singleReadoutSem, NULL);
 }
 
 void pushNewSensorFromRcvMessageToVector(uint8_t *message){
@@ -622,13 +559,43 @@ void pushNewSensorFromRcvMessageToVector(uint8_t *message){
 									portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 								}
 			));
-			//TODO: zwalnianie pamieci po sensorze gdy przyjdzie konfig z interwalem = 0
-			//TODO: odczyt z sensora tylko co odp. interwal!
 			break;
 		}
 		default:
 			break;
 	}
+}
+
+void prepareAndSendReadData(char *cRxBuffer){
+	char charName[MAX_NAME_LEN];
+	memset(charName, 0x00, sizeof(charName));
+	int name_len;
+	for(name_len=0; cRxBuffer[name_len] != '\0' && name_len < MAX_NAME_LEN; name_len++){
+		charName[name_len] = (char)(cRxBuffer[name_len]);
+	}
+	uint16_t humid = (cRxBuffer[name_len+1] << 8) | (cRxBuffer[name_len+2]);
+	uint16_t temp  = (cRxBuffer[name_len+3] << 8) | (cRxBuffer[name_len+4]);
+	uint16_t humidDecimal = humid % 10;
+	uint16_t tempDecimal = temp % 10;
+	temp = temp / (uint16_t) 10;
+	humid = humid / (uint16_t) 10;
+	sprintf(uartData, "\r\n\r\nOdczyt: Czujnik %s\r\nTemperatura\t %hu.%huC\r\nWilgotnosc\t %hu.%hu%%\r\n",
+			charName, temp, tempDecimal, humid, humidDecimal);
+	HAL_UART_Transmit(&huart3, (uint8_t *)uartData, sizeof(uartData), 10);
+	MX_BlueNRG_MS_Process((uint8_t *)cRxBuffer, name_len+6); //wysylanie BLE
+}
+
+void delayMicroseconds(uint32_t us){
+	//Average, experimental time for 1 rotation of the 'for' loop with nops: ~140ns
+	//for an 80MHz processor@max speed; that gives ~7.143 loop rotations for 1 ms
+	//Use this fact and the processor frequency to adjust the loop counter value for any processor speed
+	uint32_t clockFreq = HAL_RCC_GetHCLKFreq();	//Current processor frequency
+	float clockFreqRel = clockFreq/(float)80000000.0;//Current processor freq. relative to base of 80MHz
+	uint32_t loopCounter = (us > 0 ? (uint32_t)(us*clockFreqRel*7.143) : (uint32_t)(clockFreqRel*7.143));
+	//uint32_t loopCounter = (us > 0 ? (uint32_t)(us*7.143) : 7); //A minimum delay of 1 us - 80MHz only
+	for(uint32_t tmp = 0; tmp < loopCounter; tmp++) {asm volatile("nop");}
+	//previously there was tmp < 800 giving 3200 processor cycles, each lasting 12.5 ns = 40 us delay
+	//UINT_MAX	Maximum value for a variable of type unsigned int	4,294,967,295 (0xffffffff)
 }
 
 /**

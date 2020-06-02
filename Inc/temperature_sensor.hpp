@@ -13,6 +13,9 @@ typedef enum {
 } oneWireMode;
 
 extern DeviceManager deviceManager;
+extern uint8_t readData[];
+extern void delayMicroseconds(uint32_t us);
+#define MSG_LEN 20
 
 class TemperatureSensor : public GenericOnePinDriver {
 private:
@@ -32,6 +35,8 @@ public:
 	void changePinMode(oneWireMode mode);
 	void writePin(bool state);
 	bool readPin(void);
+	bool hasTempOrHumidChanged(uint32_t dataBits, uint8_t checksumBits);
+	void performDataReadout(uint32_t &dataBits, uint8_t &checksumBits);
 };
 
 #endif

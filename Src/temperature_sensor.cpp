@@ -47,3 +47,59 @@ void TemperatureSensor::writePin(bool state){
 bool TemperatureSensor::readPin(void){
 	return (1&HAL_GPIO_ReadPin(this->pinData.GPIO_Port, this->pinData.GPIO_Pin));
 }
+
+void TemperatureSensor::performDataReadout(uint32_t &dataBits, uint8_t &checksumBits){
+	while(this->readPin());
+	while(!this->readPin());
+	while(this->readPin());
+	for (int8_t i = 31; i >= 0; i--){	//Read 32 bits of temp.&humidity data
+		/*
+		 * Bit data "0" signal: the level is LOW for 50ms and HIGH for 26-28ms;
+		 * Bit data "1" signal: the level is LOW for 50ms and HIGH for 70ms;
+		 * MAX FREQUENCY ON STM32L476RG = 80MHz
+		 * SO IT TAKES 12,5 ns FOR ONE INSTRUCTION TO EXECUTE
+		 * A DELAY OF 1 SECOND (x TICKS): 80 MILLION NOP INSTRUCTIONS TO EXECUTE
+		 */
+		while (!this->readPin());
+		delayMicroseconds(50);
+		if (this->readPin()) {
+			dataBits |= (1UL << i);
+		}
+		while (this->readPin());
+	}
+	for (int8_t i = 7; i >= 0; i--){
+		while (!this->readPin());
+		delayMicroseconds(50);
+		if (this->readPin()) {
+			checksumBits |= (1UL << i);
+		}
+		while (this->readPin());
+	}
+}
+
+bool TemperatureSensor::hasTempOrHumidChanged(uint32_t dataBits, uint8_t checksumBits){
+	uint8_t len;
+	for(len=0; len<MSG_LEN; len++){
+		readData[len] = '\0';
+	} //memset
+	for(len=0; this->name[len] != '\0' && len<MAX_NAME_LEN; len++){
+		readData[len] = (uint8_t)this->name[len];
+	}
+	readData[len] = '\0';
+	readData[len+1] = (dataBits >> 24) & 0xFF;
+	readData[len+2] = (dataBits >> 16) & 0xFF;
+	readData[len+3] = (dataBits >> 8) & 0xFF;
+	readData[len+4] = (dataBits >> 0) & 0xFF;
+	readData[len+5] = (checksumBits) & 0xFF;
+	uint16_t humidTimesTen = (readData[len+1] << 8) | (readData[len+2]);
+	uint16_t tempTimesTen  = (readData[len+3] << 8) | (readData[len+4]);
+	float newHumidVal = (float)(humidTimesTen / 10.0F);
+	float newTempVal  = (float)(tempTimesTen / 10.0F);
+	//byla zmiana temp./wilgotnosci => wyslij nowa wartosc
+	if(newTempVal != this->lastTempValue || newHumidVal != this->lastHumidValue){
+		this->lastTempValue = newTempVal;
+		this->lastHumidValue = newHumidVal;
+		return true;
+	}
+	return false;
+}
