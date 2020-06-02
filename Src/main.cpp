@@ -75,11 +75,8 @@ void CommunicationTask(void const * argument);
 static void MX_TIM7_Init(void);
 static void MX_TIM6_Init(void);
 static void MX_TIM4_Init(void);
-
 //static void MX_TIM5_Init(void);
 //static void MX_TIM2_Init(void);
-
-
 void delayMicroseconds(uint32_t us);
 void pushNewSensorFromRcvMessageToVector(uint8_t *message);
 void createNewSensor(SensorInfo sensorInfo);
@@ -126,12 +123,8 @@ int main(void)
   MX_TIM7_Init();
   MX_TIM6_Init();
   MX_TIM4_Init();
-
-
 //  MX_TIM5_Init();
 //  MX_TIM2_Init();
-
-
   delayTime = 3000;
   newConfig = false;
   /* USER CODE END 2 */
@@ -378,7 +371,7 @@ static void MX_TIM6_Init(void)
   }
 }
 
-static void MX_TIM4_Init(void) //TODO: check&fix
+static void MX_TIM4_Init(void)
 {
   TIM_MasterConfigTypeDef sMasterConfig = {0};
   htim4.Instance = TIM4;
@@ -398,7 +391,7 @@ static void MX_TIM4_Init(void) //TODO: check&fix
   }
 }
 
-//TODO: TIM2, TIM5
+//TIM2, TIM5
 //static void MX_TIM5_Init(void){
 //  TIM_MasterConfigTypeDef sMasterConfig = {0};
 //  htim5.Instance = TIM5;
@@ -472,7 +465,7 @@ void ReadoutTask(void const * argument){
 				newConfig = false;
 				pushNewSensorFromRcvMessageToVector(rcvConfigurationMsg);
 			}
-			//zrob odczyt ze wszystkich czujnikow ktore masz. TODO: kazdy czujnik zyje swoim zyciem!!
+			//zrob odczyt ze wszystkich czujnikow ktore masz. teraz: kazdy czujnik zyje swoim zyciem!
 //			for(uint8_t i=0; i<sensorsPtrs.size(); i++){
 //				sensorsPtrs[i]->startReadout([](){ //TODO: podczepienie funkcji do zrobienia po odczycie gdy wywolanie z timera
 //					BaseType_t xHigherPriorityTaskWoken = pdFALSE;
@@ -483,14 +476,6 @@ void ReadoutTask(void const * argument){
 			if(sensorsPtrs.size() == 0){ //TODO
 				MX_BlueNRG_MS_Process((uint8_t *)"", 0);
 			}
-
-//			if(counter == 0){
-//				counter++;
-////				HAL_TIM_Base_Start_IT(&htim6);
-////				HAL_TIM_Base_Start_IT(&htim7);
-//				HAL_TIM_Base_Start_IT(&htim4);
-//			}
-
 		}
 	}
 }
@@ -503,6 +488,7 @@ void CommunicationTask(void const * argument){
 	{
 		xStreamBufferReceive(xStreamBuffer, (void *)&(cRxBuffer), MSG_LEN*sizeof(char), portMAX_DELAY);
 		char charName[MAX_NAME_LEN];
+		memset(charName, 0x00, sizeof(charName));
 		int name_len;
 		for(name_len=0; cRxBuffer[name_len] != '\0' && name_len < MAX_NAME_LEN; name_len++){
 			charName[name_len] = (char)(cRxBuffer[name_len]);
@@ -516,9 +502,7 @@ void CommunicationTask(void const * argument){
 		sprintf(uartData, "\r\n\r\nOdczyt: Czujnik %s\r\nTemperatura\t %hu.%huC\r\nWilgotnosc\t %hu.%hu%%\r\n",
 				charName, temp, tempDecimal, humid, humidDecimal);
 		HAL_UART_Transmit(&huart3, (uint8_t *)uartData, sizeof(uartData), 10);
-
-		MX_BlueNRG_MS_Process((uint8_t *)cRxBuffer, name_len+6); //wysylanie (moze byc z jakims parametrem)
-
+		MX_BlueNRG_MS_Process((uint8_t *)cRxBuffer, name_len+6); //wysylanie BLE
 		memset(cRxBuffer, 0x00, sizeof(cRxBuffer)); //przygotowanie na kolejny komunikat
 		xStreamBufferReset(xStreamBuffer);
 	}
@@ -575,10 +559,13 @@ void TemperatureSensor::secondStateHandler(void){
 	//przestaw i uruchom timer
 	this->timer->wakeMeUpAfterSeconds(5);
 
-	//po odczycie: sprawdz czy zmienila sie temp./wilg. i jesli tak, to wyslij
+	//po odczycie: sprawdz czy zmienila sie temp./wilg. i jesli tak, to wykonaj podczpiona funkcje po odczycie
 	uint8_t len;
-	for(len=0; name[len] != '\0' && len<MAX_NAME_LEN; len++){
-		readData[len] = (uint8_t)name[len];
+	for(len=0; len<MSG_LEN; len++){
+		readData[len] = '\0';
+	}
+	for(len=0; this->name[len] != '\0' && len<MAX_NAME_LEN; len++){
+		readData[len] = (uint8_t)this->name[len];
 	}
 	readData[len] = '\0';
 	readData[len+1] = (dataBits >> 24) & 0xFF;

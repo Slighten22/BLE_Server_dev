@@ -1,13 +1,13 @@
 gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
 functional:1687:5:std::_Function_base::~_Function_base()	16	static
-device_manager.cpp:23:1:DeviceManager::DeviceManager()	16	static
-device_manager.cpp:43:6:bool DeviceManager::checkIfPinFree(PinData)	40	static
-device_manager.cpp:57:9:PinData DeviceManager::getFreePin()	24	static
-device_manager.cpp:65:8:Timer* DeviceManager::getNewTimerHandle()	16	static
-device_manager.cpp:74:9:uint8_t DeviceManager::getOccupiedPinsCount()	16	static
-device_manager.cpp:78:9:uint8_t DeviceManager::getUsedTimersCount()	16	static
-device_manager.cpp:82:5:int DeviceManager::getTimerIndex(TIM_HandleTypeDef*)	24	static
+device_manager.cpp:19:1:DeviceManager::DeviceManager()	16	static
+device_manager.cpp:39:6:bool DeviceManager::checkIfPinFree(PinData)	40	static
+device_manager.cpp:53:9:PinData DeviceManager::getFreePin()	24	static
+device_manager.cpp:61:8:Timer* DeviceManager::getNewTimerHandle()	16	static
+device_manager.cpp:70:9:uint8_t DeviceManager::getOccupiedPinsCount()	16	static
+device_manager.cpp:74:9:uint8_t DeviceManager::getUsedTimersCount()	16	static
+device_manager.cpp:78:5:int DeviceManager::getTimerIndex(TIM_HandleTypeDef*)	24	static
 functional:1834:11:std::function<void()>::~function()	16	static
 timer.hpp:8:7:Timer::~Timer()	16	static
-device_manager.cpp:89:1:void __static_initialization_and_destruction_0(int, int)	16	static
-device_manager.cpp:89:1:cpp)	8	static
+device_manager.cpp:85:1:void __static_initialization_and_destruction_0(int, int)	16	static
+device_manager.cpp:85:1:cpp)	8	static

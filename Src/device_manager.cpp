@@ -4,21 +4,17 @@
 TIM_HandleTypeDef htim7;
 TIM_HandleTypeDef htim6;
 TIM_HandleTypeDef htim4;
+//TIM_HandleTypeDef htim5;
+//TIM_HandleTypeDef htim2;
 
 //... kolejne TIM_HandleTypedefy
 Timer tim7(&htim7);
 Timer tim6(&htim6);
 Timer tim4(&htim4);
-
-//TIM_HandleTypeDef htim5;
-//TIM_HandleTypeDef htim2;
 //Timer tim5(&htim5); //TODO
-//
 //Timer tim2(&htim2);
 
-//Timer *timers[] = {&tim7, &tim6/*, &tim4*/}; //TODO: !wiecej timerow + fix tim6, tim4
 Timer *timers[] = {/*&tim5, &tim2,*/ &tim4, &tim6, &tim7};
-
 
 DeviceManager::DeviceManager(){
 	occupiedPinsCount = 0;
