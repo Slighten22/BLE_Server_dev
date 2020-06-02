@@ -60,6 +60,8 @@ uint16_t delayTime;
 char uartData[70];
 bool readDone;
 bool newConfig;
+
+uint8_t counter = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -349,9 +351,9 @@ static void MX_TIM6_Init(void) //TODO: check&fix
 {
   TIM_MasterConfigTypeDef sMasterConfig = {0};
   htim6.Instance = TIM6;
-  htim6.Init.Prescaler = 7999;
+  htim6.Init.Prescaler = 6400 - 1; //tick co 80 mikro
   htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim6.Init.Period = 9;
+  htim6.Init.Period = 9;  //do zmiany przy tworzeniu nowego sensora
   htim6.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim6) != HAL_OK)
   {
@@ -429,6 +431,13 @@ void ReadoutTask(void const * argument){
 			if(sensorsPtrs.size() == 0){ //TODO
 				MX_BlueNRG_MS_Process((uint8_t *)"", 0);
 			}
+
+			if(counter == 0){
+				counter++;
+				HAL_TIM_Base_Start_IT(&htim6);
+//				HAL_TIM_Base_Start_IT(&htim7);
+			}
+
 		}
 	}
 }
@@ -573,9 +582,6 @@ void pushNewSensorFromRcvMessageToVector(uint8_t *message){
 									portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 								}
 			));
-
-
-
 			//TODO: zwalnianie pamieci po sensorze gdy przyjdzie konfig z interwalem = 0
 			//TODO: odczyt z sensora tylko co odp. interwal!
 			break;
@@ -599,9 +605,28 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 0 */
-  else {
-	  timers[deviceManager.getTimerIndex(htim)]->executeCallback(); //a w nim ExecuteState urzadzenia
+//  else {
+//	  timers[deviceManager.getTimerIndex(htim)]->executeCallback(); //a w nim ExecuteState urzadzenia
+//  }
+
+  else { //htim6
+	  if(counter == 1){
+		  htim->Instance->CR1 &= (~(TIM_CR1_CEN)); //bit Enable na 0 wylacza zliczanie
+		  htim->Instance->CNT = 0;
+		  htim->Instance->ARR = 12500 - 1; //co 1 sek
+		  htim->Instance->CR1 |= TIM_CR1_CEN;//bit Enable na 1
+	  }
+	  if(counter == 5){
+		  htim->Instance->CR1 &= (~(TIM_CR1_CEN)); //bit Enable na 0 wylacza zliczanie
+		  htim->Instance->CNT = 0;
+		  htim->Instance->ARR = 6125 - 1; //co 0,5 sek
+		  htim->Instance->CR1 |= TIM_CR1_CEN;//bit Enable na 1
+	  }
+	  counter++;
+
+	  HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
   }
+
 
   /* USER CODE END Callback 0 */
 
