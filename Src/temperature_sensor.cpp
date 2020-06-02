@@ -1,16 +1,17 @@
 #include "temperature_sensor.hpp"
 
-TemperatureSensor::TemperatureSensor(PinData pinData, uint16_t interval, std::string name)
+TemperatureSensor::TemperatureSensor(PinData pinData, uint16_t interval, std::string name, std::function<void(void)> readoutFinishedHandler)
 							: GenericOnePinDriver(pinData) {
 	this->interval = interval;
 	this->name = name;
 	this->stateHandler = static_cast<StateHandler>(&TemperatureSensor::firstStateHandler);
+
+	this->readoutFinishedHandler = readoutFinishedHandler;
+
 	this->timer = deviceManager.getNewTimerHandle();
 	this->timer->registerCallback(std::bind(&TemperatureSensor::executeState, this));
-
-
 	this->timer->setARR_Register(12500*interval-1); //aby dostac przerwanie co <interval> sekund
-	this->timer->startGeneratingInterrupts();
+	this->timer->startGeneratingInterrupts(); //czujnik zaczyna zyc wlasnym zyciem
 };
 
 void TemperatureSensor::startReadout(std::function<void(void)> readoutFinishedHandler){

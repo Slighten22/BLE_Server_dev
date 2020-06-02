@@ -6,14 +6,15 @@ functional:1687:5:std::_Function_base::~_Function_base()	16	static
 functional:1694:10:bool std::_Function_base::_M_empty() const	16	static
 functional:1834:11:std::function<void()>::~function()	16	static
 move.h:76:5:constexpr _Tp&& std::forward(typename std::remove_reference<_From>::type&) [with _Tp = TemperatureSensor*&]	16	static
-temperature_sensor.cpp:3:1:TemperatureSensor::TemperatureSensor(PinData, uint16_t, std::__cxx11::string)	72	static
-temperature_sensor.cpp:16:6:virtual void TemperatureSensor::startReadout(std::function<void()>)	16	static
-temperature_sensor.cpp:22:6:virtual void TemperatureSensor::executeState()	16	static
-temperature_sensor.cpp:26:6:void TemperatureSensor::changePinMode(oneWireMode)	40	static
-temperature_sensor.cpp:40:6:void TemperatureSensor::writePin(bool)	16	static
-temperature_sensor.cpp:46:6:bool TemperatureSensor::readPin()	16	static
+temperature_sensor.cpp:3:1:TemperatureSensor::TemperatureSensor(PinData, uint16_t, std::__cxx11::string, std::function<void()>)	72	static
+temperature_sensor.cpp:17:6:virtual void TemperatureSensor::startReadout(std::function<void()>)	16	static
+temperature_sensor.cpp:23:6:virtual void TemperatureSensor::executeState()	16	static
+temperature_sensor.cpp:27:6:void TemperatureSensor::changePinMode(oneWireMode)	40	static
+temperature_sensor.cpp:41:6:void TemperatureSensor::writePin(bool)	16	static
+temperature_sensor.cpp:47:6:bool TemperatureSensor::readPin()	16	static
 functional:525:12:constexpr std::_Maybe_unary_or_binary_function<void>::_Maybe_unary_or_binary_function()	16	static
 functional:1861:7:)>::function() [with _Res = void; _ArgTypes = {}]	16	static
+functional:1929:7:)>&) [with _Res = void; _ArgTypes = {}]	32	static
 stl_function.h:105:12:constexpr std::unary_function<TemperatureSensor*, void>::unary_function()	16	static
 functional:529:12:constexpr std::_Maybe_unary_or_binary_function<void, TemperatureSensor*>::_Maybe_unary_or_binary_function()	16	static
 functional:596:7:constexpr std::_Mem_fn_base<_MemFunPtr, __is_mem_fn>::_Mem_fn_base(_MemFunPtr) [with _MemFunPtr = void (TemperatureSensor::*)(); bool __is_mem_fn = true]	24	static
@@ -35,7 +36,8 @@ tuple:654:17:constexpr std::tuple< <template-parameter-1-1> >::tuple(std::tuple<
 functional:979:7:)>&&) [with _Functor = std::_Mem_fn<void (TemperatureSensor::*)()>; _Bound_args = {TemperatureSensor*}]	24	static
 move.h:101:5:constexpr typename std::remove_reference< <template-parameter-1-1> >::type&& std::move(_Tp&&) [with _Tp = std::_Bind<std::_Mem_fn<void (TemperatureSensor::*)()>(TemperatureSensor*)>&]	16	static
 functional:2106:7:)>::function(_Functor) [with _Functor = std::_Bind<std::_Mem_fn<void (TemperatureSensor::*)()>(TemperatureSensor*)>; <template-parameter-2-2> = void; <template-parameter-2-3> = void; _Res = void; _ArgTypes = {}]	24	static
-functional:1929:7:)>&) [with _Res = void; _ArgTypes = {}]	32	static
+functional:2092:5:)>&) [with _Res = void; _ArgTypes = {}]	16	static
+functional:2014:12:)>&) [with _Res = void; _ArgTypes = {}]	16	static
 tuple:360:19:constexpr std::_Tuple_impl<_Idx, _Head>::_Tuple_impl(_UHead&&) [with _UHead = TemperatureSensor*; unsigned int _Idx = 0u; _Head = TemperatureSensor*]	24	static
 tuple:636:19: (_Elements) >= 1)), bool>::type <anonymous> = 1u; _Elements = {TemperatureSensor*}]	24	static
 functional:973:11:) [with _Args = {TemperatureSensor*}; _Functor = std::_Mem_fn<void (TemperatureSensor::*)()>; _Bound_args = {TemperatureSensor*}]	32	static
@@ -43,8 +45,13 @@ functional:1637:4:static bool std::_Function_base::_Base_manager<_Functor>::_M_n
 functional:1617:2:static void std::_Function_base::_Base_manager<_Functor>::_M_init_functor(std::_Any_data&, _Functor&&) [with _Functor = std::_Bind<std::_Mem_fn<void (TemperatureSensor::*)()>(TemperatureSensor*)>]	32	static
 functional:1729:7:) [with _Functor = std::_Bind<std::_Mem_fn<void (TemperatureSensor::*)()>(TemperatureSensor*)>; _ArgTypes = {}]	16	static
 functional:1591:2:static bool std::_Function_base::_Base_manager<_Functor>::_M_manager(std::_Any_data&, const std::_Any_data&, std::_Manager_operation) [with _Functor = std::_Bind<std::_Mem_fn<void (TemperatureSensor::*)()>(TemperatureSensor*)>]	40	static
-functional:2014:12:)>&) [with _Res = void; _ArgTypes = {}]	16	static
-functional:2092:5:)>&) [with _Res = void; _ArgTypes = {}]	16	static
+functional:2042:16:)>::operator bool() const [with _Res = void; _ArgTypes = {}]	16	static
+move.h:101:5:constexpr typename std::remove_reference< <template-parameter-1-1> >::type&& std::move(_Tp&&) [with _Tp = std::_Any_data&]	16	static
+move.h:179:5:typename std::enable_if<std::__and_<std::is_move_constructible<_Tp>, std::is_move_assignable<_Tp> >::value>::type std::swap(_Tp&, _Tp&) [with _Tp = std::_Any_data]	24	static
+move.h:101:5:constexpr typename std::remove_reference< <template-parameter-1-1> >::type&& std::move(_Tp&&) [with _Tp = bool (*&)(std::_Any_data&, const std::_Any_data&, std::_Manager_operation)]	16	static
+move.h:179:5:typename std::enable_if<std::__and_<std::is_move_constructible<_Tp>, std::is_move_assignable<_Tp> >::value>::type std::swap(_Tp&, _Tp&) [with _Tp = bool (*)(std::_Any_data&, const std::_Any_data&, std::_Manager_operation)]	24	static
+move.h:101:5:constexpr typename std::remove_reference< <template-parameter-1-1> >::type&& std::move(_Tp&&) [with _Tp = void (*&)(const std::_Any_data&)]	16	static
+move.h:179:5:typename std::enable_if<std::__and_<std::is_move_constructible<_Tp>, std::is_move_assignable<_Tp> >::value>::type std::swap(_Tp&, _Tp&) [with _Tp = void (*)(const std::_Any_data&)]	24	static
 functional:1646:2:static void std::_Function_base::_Base_manager<_Functor>::_M_init_functor(std::_Any_data&, _Functor&&, std::false_type) [with _Functor = std::_Bind<std::_Mem_fn<void (TemperatureSensor::*)()>(TemperatureSensor*)>]	32	static
 functional:1549:2:static _Functor* std::_Function_base::_Base_manager<_Functor>::_M_get_pointer(const std::_Any_data&) [with _Functor = std::_Bind<std::_Mem_fn<void (TemperatureSensor::*)()>(TemperatureSensor*)>]	24	static
 tuple:1403:5:) [with _Elements = {}]	4	static
@@ -53,13 +60,6 @@ functional:1463:7:_Tp& std::_Any_data::_M_access() [with _Tp = const std::type_i
 functional:1463:7:_Tp& std::_Any_data::_M_access() [with _Tp = std::_Bind<std::_Mem_fn<void (TemperatureSensor::*)()>(TemperatureSensor*)>*]	16	static
 functional:1568:2:static void std::_Function_base::_Base_manager<_Functor>::_M_clone(std::_Any_data&, const std::_Any_data&, std::false_type) [with _Functor = std::_Bind<std::_Mem_fn<void (TemperatureSensor::*)()>(TemperatureSensor*)>]	32	static
 functional:1584:2:static void std::_Function_base::_Base_manager<_Functor>::_M_destroy(std::_Any_data&, std::false_type) [with _Functor = std::_Bind<std::_Mem_fn<void (TemperatureSensor::*)()>(TemperatureSensor*)>]	16	static
-move.h:101:5:constexpr typename std::remove_reference< <template-parameter-1-1> >::type&& std::move(_Tp&&) [with _Tp = std::_Any_data&]	16	static
-move.h:179:5:typename std::enable_if<std::__and_<std::is_move_constructible<_Tp>, std::is_move_assignable<_Tp> >::value>::type std::swap(_Tp&, _Tp&) [with _Tp = std::_Any_data]	24	static
-move.h:101:5:constexpr typename std::remove_reference< <template-parameter-1-1> >::type&& std::move(_Tp&&) [with _Tp = bool (*&)(std::_Any_data&, const std::_Any_data&, std::_Manager_operation)]	16	static
-move.h:179:5:typename std::enable_if<std::__and_<std::is_move_constructible<_Tp>, std::is_move_assignable<_Tp> >::value>::type std::swap(_Tp&, _Tp&) [with _Tp = bool (*)(std::_Any_data&, const std::_Any_data&, std::_Manager_operation)]	24	static
-move.h:101:5:constexpr typename std::remove_reference< <template-parameter-1-1> >::type&& std::move(_Tp&&) [with _Tp = void (*&)(const std::_Any_data&)]	16	static
-move.h:179:5:typename std::enable_if<std::__and_<std::is_move_constructible<_Tp>, std::is_move_assignable<_Tp> >::value>::type std::swap(_Tp&, _Tp&) [with _Tp = void (*)(const std::_Any_data&)]	24	static
-functional:2042:16:)>::operator bool() const [with _Res = void; _ArgTypes = {}]	16	static
 functional:1468:7:const _Tp& std::_Any_data::_M_access() const [with _Tp = std::_Bind<std::_Mem_fn<void (TemperatureSensor::*)()>(TemperatureSensor*)>*]	16	static
 tuple:1247:5:>&) [with unsigned int __i = 0u; _Head = TemperatureSensor*; _Tail = {}]	16	static
 tuple:1258:5:>&) [with unsigned int __i = 0u; _Elements = {TemperatureSensor*}]	16	static

@@ -451,7 +451,7 @@ void CommunicationTask(void const * argument){
 		uint16_t tempDecimal = temp % 10;
 		temp = temp / (uint16_t) 10;
 		humid = humid / (uint16_t) 10;
-		sprintf(uartData, "\r\n\r\nCzujnik %s\r\nTemperatura\t %hu.%huC\r\nWilgotnosc\t %hu.%hu%%\r\n",
+		sprintf(uartData, "\r\n\r\nOdczyt: Czujnik %s\r\nTemperatura\t %hu.%huC\r\nWilgotnosc\t %hu.%hu%%\r\n",
 				charName, temp, tempDecimal, humid, humidDecimal);
 		HAL_UART_Transmit(&huart3, (uint8_t *)uartData, sizeof(uartData), 10);
 
@@ -466,7 +466,6 @@ void TemperatureSensor::firstStateHandler(void){
 	//zatrzymac counter timera
 	this->timer->stopCounter();
 	//to co ma zrobic w tym stanie
-	HAL_UART_Transmit(&huart3, (uint8_t *)"First state!\r\n", 14, 10);
 	this->changePinMode(ONE_WIRE_OUTPUT);
 	this->writePin(0);
 	//ustaw kolejny stan
@@ -479,7 +478,6 @@ void TemperatureSensor::secondStateHandler(void){
 	//zatrzymac counter timera
 	this->timer->stopCounter();
 	//to co ma zrobic w tym stanie
-	HAL_UART_Transmit(&huart3, (uint8_t *)"Second state!\r\n", 15, 10);
 	this->writePin(1);
 	this->changePinMode(ONE_WIRE_INPUT);
 	while(this->readPin());
@@ -510,6 +508,12 @@ void TemperatureSensor::secondStateHandler(void){
 		}
 		while (this->readPin());
 	}
+	//ustaw kolejny stan
+	this->stateHandler = static_cast<StateHandler>(&TemperatureSensor::firstStateHandler);
+	//przestaw i uruchom timer
+	this->timer->wakeMeUpAfterSeconds(5);
+
+	//po odczycie: sprawdz czy zmienila sie temp./wilg. i jesli tak, to wyslij
 	uint8_t len;
 	for(len=0; name[len] != '\0' && len<MAX_NAME_LEN; len++){
 		readData[len] = (uint8_t)name[len];
@@ -520,20 +524,16 @@ void TemperatureSensor::secondStateHandler(void){
 	readData[len+3] = (dataBits >> 8) & 0xFF;
 	readData[len+4] = (dataBits >> 0) & 0xFF;
 	readData[len+5] = (checksumBits) & 0xFF;
-
-	//ustaw kolejny stan
-	this->stateHandler = static_cast<StateHandler>(&TemperatureSensor::firstStateHandler);
-	//przestaw i uruchom timer TODO: wakeMeUpAfterMicroseconds moze robic wlasnie to
-	this->timer->wakeMeUpAfterSeconds(5);
-
-	//TODO!!!
-	this->readoutFinishedHandler = [](){
-	  	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-		xStreamBufferSendFromISR(xStreamBuffer, (void *)(readData), MSG_LEN, &xHigherPriorityTaskWoken);
-		portYIELD_FROM_ISR(xHigherPriorityTaskWoken)};
-
-	this->readoutFinishedHandler();
-
+	uint16_t humidTimesTen = (readData[len+1] << 8) | (readData[len+2]);
+	uint16_t tempTimesTen  = (readData[len+3] << 8) | (readData[len+4]);
+	float newHumidVal = (float)(humidTimesTen / 10.0F);
+	float newTempVal  = (float)(tempTimesTen / 10.0F);
+	//byla zmiana temp./wilgotnosci => wyslij nowa wartosc
+	if(newTempVal != this->lastTempValue || newHumidVal != this->lastHumidValue){
+		this->lastTempValue = newTempVal;
+		this->lastHumidValue = newHumidVal;
+		this->readoutFinishedHandler();
+	}
 }
 
 void delayMicroseconds(uint32_t us){
@@ -566,7 +566,16 @@ void pushNewSensorFromRcvMessageToVector(uint8_t *message){
 	switch(sensorInfo.sensorType){
 		case DHT22:
 		{
-			sensorsPtrs.push_back(std::make_unique<TemperatureSensor>(pinData, sensorInfo.interval, sensorInfo.name));
+			sensorsPtrs.push_back(std::make_unique<TemperatureSensor>(pinData, sensorInfo.interval, sensorInfo.name,
+								[](){
+									BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+									xStreamBufferSendFromISR(xStreamBuffer, (void *)(readData), MSG_LEN, &xHigherPriorityTaskWoken);
+									portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+								}
+			));
+
+
+
 			//TODO: zwalnianie pamieci po sensorze gdy przyjdzie konfig z interwalem = 0
 			//TODO: odczyt z sensora tylko co odp. interwal!
 			break;

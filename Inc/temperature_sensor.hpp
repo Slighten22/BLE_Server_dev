@@ -23,8 +23,10 @@ private:
 	Timer *timer;
 	std::string name;
 	uint16_t interval;
+	float lastTempValue;
+	float lastHumidValue;
 public:
-	TemperatureSensor(PinData pinData, uint16_t interval, std::string name);
+	TemperatureSensor(PinData pinData, uint16_t interval, std::string name, std::function<void(void)> readoutFinishedHandler);
 	void startReadout(std::function<void(void)> readoutFinishedHandler);
 	void executeState(void);
 	void changePinMode(oneWireMode mode);
