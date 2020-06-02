@@ -63,6 +63,10 @@ extern TIM_HandleTypeDef htim3;
 
 /* USER CODE BEGIN EV */
 extern TIM_HandleTypeDef htim6;
+extern TIM_HandleTypeDef htim4;
+
+extern TIM_HandleTypeDef htim5;
+extern TIM_HandleTypeDef htim2;
 /* USER CODE END EV */
 
 /******************************************************************************/
@@ -220,9 +224,20 @@ void TIM7_IRQHandler(void)
 
 /* USER CODE BEGIN 1 */
 void TIM6_DAC_IRQHandler(void){
-	HAL_TIM_IRQHandler(&htim6); //???
+	HAL_TIM_IRQHandler(&htim6);
 }
 
+void TIM4_IRQHandler(void){
+	HAL_TIM_IRQHandler(&htim4);
+}
+
+//void TIM5_IRQHandler(void){
+//	HAL_TIM_IRQHandler(&htim5); //???
+//}
+//
+//void TIM2_IRQHandler(void){
+//	HAL_TIM_IRQHandler(&htim2); //???
+//}
 
 /* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

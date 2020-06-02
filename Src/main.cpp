@@ -75,6 +75,11 @@ void CommunicationTask(void const * argument);
 static void MX_TIM7_Init(void);
 static void MX_TIM6_Init(void);
 static void MX_TIM4_Init(void);
+
+//static void MX_TIM5_Init(void);
+//static void MX_TIM2_Init(void);
+
+
 void delayMicroseconds(uint32_t us);
 void pushNewSensorFromRcvMessageToVector(uint8_t *message);
 void createNewSensor(SensorInfo sensorInfo);
@@ -121,6 +126,12 @@ int main(void)
   MX_TIM7_Init();
   MX_TIM6_Init();
   MX_TIM4_Init();
+
+
+//  MX_TIM5_Init();
+//  MX_TIM2_Init();
+
+
   delayTime = 3000;
   newConfig = false;
   /* USER CODE END 2 */
@@ -347,7 +358,7 @@ static void MX_TIM7_Init(void)
   /* USER CODE END TIM7_Init 2 */
 }
 
-static void MX_TIM6_Init(void) //TODO: check&fix
+static void MX_TIM6_Init(void)
 {
   TIM_MasterConfigTypeDef sMasterConfig = {0};
   htim6.Instance = TIM6;
@@ -371,7 +382,7 @@ static void MX_TIM4_Init(void) //TODO: check&fix
 {
   TIM_MasterConfigTypeDef sMasterConfig = {0};
   htim4.Instance = TIM4;
-  htim4.Init.Prescaler = 7999;
+  htim4.Init.Prescaler = 6400 - 1; //tick co 80 mikro
   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim4.Init.Period = 9;
   htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
@@ -386,6 +397,47 @@ static void MX_TIM4_Init(void) //TODO: check&fix
     Error_Handler();
   }
 }
+
+//TODO: TIM2, TIM5
+//static void MX_TIM5_Init(void){
+//  TIM_MasterConfigTypeDef sMasterConfig = {0};
+//  htim5.Instance = TIM5;
+//  htim5.Init.Prescaler = 6400 - 1; //tick co 80 mikro
+//  htim5.Init.CounterMode = TIM_COUNTERMODE_UP;
+//  htim5.Init.Period = 9;
+//  htim5.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+//  if (HAL_TIM_Base_Init(&htim5) != HAL_OK)
+//  {
+//	Error_Handler();
+//  }
+//  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+//  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+//  if (HAL_TIMEx_MasterConfigSynchronization(&htim5, &sMasterConfig) != HAL_OK)
+//  {
+//	Error_Handler();
+//  }
+//}
+//
+//static void MX_TIM2_Init(void){
+//  TIM_MasterConfigTypeDef sMasterConfig = {0};
+//  htim2.Instance = TIM2;
+//  htim2.Init.Prescaler = 6400 - 1; //tick co 80 mikro
+//  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+//  htim2.Init.Period = 9;
+//  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+//  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
+//  {
+//	Error_Handler();
+//  }
+//  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+//  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+//  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
+//  {
+//	Error_Handler();
+//  }
+//}
+//
+
 /* USER CODE END 4 */
 
 /* USER CODE BEGIN Header_StartDefaultTask */
@@ -432,11 +484,12 @@ void ReadoutTask(void const * argument){
 				MX_BlueNRG_MS_Process((uint8_t *)"", 0);
 			}
 
-			if(counter == 0){
-				counter++;
-				HAL_TIM_Base_Start_IT(&htim6);
-//				HAL_TIM_Base_Start_IT(&htim7);
-			}
+//			if(counter == 0){
+//				counter++;
+////				HAL_TIM_Base_Start_IT(&htim6);
+////				HAL_TIM_Base_Start_IT(&htim7);
+//				HAL_TIM_Base_Start_IT(&htim4);
+//			}
 
 		}
 	}
@@ -605,28 +658,27 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 0 */
-//  else {
-//	  timers[deviceManager.getTimerIndex(htim)]->executeCallback(); //a w nim ExecuteState urzadzenia
-//  }
-
-  else { //htim6
-	  if(counter == 1){
-		  htim->Instance->CR1 &= (~(TIM_CR1_CEN)); //bit Enable na 0 wylacza zliczanie
-		  htim->Instance->CNT = 0;
-		  htim->Instance->ARR = 12500 - 1; //co 1 sek
-		  htim->Instance->CR1 |= TIM_CR1_CEN;//bit Enable na 1
-	  }
-	  if(counter == 5){
-		  htim->Instance->CR1 &= (~(TIM_CR1_CEN)); //bit Enable na 0 wylacza zliczanie
-		  htim->Instance->CNT = 0;
-		  htim->Instance->ARR = 6125 - 1; //co 0,5 sek
-		  htim->Instance->CR1 |= TIM_CR1_CEN;//bit Enable na 1
-	  }
-	  counter++;
-
-	  HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+  else {
+	  timers[deviceManager.getTimerIndex(htim)]->executeCallback(); //a w nim ExecuteState urzadzenia
   }
 
+//  else if (htim->Instance == TIM4){ //htim4
+//	  if(counter == 1){
+//		  htim->Instance->CR1 &= (~(TIM_CR1_CEN)); //bit Enable na 0 wylacza zliczanie
+//		  htim->Instance->CNT = 0;
+//		  htim->Instance->ARR = 12500 - 1; //co 1 sek
+//		  htim->Instance->CR1 |= TIM_CR1_CEN;//bit Enable na 1
+//	  }
+//	  if(counter == 5){
+//		  htim->Instance->CR1 &= (~(TIM_CR1_CEN)); //bit Enable na 0 wylacza zliczanie
+//		  htim->Instance->CNT = 0;
+//		  htim->Instance->ARR = 6125 - 1; //co 0,5 sek
+//		  htim->Instance->CR1 |= TIM_CR1_CEN;//bit Enable na 1
+//	  }
+//	  counter++;
+//
+//	  HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+//  }
 
   /* USER CODE END Callback 0 */
 

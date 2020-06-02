@@ -9,10 +9,16 @@
 
 extern TIM_HandleTypeDef htim7;
 extern TIM_HandleTypeDef htim6;
-extern TIM_HandleTypeDef htim4; //TODO: inicjalizacja w HALu
+extern TIM_HandleTypeDef htim4;
 extern Timer tim7;
 extern Timer tim6;
 extern Timer tim4;
+
+//extern TIM_HandleTypeDef htim5;
+//extern TIM_HandleTypeDef htim2;
+//extern Timer tim5; //TODO
+//extern Timer tim2;
+
 extern Timer *timers[];
 
 class DeviceManager{
