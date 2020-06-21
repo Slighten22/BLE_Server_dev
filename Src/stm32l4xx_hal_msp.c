@@ -123,28 +123,6 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
   }
   /* USER CODE END TIM6_MspInit 0 */
 
-  /* USER CODE BEGIN TIM2_MspInit 0 */
-  if(htim_base->Instance==TIM2)
-  {
-    /* Peripheral clock enable */
-    __HAL_RCC_TIM2_CLK_ENABLE();
-    /* TIM6 interrupt Init */
-    HAL_NVIC_SetPriority(TIM2_IRQn, 5, 0);
-    HAL_NVIC_EnableIRQ(TIM2_IRQn);
-  }
-  /* USER CODE END TIM2_MspInit 0 */
-
-  /* USER CODE BEGIN TIM5_MspInit 0 */
-  if(htim_base->Instance==TIM5)
-  {
-    /* Peripheral clock enable */
-    __HAL_RCC_TIM5_CLK_ENABLE();
-    /* TIM6 interrupt Init */
-    HAL_NVIC_SetPriority(TIM5_IRQn, 5, 0);
-    HAL_NVIC_EnableIRQ(TIM5_IRQn);
-  }
-  /* USER CODE END TIM5_MspInit 0 */
-
 }
 
 /**

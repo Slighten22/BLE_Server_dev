@@ -46,7 +46,6 @@
 #include "stream_buffer.h"
 //
 uint8_t rcvBLE[VARIABLE_SIZE];
-#define MSG_LEN 20
 
 /* USER CODE END Includes */
 

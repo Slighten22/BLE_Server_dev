@@ -3,6 +3,8 @@
 
 #include "pin_data.hpp"
 
+#define MSG_LEN 20
+
 typedef enum {
 	DHT22
 	//... inne typy sensorow

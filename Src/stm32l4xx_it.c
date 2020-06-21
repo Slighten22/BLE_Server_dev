@@ -231,13 +231,5 @@ void TIM4_IRQHandler(void){
 	HAL_TIM_IRQHandler(&htim4);
 }
 
-//void TIM5_IRQHandler(void){
-//	HAL_TIM_IRQHandler(&htim5); //???
-//}
-//
-//void TIM2_IRQHandler(void){
-//	HAL_TIM_IRQHandler(&htim2); //???
-//}
-
 /* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

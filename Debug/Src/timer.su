@@ -9,11 +9,11 @@ timer.cpp:11:6:void Timer::executeCallback()	16	static
 timer.cpp:15:20:TIM_HandleTypeDef* Timer::getHandle()	16	static
 timer.cpp:19:6:void Timer::wakeMeUpAfterMicroseconds(uint16_t)	16	static
 timer.cpp:26:6:void Timer::wakeMeUpAfterSeconds(uint16_t)	16	static
-timer.cpp:33:6:void Timer::stopCounter()	16	static
-timer.cpp:37:6:void Timer::startCounter()	16	static
-timer.cpp:41:6:void Timer::clearCNT_Register()	16	static
-timer.cpp:45:6:void Timer::setARR_Register(uint16_t)	16	static
-timer.cpp:49:6:void Timer::startGeneratingInterrupts()	16	static
+timer.cpp:38:6:void Timer::stopCounter()	16	static
+timer.cpp:42:6:void Timer::startCounter()	16	static
+timer.cpp:46:6:void Timer::clearCNT_Register()	16	static
+timer.cpp:50:6:void Timer::setARR_Register(uint16_t)	16	static
+timer.cpp:54:6:void Timer::startGeneratingInterrupts()	16	static
 functional:525:12:constexpr std::_Maybe_unary_or_binary_function<void>::_Maybe_unary_or_binary_function()	16	static
 functional:1861:7:)>::function() [with _Res = void; _ArgTypes = {}]	16	static
 functional:1929:7:)>&) [with _Res = void; _ArgTypes = {}]	32	static

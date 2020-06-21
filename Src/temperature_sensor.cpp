@@ -1,20 +1,21 @@
 #include "temperature_sensor.hpp"
 
-TemperatureSensor::TemperatureSensor(PinData pinData, uint16_t interval, std::string name, std::function<void(void)> readoutFinishedHandler)
+SemaphoreHandle_t TemperatureSensor::singleReadoutSem = xSemaphoreCreateBinary();
+
+TemperatureSensor::TemperatureSensor(PinData pinData, uint16_t interval, std::string name,
+							std::function<void(uint32_t, uint8_t, uint32_t)> readoutFinishedHandler)
 							: GenericOnePinDriver(pinData) {
 	this->interval = interval;
 	this->name = name;
 	this->stateHandler = static_cast<StateHandler>(&TemperatureSensor::firstStateHandler);
-
 	this->readoutFinishedHandler = readoutFinishedHandler;
-
 	this->timer = deviceManager.getNewTimerHandle();
 	this->timer->registerCallback(std::bind(&TemperatureSensor::executeState, this));
 	this->timer->setARR_Register(12500*interval-1); //aby dostac przerwanie co <interval> sekund
 	this->timer->startGeneratingInterrupts(); //czujnik zaczyna zyc wlasnym zyciem
 };
 
-void TemperatureSensor::startReadout(std::function<void(void)> readoutFinishedHandler){
+void TemperatureSensor::startReadout(void){
 	this->stateHandler = static_cast<StateHandler>(&TemperatureSensor::firstStateHandler);
 	this->readoutFinishedHandler = readoutFinishedHandler;
 	this->executeState();
@@ -103,3 +104,23 @@ bool TemperatureSensor::hasTempOrHumidChanged(uint32_t dataBits, uint8_t checksu
 	}
 	return false;
 }
+
+bool checkIfTempSensorReadoutCorrect(uint32_t dataBits, uint8_t checksumBits){
+	uint8_t value = ((dataBits >> 24) & 0xFF) + ((dataBits >> 16) & 0xFF) + ((dataBits >> 8) & 0xFF) + (dataBits & 0xFF);
+	if(value == checksumBits)
+		return true;
+	return false;
+}
+
+float calculateTempValue(uint32_t dataBits){
+	uint16_t tempTimesTen = (((dataBits >> 8) & 0xFF) << 8) | (dataBits & 0xFF);
+	float tempValue = (float)(tempTimesTen / 10.0F);
+	return tempValue;
+}
+
+float calculateHumidValue(uint32_t dataBits){
+	uint16_t humidTimesTen = (((dataBits >> 24) & 0xFF) << 8) | ((dataBits >> 16) & 0xFF);
+	float humidValue = (float)(humidTimesTen / 10.0F);
+	return humidValue;
+}
+

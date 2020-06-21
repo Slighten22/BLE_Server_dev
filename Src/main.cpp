@@ -49,21 +49,17 @@ TaskHandle_t defaultTaskHandle;
 /* USER CODE BEGIN PV */
 TaskHandle_t readoutTaskHandle;
 TaskHandle_t communicationTaskHandle;
-SemaphoreHandle_t binarySem;
-SemaphoreHandle_t singleReadoutSem;
 SemaphoreHandle_t singleSendingSem;
 DeviceManager deviceManager;
-StreamBufferHandle_t xStreamBuffer; /* The stream buffer that is used to send data from an interrupt to the task. */
+StreamBufferHandle_t xStreamBuffer;
 uint8_t readData[MSG_LEN];
-std::function<void(void)> sendDataOnReadoutFinishedHandler;
+std::function<void(void)> sendDataOnReadoutFinishedHandler; //TODO: niepotrzebne
 std::vector<std::unique_ptr<TemperatureSensor>> sensorsPtrs;
 uint8_t rcvConfigurationMsg[MSG_LEN];
 uint16_t delayTime;
 char uartData[70];
 bool readDone;
 bool newConfig;
-
-uint8_t counter = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -77,8 +73,6 @@ void CommunicationTask(void const * argument);
 static void MX_TIM7_Init(void);
 static void MX_TIM6_Init(void);
 static void MX_TIM4_Init(void);
-//static void MX_TIM5_Init(void);
-//static void MX_TIM2_Init(void);
 void delayMicroseconds(uint32_t us);
 void prepareAndSendReadData(char *cRxBuffer);
 void pushNewSensorFromRcvMessageToVector(uint8_t *message);
@@ -124,8 +118,6 @@ int main(void)
   MX_TIM7_Init();
   MX_TIM6_Init();
   MX_TIM4_Init();
-//  MX_TIM5_Init();
-//  MX_TIM2_Init();
   delayTime = 3000;
   newConfig = false;
   /* USER CODE END 2 */
@@ -136,8 +128,6 @@ int main(void)
 
   /* USER CODE BEGIN RTOS_SEMAPHORES */
   /* add semaphores, ... */
-  binarySem = xSemaphoreCreateBinary();
-  singleReadoutSem = xSemaphoreCreateBinary();
   singleSendingSem = xSemaphoreCreateBinary();
   /* USER CODE END RTOS_SEMAPHORES */
 
@@ -394,46 +384,6 @@ static void MX_TIM4_Init(void)
   }
 }
 
-//TIM2, TIM5
-//static void MX_TIM5_Init(void){
-//  TIM_MasterConfigTypeDef sMasterConfig = {0};
-//  htim5.Instance = TIM5;
-//  htim5.Init.Prescaler = 6400 - 1; //tick co 80 mikro
-//  htim5.Init.CounterMode = TIM_COUNTERMODE_UP;
-//  htim5.Init.Period = 9;
-//  htim5.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-//  if (HAL_TIM_Base_Init(&htim5) != HAL_OK)
-//  {
-//	Error_Handler();
-//  }
-//  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-//  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-//  if (HAL_TIMEx_MasterConfigSynchronization(&htim5, &sMasterConfig) != HAL_OK)
-//  {
-//	Error_Handler();
-//  }
-//}
-//
-//static void MX_TIM2_Init(void){
-//  TIM_MasterConfigTypeDef sMasterConfig = {0};
-//  htim2.Instance = TIM2;
-//  htim2.Init.Prescaler = 6400 - 1; //tick co 80 mikro
-//  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-//  htim2.Init.Period = 9;
-//  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-//  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
-//  {
-//	Error_Handler();
-//  }
-//  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-//  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-//  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
-//  {
-//	Error_Handler();
-//  }
-//}
-//
-
 /* USER CODE END 4 */
 
 /* USER CODE BEGIN Header_StartDefaultTask */
@@ -467,14 +417,6 @@ void ReadoutTask(void const * argument){
 				newConfig = false;
 				pushNewSensorFromRcvMessageToVector(rcvConfigurationMsg);
 			}
-			//zrob odczyt ze wszystkich czujnikow ktore masz. teraz: kazdy czujnik zyje swoim zyciem!
-//			for(uint8_t i=0; i<sensorsPtrs.size(); i++){
-//				sensorsPtrs[i]->startReadout([](){ //TODO: podczepienie funkcji do zrobienia po odczycie gdy wywolanie z timera
-//					BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-//					xStreamBufferSendFromISR(xStreamBuffer, (void *)(readData), MSG_LEN, &xHigherPriorityTaskWoken);
-//					portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
-//				});
-//			}
 			if(sensorsPtrs.size() == 0){ //TODO
 				MX_BlueNRG_MS_Process((uint8_t *)"", 0);
 			}
@@ -509,7 +451,7 @@ void TemperatureSensor::firstStateHandler(void){
 	this->writePin(0);
 	//ustaw kolejny stan
 	this->stateHandler = static_cast<StateHandler>(&TemperatureSensor::secondStateHandler);
-	//przestaw i uruchom timer TODO: wakeMeUpAfterMicroseconds moze robic wlasnie to
+	//przestaw i uruchom timer
 	this->timer->wakeMeUpAfterMicroseconds(800);
 }
 
@@ -517,7 +459,6 @@ void TemperatureSensor::secondStateHandler(void){
 	//zatrzymac counter timera
 	this->timer->stopCounter();
 	//to co ma zrobic w tym stanie
-	this->writePin(1);
 	this->changePinMode(ONE_WIRE_INPUT);
 	uint32_t dataBits = 0UL;
 	uint8_t checksumBits = 0;
@@ -525,11 +466,29 @@ void TemperatureSensor::secondStateHandler(void){
 	//ustaw kolejny stan
 	this->stateHandler = static_cast<StateHandler>(&TemperatureSensor::firstStateHandler);
 	//przestaw i uruchom timer
-	this->timer->wakeMeUpAfterSeconds(5);
+	this->timer->wakeMeUpAfterSeconds(this->interval);
 
 	//po odczycie: sprawdz czy zmienila sie temp./wilg. i jesli tak, to wykonaj podczepiona funkcje
-	if(hasTempOrHumidChanged(dataBits, checksumBits) == true)
-		this->readoutFinishedHandler();
+	if(hasTempOrHumidChanged(dataBits, checksumBits) == true){
+		//this->readoutFinishedHandler();
+
+
+		memset(readData, '\0', MSG_LEN);
+		uint8_t len;
+		for(len=0; this->name[len] != '\0' && len<MAX_NAME_LEN; len++){
+			readData[len] = (uint8_t)this->name[len];
+		}
+		readData[len] = '\0';
+		readData[len+1] = (dataBits >> 24) & 0xFF;
+		readData[len+2] = (dataBits >> 16) & 0xFF;
+		readData[len+3] = (dataBits >> 8) & 0xFF;
+		readData[len+4] = (dataBits >> 0) & 0xFF;
+		readData[len+5] = (checksumBits) & 0xFF;
+
+		BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+		xStreamBufferSendFromISR(xStreamBuffer, (void *)(readData), MSG_LEN, &xHigherPriorityTaskWoken);
+		portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+	}
 
 	//oddaj semafor pilnujacy pojedynczego odczytu
 	xSemaphoreGiveFromISR(singleReadoutSem, NULL);
@@ -553,7 +512,7 @@ void pushNewSensorFromRcvMessageToVector(uint8_t *message){
 		case DHT22:
 		{
 			sensorsPtrs.push_back(std::make_unique<TemperatureSensor>(pinData, sensorInfo.interval, sensorInfo.name,
-								[](){
+								[](uint32_t dataBits, uint8_t checksumBits, uint32_t lastDataBits){
 									BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 									xStreamBufferSendFromISR(xStreamBuffer, (void *)(readData), MSG_LEN, &xHigherPriorityTaskWoken);
 									portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
@@ -615,24 +574,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   else {
 	  timers[deviceManager.getTimerIndex(htim)]->executeCallback(); //a w nim ExecuteState urzadzenia
   }
-
-//  else if (htim->Instance == TIM4){ //htim4
-//	  if(counter == 1){
-//		  htim->Instance->CR1 &= (~(TIM_CR1_CEN)); //bit Enable na 0 wylacza zliczanie
-//		  htim->Instance->CNT = 0;
-//		  htim->Instance->ARR = 12500 - 1; //co 1 sek
-//		  htim->Instance->CR1 |= TIM_CR1_CEN;//bit Enable na 1
-//	  }
-//	  if(counter == 5){
-//		  htim->Instance->CR1 &= (~(TIM_CR1_CEN)); //bit Enable na 0 wylacza zliczanie
-//		  htim->Instance->CNT = 0;
-//		  htim->Instance->ARR = 6125 - 1; //co 0,5 sek
-//		  htim->Instance->CR1 |= TIM_CR1_CEN;//bit Enable na 1
-//	  }
-//	  counter++;
-//
-//	  HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-//  }
 
   /* USER CODE END Callback 0 */
 
