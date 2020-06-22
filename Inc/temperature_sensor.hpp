@@ -24,8 +24,7 @@ private:
 	void firstStateHandler(void);
 	void secondStateHandler(void);
 	void thirdStateHandler(void); //.. moga byc kolejne stany wewnatrz odczytu
-	//std::function<void(void)> readoutFinishedHandler;
-	std::function<void(uint32_t, uint8_t, uint32_t)> readoutFinishedHandler;
+	std::function<void(uint32_t, uint8_t, uint32_t, std::string)> readoutFinishedHandler;
 	Timer *timer;
 	std::string name;
 	uint16_t interval;
@@ -34,8 +33,8 @@ private:
 	uint32_t lastDataBits;
 	static SemaphoreHandle_t singleReadoutSem;
 public:
-	//TemperatureSensor(PinData pinData, uint16_t interval, std::string name, std::function<void(void)> readoutFinishedHandler);
-	TemperatureSensor(PinData pinData, uint16_t interval, std::string name, std::function<void(uint32_t, uint8_t, uint32_t)> readoutFinishedHandler);
+	TemperatureSensor(PinData pinData, uint16_t interval, std::string name,
+					  std::function<void(uint32_t, uint8_t, uint32_t, std::string)> readoutFinishedHandler);
 	void startReadout(void);
 	void executeState(void);
 	void changePinMode(oneWireMode mode);

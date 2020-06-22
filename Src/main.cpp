@@ -465,30 +465,37 @@ void TemperatureSensor::secondStateHandler(void){
 	performDataReadout(dataBits, checksumBits);
 	//ustaw kolejny stan
 	this->stateHandler = static_cast<StateHandler>(&TemperatureSensor::firstStateHandler);
-	//przestaw i uruchom timer
-	this->timer->wakeMeUpAfterSeconds(this->interval);
+
+	//TODO
+	this->readoutFinishedHandler(dataBits, checksumBits, this->lastDataBits, this->name);
+	if(dataBits != this->lastDataBits){
+		this->lastDataBits = dataBits;
+		this->lastTempValue = calculateTempValue(dataBits);
+		this->lastHumidValue = calculateHumidValue(dataBits);
+	}
 
 	//po odczycie: sprawdz czy zmienila sie temp./wilg. i jesli tak, to wykonaj podczepiona funkcje
-	if(hasTempOrHumidChanged(dataBits, checksumBits) == true){
-		//this->readoutFinishedHandler();
+//	if(hasTempOrHumidChanged(dataBits, checksumBits) == true){
+//
+//		memset(readData, '\0', MSG_LEN);
+//		uint8_t len;
+//		for(len=0; this->name[len] != '\0' && len<MAX_NAME_LEN; len++){
+//			readData[len] = (uint8_t)this->name[len];
+//		}
+//		readData[len] = '\0';
+//		readData[len+1] = (dataBits >> 24) & 0xFF;
+//		readData[len+2] = (dataBits >> 16) & 0xFF;
+//		readData[len+3] = (dataBits >> 8) & 0xFF;
+//		readData[len+4] = (dataBits >> 0) & 0xFF;
+//		readData[len+5] = (checksumBits) & 0xFF;
+//
+//		BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+//		xStreamBufferSendFromISR(xStreamBuffer, (void *)(readData), MSG_LEN, &xHigherPriorityTaskWoken);
+//		portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+//	}
 
-
-		memset(readData, '\0', MSG_LEN);
-		uint8_t len;
-		for(len=0; this->name[len] != '\0' && len<MAX_NAME_LEN; len++){
-			readData[len] = (uint8_t)this->name[len];
-		}
-		readData[len] = '\0';
-		readData[len+1] = (dataBits >> 24) & 0xFF;
-		readData[len+2] = (dataBits >> 16) & 0xFF;
-		readData[len+3] = (dataBits >> 8) & 0xFF;
-		readData[len+4] = (dataBits >> 0) & 0xFF;
-		readData[len+5] = (checksumBits) & 0xFF;
-
-		BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-		xStreamBufferSendFromISR(xStreamBuffer, (void *)(readData), MSG_LEN, &xHigherPriorityTaskWoken);
-		portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
-	}
+	//przestaw i uruchom timer
+	this->timer->wakeMeUpAfterSeconds(this->interval);
 
 	//oddaj semafor pilnujacy pojedynczego odczytu
 	xSemaphoreGiveFromISR(singleReadoutSem, NULL);
@@ -512,11 +519,27 @@ void pushNewSensorFromRcvMessageToVector(uint8_t *message){
 		case DHT22:
 		{
 			sensorsPtrs.push_back(std::make_unique<TemperatureSensor>(pinData, sensorInfo.interval, sensorInfo.name,
-								[](uint32_t dataBits, uint8_t checksumBits, uint32_t lastDataBits){
-									BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-									xStreamBufferSendFromISR(xStreamBuffer, (void *)(readData), MSG_LEN, &xHigherPriorityTaskWoken);
-									portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
-								}
+				[](uint32_t dataBits, uint8_t checksumBits, uint32_t lastDataBits, std::string name){
+					//sprawdzic, czy nie mamy akurat nowego odczytu
+					if(checkIfTempSensorReadoutCorrect(dataBits, checksumBits)){ //czy zgadza sie suma kontrolna
+						if(dataBits != lastDataBits){
+							memset(readData, '\0', MSG_LEN);
+							uint8_t len;
+							for(len=0; name[len] != '\0' && len<MAX_NAME_LEN; len++){
+								readData[len] = (uint8_t)name[len];
+							}
+							readData[len] = '\0';
+							readData[len+1] = (dataBits >> 24) & 0xFF;
+							readData[len+2] = (dataBits >> 16) & 0xFF;
+							readData[len+3] = (dataBits >> 8) & 0xFF;
+							readData[len+4] = (dataBits >> 0) & 0xFF;
+							readData[len+5] = (checksumBits) & 0xFF;
+							BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+							xStreamBufferSendFromISR(xStreamBuffer, (void *)(readData), MSG_LEN, &xHigherPriorityTaskWoken);
+							portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+						}
+					}
+				}
 			));
 			break;
 		}

@@ -3,7 +3,7 @@
 SemaphoreHandle_t TemperatureSensor::singleReadoutSem = xSemaphoreCreateBinary();
 
 TemperatureSensor::TemperatureSensor(PinData pinData, uint16_t interval, std::string name,
-							std::function<void(uint32_t, uint8_t, uint32_t)> readoutFinishedHandler)
+							std::function<void(uint32_t, uint8_t, uint32_t, std::string)> readoutFinishedHandler)
 							: GenericOnePinDriver(pinData) {
 	this->interval = interval;
 	this->name = name;
