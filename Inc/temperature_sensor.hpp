@@ -40,7 +40,6 @@ public:
 	void changePinMode(oneWireMode mode);
 	void writePin(bool state);
 	bool readPin(void);
-	bool hasTempOrHumidChanged(uint32_t dataBits, uint8_t checksumBits);
 	void performDataReadout(uint32_t &dataBits, uint8_t &checksumBits);
 };
 

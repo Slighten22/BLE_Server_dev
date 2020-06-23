@@ -17,7 +17,6 @@ TemperatureSensor::TemperatureSensor(PinData pinData, uint16_t interval, std::st
 
 void TemperatureSensor::startReadout(void){
 	this->stateHandler = static_cast<StateHandler>(&TemperatureSensor::firstStateHandler);
-	this->readoutFinishedHandler = readoutFinishedHandler;
 	this->executeState();
 }
 
@@ -78,33 +77,6 @@ void TemperatureSensor::performDataReadout(uint32_t &dataBits, uint8_t &checksum
 	}
 }
 
-bool TemperatureSensor::hasTempOrHumidChanged(uint32_t dataBits, uint8_t checksumBits){
-	uint8_t len;
-	for(len=0; len<MSG_LEN; len++){
-		readData[len] = '\0';
-	} //memset
-	for(len=0; this->name[len] != '\0' && len<MAX_NAME_LEN; len++){
-		readData[len] = (uint8_t)this->name[len];
-	}
-	readData[len] = '\0';
-	readData[len+1] = (dataBits >> 24) & 0xFF;
-	readData[len+2] = (dataBits >> 16) & 0xFF;
-	readData[len+3] = (dataBits >> 8) & 0xFF;
-	readData[len+4] = (dataBits >> 0) & 0xFF;
-	readData[len+5] = (checksumBits) & 0xFF;
-	uint16_t humidTimesTen = (readData[len+1] << 8) | (readData[len+2]);
-	uint16_t tempTimesTen  = (readData[len+3] << 8) | (readData[len+4]);
-	float newHumidVal = (float)(humidTimesTen / 10.0F);
-	float newTempVal  = (float)(tempTimesTen / 10.0F);
-	//byla zmiana temp./wilgotnosci => wyslij nowa wartosc
-	if(newTempVal != this->lastTempValue || newHumidVal != this->lastHumidValue){
-		this->lastTempValue = newTempVal;
-		this->lastHumidValue = newHumidVal;
-		return true;
-	}
-	return false;
-}
-
 bool checkIfTempSensorReadoutCorrect(uint32_t dataBits, uint8_t checksumBits){
 	uint8_t value = ((dataBits >> 24) & 0xFF) + ((dataBits >> 16) & 0xFF) + ((dataBits >> 8) & 0xFF) + (dataBits & 0xFF);
 	if(value == checksumBits)
@@ -123,4 +95,3 @@ float calculateHumidValue(uint32_t dataBits){
 	float humidValue = (float)(humidTimesTen / 10.0F);
 	return humidValue;
 }
-

@@ -53,7 +53,6 @@ SemaphoreHandle_t singleSendingSem;
 DeviceManager deviceManager;
 StreamBufferHandle_t xStreamBuffer;
 uint8_t readData[MSG_LEN];
-std::function<void(void)> sendDataOnReadoutFinishedHandler; //TODO: niepotrzebne
 std::vector<std::unique_ptr<TemperatureSensor>> sensorsPtrs;
 uint8_t rcvConfigurationMsg[MSG_LEN];
 uint16_t delayTime;
@@ -139,11 +138,6 @@ int main(void)
   /* add queues, ... */
   xStreamBuffer = xStreamBufferCreate(MSG_LEN, MSG_LEN);
 
-  sendDataOnReadoutFinishedHandler = [](){
-	  	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-		xStreamBufferSendFromISR(xStreamBuffer, (void *)(readData), MSG_LEN, &xHigherPriorityTaskWoken);
-		portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
-  };
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
@@ -463,40 +457,17 @@ void TemperatureSensor::secondStateHandler(void){
 	uint32_t dataBits = 0UL;
 	uint8_t checksumBits = 0;
 	performDataReadout(dataBits, checksumBits);
-	//ustaw kolejny stan
-	this->stateHandler = static_cast<StateHandler>(&TemperatureSensor::firstStateHandler);
-
-	//TODO
-	this->readoutFinishedHandler(dataBits, checksumBits, this->lastDataBits, this->name);
+	//wykonaj podczepiona funkcje po odczycie, jak sie zmienily odczytane wartosci to zapisz nowe
+	this->readoutFinishedHandler(dataBits, checksumBits, this->lastDataBits, this->name); //TODO check czasem 2x wypisuje to samo jak na screenach
 	if(dataBits != this->lastDataBits){
 		this->lastDataBits = dataBits;
 		this->lastTempValue = calculateTempValue(dataBits);
 		this->lastHumidValue = calculateHumidValue(dataBits);
 	}
-
-	//po odczycie: sprawdz czy zmienila sie temp./wilg. i jesli tak, to wykonaj podczepiona funkcje
-//	if(hasTempOrHumidChanged(dataBits, checksumBits) == true){
-//
-//		memset(readData, '\0', MSG_LEN);
-//		uint8_t len;
-//		for(len=0; this->name[len] != '\0' && len<MAX_NAME_LEN; len++){
-//			readData[len] = (uint8_t)this->name[len];
-//		}
-//		readData[len] = '\0';
-//		readData[len+1] = (dataBits >> 24) & 0xFF;
-//		readData[len+2] = (dataBits >> 16) & 0xFF;
-//		readData[len+3] = (dataBits >> 8) & 0xFF;
-//		readData[len+4] = (dataBits >> 0) & 0xFF;
-//		readData[len+5] = (checksumBits) & 0xFF;
-//
-//		BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-//		xStreamBufferSendFromISR(xStreamBuffer, (void *)(readData), MSG_LEN, &xHigherPriorityTaskWoken);
-//		portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
-//	}
-
+	//ustaw kolejny stan
+	this->stateHandler = static_cast<StateHandler>(&TemperatureSensor::firstStateHandler);
 	//przestaw i uruchom timer
 	this->timer->wakeMeUpAfterSeconds(this->interval);
-
 	//oddaj semafor pilnujacy pojedynczego odczytu
 	xSemaphoreGiveFromISR(singleReadoutSem, NULL);
 }
@@ -520,9 +491,8 @@ void pushNewSensorFromRcvMessageToVector(uint8_t *message){
 		{
 			sensorsPtrs.push_back(std::make_unique<TemperatureSensor>(pinData, sensorInfo.interval, sensorInfo.name,
 				[](uint32_t dataBits, uint8_t checksumBits, uint32_t lastDataBits, std::string name){
-					//sprawdzic, czy nie mamy akurat nowego odczytu
 					if(checkIfTempSensorReadoutCorrect(dataBits, checksumBits)){ //czy zgadza sie suma kontrolna
-						if(dataBits != lastDataBits){
+						if(dataBits != lastDataBits){ //sprawdzic, czy nie mamy akurat nowego odczytu
 							memset(readData, '\0', MSG_LEN);
 							uint8_t len;
 							for(len=0; name[len] != '\0' && len<MAX_NAME_LEN; len++){
@@ -533,7 +503,7 @@ void pushNewSensorFromRcvMessageToVector(uint8_t *message){
 							readData[len+2] = (dataBits >> 16) & 0xFF;
 							readData[len+3] = (dataBits >> 8) & 0xFF;
 							readData[len+4] = (dataBits >> 0) & 0xFF;
-							readData[len+5] = (checksumBits) & 0xFF;
+							readData[len+5] = (checksumBits) & 0xFF; //TODO: wysylane dane sa prawidlowe, dorobic u klienta spr. czy doszly ok
 							BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 							xStreamBufferSendFromISR(xStreamBuffer, (void *)(readData), MSG_LEN, &xHigherPriorityTaskWoken);
 							portYIELD_FROM_ISR(xHigherPriorityTaskWoken);

@@ -5,33 +5,27 @@ functional:1459:17:const void* std::_Any_data::_M_access() const	16	static
 functional:1685:5:std::_Function_base::_Function_base()	16	static
 functional:1687:5:std::_Function_base::~_Function_base()	16	static
 functional:1694:10:bool std::_Function_base::_M_empty() const	16	static
-main.cpp:142:41:main()::<lambda()>	24	static
-main.cpp:91:5:int main()	104	static
-main.cpp:184:6:void SystemClock_Config()	232	static
-main.cpp:239:6:void MX_USART3_UART_Init()	8	static
-main.cpp:274:13:void MX_GPIO_Init()	48	static
-main.cpp:321:13:void MX_TIM7_Init()	24	static
-main.cpp:347:13:void MX_TIM6_Init()	24	static
-main.cpp:367:13:void MX_TIM4_Init()	24	static
-main.cpp:396:6:void StartDefaultTask(const void*)	16	static
-main.cpp:409:6:void ReadoutTask(const void*)	24	static
-main.cpp:427:6:void CommunicationTask(const void*)	40	static
-main.cpp:444:6:void TemperatureSensor::firstStateHandler()	16	static
-main.cpp:458:6:void TemperatureSensor::secondStateHandler()	72	static
+main.cpp:90:5:int main()	104	static
+main.cpp:178:6:void SystemClock_Config()	232	static
+main.cpp:233:6:void MX_USART3_UART_Init()	8	static
+main.cpp:268:13:void MX_GPIO_Init()	48	static
+main.cpp:315:13:void MX_TIM7_Init()	24	static
+main.cpp:341:13:void MX_TIM6_Init()	24	static
+main.cpp:361:13:void MX_TIM4_Init()	24	static
+main.cpp:390:6:void StartDefaultTask(const void*)	16	static
+main.cpp:403:6:void ReadoutTask(const void*)	24	static
+main.cpp:421:6:void CommunicationTask(const void*)	40	static
+main.cpp:438:6:void TemperatureSensor::firstStateHandler()	16	static
+main.cpp:452:6:void TemperatureSensor::secondStateHandler()	72	static
 server_configuration.hpp:13:16:SensorInfo::SensorInfo()	16	static
 server_configuration.hpp:13:16:SensorInfo::~SensorInfo()	16	static
-main.cpp:522:88:pushNewSensorFromRcvMessageToVector(uint8_t*)::<lambda(uint32_t, uint8_t, uint32_t, std::__cxx11::string)>	40	static
-main.cpp:504:6:void pushNewSensorFromRcvMessageToVector(uint8_t*)	112	static
-main.cpp:551:6:void prepareAndSendReadData(char*)	64	static
-main.cpp:570:6:void delayMicroseconds(uint32_t)	40	static
-main.cpp:591:6:void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*)	16	static
-main.cpp:614:6:void Error_Handler()	8	static
-functional:525:12:constexpr std::_Maybe_unary_or_binary_function<void>::_Maybe_unary_or_binary_function()	16	static
-functional:1861:7:)>::function() [with _Res = void; _ArgTypes = {}]	16	static
+main.cpp:493:88:pushNewSensorFromRcvMessageToVector(uint8_t*)::<lambda(uint32_t, uint8_t, uint32_t, std::__cxx11::string)>	40	static
+main.cpp:475:6:void pushNewSensorFromRcvMessageToVector(uint8_t*)	112	static
+main.cpp:521:6:void prepareAndSendReadData(char*)	64	static
+main.cpp:540:6:void delayMicroseconds(uint32_t)	40	static
+main.cpp:561:6:void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*)	16	static
+main.cpp:584:6:void Error_Handler()	8	static
 stl_vector.h:255:7:std::vector<_Tp, _Alloc>::vector() [with _Tp = std::unique_ptr<TemperatureSensor>; _Alloc = std::allocator<std::unique_ptr<TemperatureSensor> >]	16	static
-move.h:76:5:constexpr _Tp&& std::forward(typename std::remove_reference<_From>::type&) [with _Tp = main()::<lambda()>]	16	static
-functional:1834:11:std::function<void()>::~function()	16	static
-functional:1990:2:)>::operator=(_Functor&&) [with _Functor = main()::<lambda()>; _Res = void; _ArgTypes = {}]	40	static
 stl_vector.h:655:7:std::vector<_Tp, _Alloc>::size_type std::vector<_Tp, _Alloc>::size() const [with _Tp = std::unique_ptr<TemperatureSensor>; _Alloc = std::allocator<std::unique_ptr<TemperatureSensor> >]	16	static
 move.h:76:5:constexpr _Tp&& std::forward(typename std::remove_reference<_From>::type&) [with _Tp = long unsigned int]	16	static
 move.h:76:5:constexpr _Tp&& std::forward(typename std::remove_reference<_From>::type&) [with _Tp = unsigned char]	16	static
@@ -53,9 +47,6 @@ stl_vector.h:932:7:void std::vector<_Tp, _Alloc>::push_back(std::vector<_Tp, _Al
 stl_vector.h:79:14:std::_Vector_base<std::unique_ptr<TemperatureSensor>, std::allocator<std::unique_ptr<TemperatureSensor> > >::_Vector_impl::~_Vector_impl()	16	static
 stl_vector.h:124:7:std::_Vector_base<_Tp, _Alloc>::_Vector_base() [with _Tp = std::unique_ptr<TemperatureSensor>; _Alloc = std::allocator<std::unique_ptr<TemperatureSensor> >]	16	static
 stl_vector.h:159:7:std::_Vector_base<_Tp, _Alloc>::~_Vector_base() [with _Tp = std::unique_ptr<TemperatureSensor>; _Alloc = std::allocator<std::unique_ptr<TemperatureSensor> >]	16	static
-move.h:101:5:constexpr typename std::remove_reference< <template-parameter-1-1> >::type&& std::move(_Tp&&) [with _Tp = main()::<lambda()>&]	16	static
-functional:2106:7:)>::function(_Functor) [with _Functor = main()::<lambda()>; <template-parameter-2-2> = void; <template-parameter-2-3> = void; _Res = void; _ArgTypes = {}]	24	static
-functional:2014:12:)>&) [with _Res = void; _ArgTypes = {}]	16	static
 functional:525:12:constexpr std::_Maybe_unary_or_binary_function<void, long unsigned int, unsigned char, long unsigned int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >::_Maybe_unary_or_binary_function()	16	static
 move.h:101:5:constexpr typename std::remove_reference< <template-parameter-1-1> >::type&& std::move(_Tp&&) [with _Tp = pushNewSensorFromRcvMessageToVector(uint8_t*)::<lambda(uint32_t, uint8_t, uint32_t, std::__cxx11::string)>&]	16	static
 functional:2106:7:)>::function(_Functor) [with _Functor = pushNewSensorFromRcvMessageToVector(uint8_t*)::<lambda(uint32_t, uint8_t, uint32_t, std::__cxx11::string)>; <template-parameter-2-2> = void; <template-parameter-2-3> = void; _Res = void; _ArgTypes = {long unsigned int, unsigned char, long unsigned int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >}]	24	static
@@ -86,16 +77,6 @@ vector.tcc:91:7:) [with _Args = {std::unique_ptr<TemperatureSensor, std::default
 stl_vector.h:86:2:std::_Vector_base<_Tp, _Alloc>::_Vector_impl::_Vector_impl() [with _Tp = std::unique_ptr<TemperatureSensor>; _Alloc = std::allocator<std::unique_ptr<TemperatureSensor> >]	16	static
 allocator.h:139:7:std::allocator< <template-parameter-1-1> >::~allocator() [with _Tp = std::unique_ptr<TemperatureSensor>]	16	static
 stl_vector.h:174:7:void std::_Vector_base<_Tp, _Alloc>::_M_deallocate(std::_Vector_base<_Tp, _Alloc>::pointer, std::size_t) [with _Tp = std::unique_ptr<TemperatureSensor>; _Alloc = std::allocator<std::unique_ptr<TemperatureSensor> >]	24	static
-functional:1637:4:static bool std::_Function_base::_Base_manager<_Functor>::_M_not_empty_function(const _Tp&) [with _Tp = main()::<lambda()>; _Functor = main()::<lambda()>]	16	static
-functional:1617:2:static void std::_Function_base::_Base_manager<_Functor>::_M_init_functor(std::_Any_data&, _Functor&&) [with _Functor = main()::<lambda()>]	32	static
-functional:1729:7:) [with _Functor = main()::<lambda()>; _ArgTypes = {}]	16	static
-functional:1591:2:static bool std::_Function_base::_Base_manager<_Functor>::_M_manager(std::_Any_data&, const std::_Any_data&, std::_Manager_operation) [with _Functor = main()::<lambda()>]	40	static
-move.h:101:5:constexpr typename std::remove_reference< <template-parameter-1-1> >::type&& std::move(_Tp&&) [with _Tp = std::_Any_data&]	16	static
-move.h:179:5:typename std::enable_if<std::__and_<std::is_move_constructible<_Tp>, std::is_move_assignable<_Tp> >::value>::type std::swap(_Tp&, _Tp&) [with _Tp = std::_Any_data]	24	static
-move.h:101:5:constexpr typename std::remove_reference< <template-parameter-1-1> >::type&& std::move(_Tp&&) [with _Tp = bool (*&)(std::_Any_data&, const std::_Any_data&, std::_Manager_operation)]	16	static
-move.h:179:5:typename std::enable_if<std::__and_<std::is_move_constructible<_Tp>, std::is_move_assignable<_Tp> >::value>::type std::swap(_Tp&, _Tp&) [with _Tp = bool (*)(std::_Any_data&, const std::_Any_data&, std::_Manager_operation)]	24	static
-move.h:101:5:constexpr typename std::remove_reference< <template-parameter-1-1> >::type&& std::move(_Tp&&) [with _Tp = void (*&)(const std::_Any_data&)]	16	static
-move.h:179:5:typename std::enable_if<std::__and_<std::is_move_constructible<_Tp>, std::is_move_assignable<_Tp> >::value>::type std::swap(_Tp&, _Tp&) [with _Tp = void (*)(const std::_Any_data&)]	24	static
 functional:1637:4:static bool std::_Function_base::_Base_manager<_Functor>::_M_not_empty_function(const _Tp&) [with _Tp = pushNewSensorFromRcvMessageToVector(uint8_t*)::<lambda(uint32_t, uint8_t, uint32_t, std::__cxx11::string)>; _Functor = pushNewSensorFromRcvMessageToVector(uint8_t*)::<lambda(uint32_t, uint8_t, uint32_t, std::__cxx11::string)>]	16	static
 functional:1617:2:static void std::_Function_base::_Base_manager<_Functor>::_M_init_functor(std::_Any_data&, _Functor&&) [with _Functor = pushNewSensorFromRcvMessageToVector(uint8_t*)::<lambda(uint32_t, uint8_t, uint32_t, std::__cxx11::string)>]	32	static
 functional:1729:7:) [with _Functor = pushNewSensorFromRcvMessageToVector(uint8_t*)::<lambda(uint32_t, uint8_t, uint32_t, std::__cxx11::string)>; _ArgTypes = {long unsigned int, unsigned char, long unsigned int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >}]	72	static
@@ -106,14 +87,9 @@ vector.tcc:407:7:) [with _Args = {std::unique_ptr<TemperatureSensor, std::defaul
 allocator.h:131:7:std::allocator< <template-parameter-1-1> >::allocator() [with _Tp = std::unique_ptr<TemperatureSensor>]	16	static
 new_allocator.h:86:7:__gnu_cxx::new_allocator<_Tp>::~new_allocator() [with _Tp = std::unique_ptr<TemperatureSensor>]	16	static
 alloc_traits.h:461:7:static void std::allocator_traits<std::allocator<_Tp1> >::deallocate(std::allocator_traits<std::allocator<_Tp1> >::allocator_type&, std::allocator_traits<std::allocator<_Tp1> >::pointer, std::allocator_traits<std::allocator<_Tp1> >::size_type) [with _Tp = std::unique_ptr<TemperatureSensor>]	24	static
-functional:1642:2:static void std::_Function_base::_Base_manager<_Functor>::_M_init_functor(std::_Any_data&, _Functor&&, std::true_type) [with _Functor = main()::<lambda()>]	24	static
-functional:1549:2:static _Functor* std::_Function_base::_Base_manager<_Functor>::_M_get_pointer(const std::_Any_data&) [with _Functor = main()::<lambda()>]	24	static
-functional:1463:7:_Tp& std::_Any_data::_M_access() [with _Tp = const std::type_info*]	16	static
-functional:1463:7:_Tp& std::_Any_data::_M_access() [with _Tp = main()::<lambda()>*]	16	static
-functional:1560:2:static void std::_Function_base::_Base_manager<_Functor>::_M_clone(std::_Any_data&, const std::_Any_data&, std::true_type) [with _Functor = main()::<lambda()>]	24	static
-functional:1577:2:static void std::_Function_base::_Base_manager<_Functor>::_M_destroy(std::_Any_data&, std::true_type) [with _Functor = main()::<lambda()>]	16	static
 functional:1642:2:static void std::_Function_base::_Base_manager<_Functor>::_M_init_functor(std::_Any_data&, _Functor&&, std::true_type) [with _Functor = pushNewSensorFromRcvMessageToVector(uint8_t*)::<lambda(uint32_t, uint8_t, uint32_t, std::__cxx11::string)>]	24	static
 functional:1549:2:static _Functor* std::_Function_base::_Base_manager<_Functor>::_M_get_pointer(const std::_Any_data&) [with _Functor = pushNewSensorFromRcvMessageToVector(uint8_t*)::<lambda(uint32_t, uint8_t, uint32_t, std::__cxx11::string)>]	24	static
+functional:1463:7:_Tp& std::_Any_data::_M_access() [with _Tp = const std::type_info*]	16	static
 functional:1463:7:_Tp& std::_Any_data::_M_access() [with _Tp = pushNewSensorFromRcvMessageToVector(uint8_t*)::<lambda(uint32_t, uint8_t, uint32_t, std::__cxx11::string)>*]	16	static
 functional:1560:2:static void std::_Function_base::_Base_manager<_Functor>::_M_clone(std::_Any_data&, const std::_Any_data&, std::true_type) [with _Functor = pushNewSensorFromRcvMessageToVector(uint8_t*)::<lambda(uint32_t, uint8_t, uint32_t, std::__cxx11::string)>]	24	static
 functional:1577:2:static void std::_Function_base::_Base_manager<_Functor>::_M_destroy(std::_Any_data&, std::true_type) [with _Functor = pushNewSensorFromRcvMessageToVector(uint8_t*)::<lambda(uint32_t, uint8_t, uint32_t, std::__cxx11::string)>]	16	static
@@ -132,9 +108,6 @@ alloc_traits.h:486:2:static void std::allocator_traits<std::allocator<_Tp1> >::d
 stl_construct.h:148:5:void std::_Destroy(_ForwardIterator, _ForwardIterator, std::allocator<_T2>&) [with _ForwardIterator = std::unique_ptr<TemperatureSensor>*; _Tp = std::unique_ptr<TemperatureSensor>]	24	static
 new_allocator.h:79:7:__gnu_cxx::new_allocator<_Tp>::new_allocator() [with _Tp = std::unique_ptr<TemperatureSensor>]	16	static
 new_allocator.h:109:7:void __gnu_cxx::new_allocator<_Tp>::deallocate(__gnu_cxx::new_allocator<_Tp>::pointer, __gnu_cxx::new_allocator<_Tp>::size_type) [with _Tp = std::unique_ptr<TemperatureSensor>]	24	static
-functional:1468:7:const _Tp& std::_Any_data::_M_access() const [with _Tp = main()::<lambda()>]	16	static
-move.h:47:5:_Tp* std::__addressof(_Tp&) [with _Tp = const main()::<lambda()>]	16	static
-functional:1463:7:_Tp& std::_Any_data::_M_access() [with _Tp = main()::<lambda()>]	16	static
 functional:1468:7:const _Tp& std::_Any_data::_M_access() const [with _Tp = pushNewSensorFromRcvMessageToVector(uint8_t*)::<lambda(uint32_t, uint8_t, uint32_t, std::__cxx11::string)>]	16	static
 move.h:47:5:_Tp* std::__addressof(_Tp&) [with _Tp = const pushNewSensorFromRcvMessageToVector(uint8_t*)::<lambda(uint32_t, uint8_t, uint32_t, std::__cxx11::string)>]	16	static
 functional:1463:7:_Tp& std::_Any_data::_M_access() [with _Tp = pushNewSensorFromRcvMessageToVector(uint8_t*)::<lambda(uint32_t, uint8_t, uint32_t, std::__cxx11::string)>]	16	static
@@ -160,6 +133,6 @@ stl_iterator.h:1044:7:std::move_iterator<_Iterator>::reference std::move_iterato
 stl_construct.h:74:5:) [with _T1 = std::unique_ptr<TemperatureSensor>; _Args = {std::unique_ptr<TemperatureSensor, std::default_delete<TemperatureSensor> >}]	24	static
 stl_iterator.h:1119:5:bool std::operator==(const std::move_iterator<_IteratorL>&, const std::move_iterator<_IteratorL>&) [with _Iterator = std::unique_ptr<TemperatureSensor>*]	24	static
 stl_iterator.h:1040:7:std::move_iterator<_Iterator>::iterator_type std::move_iterator<_Iterator>::base() const [with _Iterator = std::unique_ptr<TemperatureSensor>*]	16	static
-main.cpp:620:1:void __static_initialization_and_destruction_0(int, int)	16	static
+main.cpp:590:1:void __static_initialization_and_destruction_0(int, int)	16	static
 stl_vector.h:425:7:std::vector<_Tp, _Alloc>::~vector() [with _Tp = std::unique_ptr<TemperatureSensor>; _Alloc = std::allocator<std::unique_ptr<TemperatureSensor> >]	24	static
-main.cpp:620:1:cpp)	8	static
+main.cpp:590:1:cpp)	8	static
