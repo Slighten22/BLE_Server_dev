@@ -43,9 +43,9 @@
 #include "cmsis_os.h"
 #include "app_x-cube-ble1.h"
 #include "bluenrg_types.h"
+#include "stream_buffer.h"
 //
 uint8_t rcvBLE[VARIABLE_SIZE];
-#define CONF_MSG_LEN 20
 
 /* USER CODE END Includes */
 

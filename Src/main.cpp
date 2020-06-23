@@ -25,6 +25,7 @@
 /* USER CODE END Includes */
 #include <vector>
 #include <memory>
+#include <functional>
 #include "timer.hpp"
 #include "pin_data.hpp"
 #include "device_manager.hpp"
@@ -47,15 +48,17 @@ UART_HandleTypeDef huart3;
 TaskHandle_t defaultTaskHandle;
 /* USER CODE BEGIN PV */
 TaskHandle_t readoutTaskHandle;
-SemaphoreHandle_t binarySem;
+TaskHandle_t communicationTaskHandle;
+SemaphoreHandle_t singleSendingSem;
 DeviceManager deviceManager;
+StreamBufferHandle_t xStreamBuffer;
+uint8_t readData[MSG_LEN];
 std::vector<std::unique_ptr<TemperatureSensor>> sensorsPtrs;
-uint8_t rcvConfigurationMsg[CONF_MSG_LEN];
-uint16_t delayTime = 3000;
-uint8_t data[5];
+uint8_t rcvConfigurationMsg[MSG_LEN];
+uint16_t delayTime;
 char uartData[70];
 bool readDone;
-bool newConfig = false;
+bool newConfig;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -65,14 +68,14 @@ void MX_USART3_UART_Init(void);
 void StartDefaultTask(void const * argument);
 /* USER CODE BEGIN PFP */
 void ReadoutTask(void const * argument);
+void CommunicationTask(void const * argument);
 static void MX_TIM7_Init(void);
 static void MX_TIM6_Init(void);
 static void MX_TIM4_Init(void);
 void delayMicroseconds(uint32_t us);
-void createNewSensorFromRcvMessage(uint8_t *message);
+void prepareAndSendReadData(char *cRxBuffer);
+void pushNewSensorFromRcvMessageToVector(uint8_t *message);
 void createNewSensor(SensorInfo sensorInfo);
-void prepareAndSendData(uint32_t readValue, uint8_t readChecksum, std::string nme);
-void printReadData(uint32_t readData, std::string name);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -114,6 +117,8 @@ int main(void)
   MX_TIM7_Init();
   MX_TIM6_Init();
   MX_TIM4_Init();
+  delayTime = 3000;
+  newConfig = false;
   /* USER CODE END 2 */
 
   /* USER CODE BEGIN RTOS_MUTEX */
@@ -122,7 +127,7 @@ int main(void)
 
   /* USER CODE BEGIN RTOS_SEMAPHORES */
   /* add semaphores, ... */
-  binarySem = xSemaphoreCreateBinary();
+  singleSendingSem = xSemaphoreCreateBinary();
   /* USER CODE END RTOS_SEMAPHORES */
 
   /* USER CODE BEGIN RTOS_TIMERS */
@@ -131,6 +136,8 @@ int main(void)
 
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
+  xStreamBuffer = xStreamBufferCreate(MSG_LEN, MSG_LEN);
+
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
@@ -142,6 +149,10 @@ int main(void)
   /* add threads, ... */
   osThreadDef(readoutTask, ReadoutTask, osPriorityNormal, 0, 2048); //uwazac na rozmiar stosu FreeRTOSowego; rozmiar w slowach!
   readoutTaskHandle = osThreadCreate(osThread(readoutTask), NULL);
+
+  //task do wysylania i wyswietlania odczytanych danych
+  osThreadDef(communicationTask, CommunicationTask, osPriorityNormal, 0, 1024);
+  communicationTaskHandle = osThreadCreate(osThread(communicationTask), NULL);
   /* USER CODE END RTOS_THREADS */
 
   /* Start scheduler */
@@ -309,9 +320,9 @@ static void MX_TIM7_Init(void)
   /* USER CODE BEGIN TIM7_Init 1 */
   /* USER CODE END TIM7_Init 1 */
   htim7.Instance = TIM7;
-  htim7.Init.Prescaler = 7999;
+  htim7.Init.Prescaler = 6400 - 1; //tick co 80 mikro
   htim7.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim7.Init.Period = 9;
+  htim7.Init.Period = 9; //do zmiany przy tworzeniu nowego sensora
   htim7.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim7) != HAL_OK)
   {
@@ -327,13 +338,13 @@ static void MX_TIM7_Init(void)
   /* USER CODE END TIM7_Init 2 */
 }
 
-static void MX_TIM6_Init(void) //TODO: check&fix
+static void MX_TIM6_Init(void)
 {
   TIM_MasterConfigTypeDef sMasterConfig = {0};
   htim6.Instance = TIM6;
-  htim6.Init.Prescaler = 7999;
+  htim6.Init.Prescaler = 6400 - 1; //tick co 80 mikro
   htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim6.Init.Period = 9;
+  htim6.Init.Period = 9;  //do zmiany przy tworzeniu nowego sensora
   htim6.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim6) != HAL_OK)
   {
@@ -347,11 +358,11 @@ static void MX_TIM6_Init(void) //TODO: check&fix
   }
 }
 
-static void MX_TIM4_Init(void) //TODO: check&fix
+static void MX_TIM4_Init(void)
 {
   TIM_MasterConfigTypeDef sMasterConfig = {0};
   htim4.Instance = TIM4;
-  htim4.Init.Prescaler = 7999;
+  htim4.Init.Prescaler = 6400 - 1; //tick co 80 mikro
   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim4.Init.Period = 9;
   htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
@@ -366,6 +377,7 @@ static void MX_TIM4_Init(void) //TODO: check&fix
     Error_Handler();
   }
 }
+
 /* USER CODE END 4 */
 
 /* USER CODE BEGIN Header_StartDefaultTask */
@@ -380,13 +392,8 @@ void StartDefaultTask(void const * argument)
 	/* USER CODE BEGIN 5 */
 	/* Infinite loop */
 	for (;;) {
-		//wyslij sygnal do taska drivera zeby pryzgotowal dane (ew. parametry = zmienne globalne?)
-		xTaskNotify(readoutTaskHandle, 0x01, eSetBits); //a domyslnie kolejka (queue) requestow
-
-		TickType_t maxBlockTime = pdMS_TO_TICKS(300UL);
-		xSemaphoreTake(binarySem, maxBlockTime); //do synchr. taska z ISR: https://www.freertos.org/Embedded-RTOS-Binary-Semaphores.html
-		//zeby tu dojsc, musial byc oddany semafor
-		HAL_UART_Transmit(&huart3, (uint8_t *)"notified\r\n", 10, 10);
+		//wyslij sygnal do taska drivera zeby pryzgotowal dane
+		xTaskNotify(readoutTaskHandle, 0x01, eSetBits);
 		osDelay(delayTime);
 	}
 	/* USER CODE END 5 */
@@ -395,7 +402,6 @@ void StartDefaultTask(void const * argument)
 /* USER CODE BEGIN 6 */
 void ReadoutTask(void const * argument){
 	uint32_t notifValue;
-
 	/* Infinite loop */
 	for (;;) {
 		xTaskNotifyWait(pdFALSE, 0xFF, &notifValue, portMAX_DELAY);
@@ -403,11 +409,7 @@ void ReadoutTask(void const * argument){
 			//sprawdz, czy nie przyszla nowa konfiguracja
 			if(newConfig == true){
 				newConfig = false;
-				createNewSensorFromRcvMessage(rcvConfigurationMsg); //29: zwraca obiekt sensor, na ktorym zrobimy push_back do wektora
-			}
-			//zrob odczyt ze wszystkich czujnikow ktore masz
-			for(uint8_t i=0; i<sensorsPtrs.size(); i++){
-				sensorsPtrs[i]->driverStartReadout();
+				pushNewSensorFromRcvMessageToVector(rcvConfigurationMsg);
 			}
 			if(sensorsPtrs.size() == 0){ //TODO
 				MX_BlueNRG_MS_Process((uint8_t *)"", 0);
@@ -416,9 +418,29 @@ void ReadoutTask(void const * argument){
 	}
 }
 
+void CommunicationTask(void const * argument){
+	char cRxBuffer[MSG_LEN];
+	memset(cRxBuffer, 0x00, sizeof(cRxBuffer));
+	for(;;)
+	{
+		//wez semafor pilnujacy pojedynczego wysylania
+		xSemaphoreTake(singleSendingSem, pdMS_TO_TICKS(300));
+		xStreamBufferReceive(xStreamBuffer, (void *)&(cRxBuffer), MSG_LEN*sizeof(char), portMAX_DELAY);
+		prepareAndSendReadData(cRxBuffer);
+		//przygotowanie na kolejny komunikat
+		memset(cRxBuffer, 0x00, sizeof(cRxBuffer));
+		xStreamBufferReset(xStreamBuffer);
+		//oddaj semafor pilnujacy pojedynczego wysylania
+		xSemaphoreGive(singleSendingSem);
+	}
+}
+
 void TemperatureSensor::firstStateHandler(void){
+	//zatrzymac counter timera
+	this->timer->stopCounter();
+	//wziac semafor pilnujacy pojedynczego odczytu
+	xSemaphoreTakeFromISR(singleReadoutSem, NULL);
 	//to co ma zrobic w tym stanie
-	HAL_UART_Transmit(&huart3, (uint8_t *)"First state!\r\n", 14, 10);
 	this->changePinMode(ONE_WIRE_OUTPUT);
 	this->writePin(0);
 	//ustaw kolejny stan
@@ -428,51 +450,91 @@ void TemperatureSensor::firstStateHandler(void){
 }
 
 void TemperatureSensor::secondStateHandler(void){
+	//zatrzymac counter timera
+	this->timer->stopCounter();
 	//to co ma zrobic w tym stanie
-	HAL_UART_Transmit(&huart3, (uint8_t *)"Second state!\r\n", 15, 10);
-	this->writePin(1);
 	this->changePinMode(ONE_WIRE_INPUT);
+	uint32_t dataBits = 0UL;
+	uint8_t checksumBits = 0;
+	performDataReadout(dataBits, checksumBits);
+	//wykonaj podczepiona funkcje po odczycie, jak sie zmienily odczytane wartosci to zapisz nowe
+	this->readoutFinishedHandler(dataBits, checksumBits, this->lastDataBits, this->name); //TODO check czasem 2x wypisuje to samo jak na screenach
+	if(dataBits != this->lastDataBits){
+		this->lastDataBits = dataBits;
+		this->lastTempValue = calculateTempValue(dataBits);
+		this->lastHumidValue = calculateHumidValue(dataBits);
+	}
 	//ustaw kolejny stan
-	this->stateHandler = static_cast<StateHandler>(&TemperatureSensor::thirdStateHandler);
+	this->stateHandler = static_cast<StateHandler>(&TemperatureSensor::firstStateHandler);
 	//przestaw i uruchom timer
-	this->timer->wakeMeUpAfterMicroseconds(10);
+	this->timer->wakeMeUpAfterSeconds(this->interval);
+	//oddaj semafor pilnujacy pojedynczego odczytu
+	xSemaphoreGiveFromISR(singleReadoutSem, NULL);
 }
 
-void TemperatureSensor::thirdStateHandler(void){
-	while(this->readPin());
-	while(!this->readPin());
-	while(this->readPin());
-	uint32_t rawBits = 0UL;
-	uint8_t checksumBits = 0;
-	for (int8_t i = 31; i >= 0; i--){	//Read 32 bits of temp.&humidity data
-		/*
-		 * Bit data "0" signal: the level is LOW for 50ms and HIGH for 26-28ms;
-		 * Bit data "1" signal: the level is LOW for 50ms and HIGH for 70ms;
-		 * MAX FREQUENCY ON STM32L476RG = 80MHz
-		 * SO IT TAKES 12,5 ns FOR ONE INSTRUCTION TO EXECUTE
-		 * A DELAY OF 1 SECOND (x TICKS): 80 MILLION NOP INSTRUCTIONS TO EXECUTE
-		 */
-		while (!this->readPin());
-		delayMicroseconds(50);
-		if (this->readPin()) {
-			rawBits |= (1UL << i);
-		}
-		while (this->readPin());
+void pushNewSensorFromRcvMessageToVector(uint8_t *message){
+	/* Format wiadomosci: <typ_sensora:1B> <interwal:2B> <nazwa:max.15B> */
+	SensorInfo sensorInfo;
+	sensorInfo.sensorType = (SensorType)*(message + 0);
+	sensorInfo.interval = (*(message + 1))*256 + *(message + 2);
+	int name_len = 0;
+	char charName[MAX_NAME_LEN];
+	for(int i=3; message[i] != '\0' && name_len < MAX_NAME_LEN; i++){
+		charName[i-3] = (char)(*(message + i));
+		name_len++;
 	}
-	for (int8_t i = 7; i >= 0; i--){
-		while (!this->readPin());
-		delayMicroseconds(50);
-		if (this->readPin()) {
-			checksumBits |= (1UL << i);
+	sensorInfo.name = charName;
+	PinData pinData = deviceManager.getFreePin();
+
+	switch(sensorInfo.sensorType){
+		case DHT22:
+		{
+			sensorsPtrs.push_back(std::make_unique<TemperatureSensor>(pinData, sensorInfo.interval, sensorInfo.name,
+				[](uint32_t dataBits, uint8_t checksumBits, uint32_t lastDataBits, std::string name){
+					if(checkIfTempSensorReadoutCorrect(dataBits, checksumBits)){ //czy zgadza sie suma kontrolna
+						if(dataBits != lastDataBits){ //sprawdzic, czy nie mamy akurat nowego odczytu
+							memset(readData, '\0', MSG_LEN);
+							uint8_t len;
+							for(len=0; name[len] != '\0' && len<MAX_NAME_LEN; len++){
+								readData[len] = (uint8_t)name[len];
+							}
+							readData[len] = '\0';
+							readData[len+1] = (dataBits >> 24) & 0xFF;
+							readData[len+2] = (dataBits >> 16) & 0xFF;
+							readData[len+3] = (dataBits >> 8) & 0xFF;
+							readData[len+4] = (dataBits >> 0) & 0xFF;
+							readData[len+5] = (checksumBits) & 0xFF; //TODO: wysylane dane sa prawidlowe, dorobic u klienta spr. czy doszly ok
+							BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+							xStreamBufferSendFromISR(xStreamBuffer, (void *)(readData), MSG_LEN, &xHigherPriorityTaskWoken);
+							portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+						}
+					}
+				}
+			));
+			break;
 		}
-		while (this->readPin());
+		default:
+			break;
 	}
-	prepareAndSendData(rawBits, checksumBits, this->name); //29:gdzie indziej!! wysylanie danych w innym miejscu! / powiadomic kolejke/task od kom.
-	printReadData(rawBits, this->name); //29:nie wewn. obslugi przerwania!
-	//zamiast tego ^^ zapamietac ostatni odczyt i powiadomic kogos (task wysylki?) ze go mamy
-	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-	xSemaphoreGiveFromISR(binarySem, &xHigherPriorityTaskWoken);
-	portYIELD_FROM_ISR(xHigherPriorityTaskWoken);//powiadom glowny task ze juz zakonczyla sie cala robota
+}
+
+void prepareAndSendReadData(char *cRxBuffer){
+	char charName[MAX_NAME_LEN];
+	memset(charName, 0x00, sizeof(charName));
+	int name_len;
+	for(name_len=0; cRxBuffer[name_len] != '\0' && name_len < MAX_NAME_LEN; name_len++){
+		charName[name_len] = (char)(cRxBuffer[name_len]);
+	}
+	uint16_t humid = (cRxBuffer[name_len+1] << 8) | (cRxBuffer[name_len+2]);
+	uint16_t temp  = (cRxBuffer[name_len+3] << 8) | (cRxBuffer[name_len+4]);
+	uint16_t humidDecimal = humid % 10;
+	uint16_t tempDecimal = temp % 10;
+	temp = temp / (uint16_t) 10;
+	humid = humid / (uint16_t) 10;
+	sprintf(uartData, "\r\n\r\nOdczyt: Czujnik %s\r\nTemperatura\t %hu.%huC\r\nWilgotnosc\t %hu.%hu%%\r\n",
+			charName, temp, tempDecimal, humid, humidDecimal);
+	HAL_UART_Transmit(&huart3, (uint8_t *)uartData, sizeof(uartData), 10);
+	MX_BlueNRG_MS_Process((uint8_t *)cRxBuffer, name_len+6); //wysylanie BLE
 }
 
 void delayMicroseconds(uint32_t us){
@@ -486,58 +548,6 @@ void delayMicroseconds(uint32_t us){
 	for(uint32_t tmp = 0; tmp < loopCounter; tmp++) {asm volatile("nop");}
 	//previously there was tmp < 800 giving 3200 processor cycles, each lasting 12.5 ns = 40 us delay
 	//UINT_MAX	Maximum value for a variable of type unsigned int	4,294,967,295 (0xffffffff)
-}
-
-void createNewSensorFromRcvMessage(uint8_t *message){
-	/* Format wiadomosci: <typ_sensora:1B> <interwal:2B> <nazwa:max.15B> */
-	SensorInfo sensorInfo;
-	sensorInfo.interval = (*(message + 1))*256 + *(message + 2); //zalozenie: MSB najpierw
-	int name_len = 0;
-	for(int i=3; message[i] != '\0' && name_len < MAX_NAME_LEN; i++){
-		sensorInfo.charName[i-3] = (char)(*(message + i));
-		name_len++;
-	}
-	sensorInfo.name = sensorInfo.charName;
-	sensorInfo.pinData = deviceManager.getFreePin();
-
-	switch(*(message + 0)){
-		case DHT22:
-		{
-			sensorInfo.sensorType = DHT22;
-			sensorsPtrs.push_back(std::make_unique<TemperatureSensor>(sensorInfo.pinData, sensorInfo.interval, sensorInfo.name, name_len));
-			//TODO: zwalnianie pamieci po sensorze gdy przyjdzie konfig z interwalem = 0
-			//TODO: odczyt z sensora tylko co odp. interwal!
-			break;
-		}
-		default:
-			break;
-	}
-}
-
-void prepareAndSendData(uint32_t readValue, uint8_t readChecksum, std::string name){
-	uint8_t data[CONF_MSG_LEN]; uint8_t len = 0;
-	for(int i=0; name[i] != '\0' && i<MAX_NAME_LEN; i++){
-		data[i] = (uint8_t)name[i]; len++;
-	}
-	data[len] = '\0';
-	data[len+1] = (readValue >> 24) & 0xFF;
-	data[len+2] = (readValue >> 16) & 0xFF;
-	data[len+3] = (readValue >> 8) & 0xFF;
-	data[len+4] = (readValue >> 0) & 0xFF;
-	data[len+5] = (readChecksum) & 0xFF;
-	MX_BlueNRG_MS_Process(data, len+5); //zamiast w glownym tasku po oddaniu semafora; 29: NIE tutaj - przekazanie do kolejki/taska
-}
-
-void printReadData(uint32_t readValue, std::string name){
-	uint16_t humid = (((readValue >> 24)&0xFF) << 8) | ((readValue >> 16)&0xFF);
-	uint16_t temp  = (((readValue >> 8) &0xFF) << 8) | ((readValue >> 0) &0xFF);
-	uint16_t humidDecimal = humid % 10;
-	uint16_t tempDecimal = temp % 10;
-	temp = temp / (uint16_t) 10;
-	humid = humid / (uint16_t) 10;
-	sprintf(uartData, "\r\n\r\nCzujnik %s\r\nTemperatura\t %hu.%huC\r\nWilgotnosc\t %hu.%hu%%\r\n",
-			name.c_str(), temp, tempDecimal, humid, humidDecimal);
-	HAL_UART_Transmit(&huart3, (uint8_t *)uartData, sizeof(uartData), 10);
 }
 
 /**

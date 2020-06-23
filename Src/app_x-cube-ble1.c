@@ -41,6 +41,7 @@
 #include "bluenrg_hal_aci.h"
 
 /* USER CODE BEGIN Includes */
+extern UART_HandleTypeDef huart3;
 /* USER CODE END Includes */
 
 /* Private defines -----------------------------------------------------------*/
@@ -264,6 +265,8 @@ static void User_Process(uint8_t *data, uint8_t length)
     Make_Connection();
     set_connectable = FALSE;
     user_button_init_state = BSP_PB_GetState(BUTTON_KEY);
+
+    HAL_UART_Transmit(&huart3, (uint8_t *)"Server: started connecting to client!\r\n", 40, 10);
   }
   
   if (connected && notification_enabled)

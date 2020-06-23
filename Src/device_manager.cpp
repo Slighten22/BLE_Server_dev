@@ -1,29 +1,30 @@
 #include "device_manager.hpp"
 
-//Timery - docelowo:
+//Timery
 TIM_HandleTypeDef htim7;
 TIM_HandleTypeDef htim6;
 TIM_HandleTypeDef htim4;
-//... kolejne TIM_HandleTypedefy
+
+//trzy timery z ktorych mozemy skorzystac - jakby bylo potrzeba wiecej, to mozna wziac TIM2 i TIM5, ale trzeba uwazac na wyjscie poza stos
 Timer tim7(&htim7);
 Timer tim6(&htim6);
 Timer tim4(&htim4);
-//docelowo cala tablica Timerow globalna
-Timer *timers[] = {&tim7, &tim6/*, &tim4*/}; //TODO: !wiecej timerow + fix tim6, tim4
+
+Timer *timers[] = {&tim4, &tim6, &tim7};
 
 DeviceManager::DeviceManager(){
 	occupiedPinsCount = 0;
 	usedTimersCount = 0;
-	hardwarePinsList[0].GPIO_Port = GPIOA;		 //((GPIO_TypeDef *) GPIOA_BASE);
-	hardwarePinsList[0].GPIO_Pin  = GPIO_PIN_4;  //((uint16_t)0x0010);
-	hardwarePinsList[1].GPIO_Port = GPIOA;		 //((GPIO_TypeDef *) GPIOA_BASE);
-	hardwarePinsList[1].GPIO_Pin  = GPIO_PIN_9;  //((uint16_t)0x0200);
-	hardwarePinsList[2].GPIO_Port = GPIOA;		 //((GPIO_TypeDef *) GPIOA_BASE);
-	hardwarePinsList[2].GPIO_Pin  = GPIO_PIN_10; //((uint16_t)0x0400);
-	hardwarePinsList[3].GPIO_Port = GPIOA;		 //((GPIO_TypeDef *) GPIOA_BASE);
-	hardwarePinsList[3].GPIO_Pin  =	GPIO_PIN_11; //((uint16_t)0x0800);
-	hardwarePinsList[4].GPIO_Port = GPIOA;		 //((GPIO_TypeDef *) GPIOA_BASE);
-	hardwarePinsList[4].GPIO_Pin  =	GPIO_PIN_12; //((uint16_t)0x1000);
+	hardwarePinsList[0].GPIO_Port = GPIOA;
+	hardwarePinsList[0].GPIO_Pin  = GPIO_PIN_4;
+	hardwarePinsList[1].GPIO_Port = GPIOA;
+	hardwarePinsList[1].GPIO_Pin  = GPIO_PIN_9;
+	hardwarePinsList[2].GPIO_Port = GPIOA;
+	hardwarePinsList[2].GPIO_Pin  = GPIO_PIN_10;
+	hardwarePinsList[3].GPIO_Port = GPIOA;
+	hardwarePinsList[3].GPIO_Pin  =	GPIO_PIN_11;
+	hardwarePinsList[4].GPIO_Port = GPIOA;
+	hardwarePinsList[4].GPIO_Pin  =	GPIO_PIN_12;
 	hardwarePinsList[0].occupied  = false;
 	hardwarePinsList[1].occupied  = false;
 	hardwarePinsList[2].occupied  = false;
@@ -58,7 +59,7 @@ Timer* DeviceManager::getNewTimerHandle(void){
 		return timers[usedTimersCount++];
 	}
 	else{
-		return timers[1]; //TODO
+		return timers[0]; //TODO
 	}
 }
 

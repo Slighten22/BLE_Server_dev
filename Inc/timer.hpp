@@ -15,6 +15,12 @@ public:
 	void registerCallback(std::function<void(void)> callbackFunction); //u drivera
 	TIM_HandleTypeDef* getHandle(void);
 	void wakeMeUpAfterMicroseconds(uint16_t us);
+	void wakeMeUpAfterSeconds(uint16_t sec);
+	void stopCounter(void);
+	void startCounter(void);
+	void clearCNT_Register(void);
+	void setARR_Register(uint16_t value);
+	void startGeneratingInterrupts(void);
 };
 
 #endif

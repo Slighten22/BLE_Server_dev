@@ -3,6 +3,8 @@
 
 #include "pin_data.hpp"
 
+#define MSG_LEN 20
+
 typedef enum {
 	DHT22
 	//... inne typy sensorow
@@ -10,10 +12,9 @@ typedef enum {
 
 typedef struct SensorInfo {
 	SensorType sensorType;
-	uint16_t interval; //co ile czytac
-	char charName[MAX_NAME_LEN]; //"kuchnia"
 	std::string name;
 	PinData pinData;
+	uint16_t interval;
 } SensorInfo;
 
 #endif /* SERVER_CONFIGURATION_HPP */
