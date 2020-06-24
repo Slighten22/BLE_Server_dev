@@ -27,11 +27,6 @@ void Timer::wakeMeUpAfterSeconds(uint16_t sec){
 	//bazowa czestotliwosc taktowania 80MHz, prescaler 6400-1 => tick co 80 mikrosekund => 12,5k tickow na sek.
 	this->clearCNT_Register();
 	this->setARR_Register(12500*sec-1);
-
-
-	//TODO: zmiany w tempSensor.cpp i main.cpp
-
-
 	this->startCounter();
 }
 

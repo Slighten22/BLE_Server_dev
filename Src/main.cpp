@@ -57,6 +57,7 @@ std::vector<std::unique_ptr<TemperatureSensor>> sensorsPtrs;
 uint8_t rcvConfigurationMsg[MSG_LEN];
 uint16_t delayTime;
 char uartData[70];
+bool noSensorsPresent;
 bool readDone;
 bool newConfig;
 /* USER CODE END PV */
@@ -73,9 +74,9 @@ static void MX_TIM7_Init(void);
 static void MX_TIM6_Init(void);
 static void MX_TIM4_Init(void);
 void delayMicroseconds(uint32_t us);
+void checkForNewSensors(void);
 void prepareAndSendReadData(char *cRxBuffer);
 void pushNewSensorFromRcvMessageToVector(uint8_t *message);
-void createNewSensor(SensorInfo sensorInfo);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -118,7 +119,7 @@ int main(void)
   MX_TIM6_Init();
   MX_TIM4_Init();
   delayTime = 3000;
-  newConfig = false;
+  noSensorsPresent = true;
   /* USER CODE END 2 */
 
   /* USER CODE BEGIN RTOS_MUTEX */
@@ -406,13 +407,13 @@ void ReadoutTask(void const * argument){
 	for (;;) {
 		xTaskNotifyWait(pdFALSE, 0xFF, &notifValue, portMAX_DELAY);
 		if ((notifValue & 0x01) != 0x00){
+			if(noSensorsPresent){
+				checkForNewSensors(); //nazwa mylaca - tam jest tez nawiazywane polaczenie zanim wgl przyjda jakies dane
+			}
 			//sprawdz, czy nie przyszla nowa konfiguracja
 			if(newConfig == true){
 				newConfig = false;
 				pushNewSensorFromRcvMessageToVector(rcvConfigurationMsg);
-			}
-			if(sensorsPtrs.size() == 0){ //TODO
-				MX_BlueNRG_MS_Process((uint8_t *)"", 0);
 			}
 		}
 	}
@@ -458,7 +459,7 @@ void TemperatureSensor::secondStateHandler(void){
 	uint8_t checksumBits = 0;
 	performDataReadout(dataBits, checksumBits);
 	//wykonaj podczepiona funkcje po odczycie, jak sie zmienily odczytane wartosci to zapisz nowe
-	this->readoutFinishedHandler(dataBits, checksumBits, this->lastDataBits, this->name); //TODO check czasem 2x wypisuje to samo jak na screenach
+	this->readoutFinishedHandler(dataBits, checksumBits, this->lastDataBits, this->name); //TODO check czasem 2x to samo jak na screenach
 	if(dataBits != this->lastDataBits){
 		this->lastDataBits = dataBits;
 		this->lastTempValue = calculateTempValue(dataBits);
@@ -503,7 +504,7 @@ void pushNewSensorFromRcvMessageToVector(uint8_t *message){
 							readData[len+2] = (dataBits >> 16) & 0xFF;
 							readData[len+3] = (dataBits >> 8) & 0xFF;
 							readData[len+4] = (dataBits >> 0) & 0xFF;
-							readData[len+5] = (checksumBits) & 0xFF; //TODO: wysylane dane sa prawidlowe, dorobic u klienta spr. czy doszly ok
+							readData[len+5] = (checksumBits) & 0xFF;
 							BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 							xStreamBufferSendFromISR(xStreamBuffer, (void *)(readData), MSG_LEN, &xHigherPriorityTaskWoken);
 							portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
@@ -511,6 +512,7 @@ void pushNewSensorFromRcvMessageToVector(uint8_t *message){
 					}
 				}
 			));
+			noSensorsPresent = false;
 			break;
 		}
 		default:
@@ -535,6 +537,10 @@ void prepareAndSendReadData(char *cRxBuffer){
 			charName, temp, tempDecimal, humid, humidDecimal);
 	HAL_UART_Transmit(&huart3, (uint8_t *)uartData, sizeof(uartData), 10);
 	MX_BlueNRG_MS_Process((uint8_t *)cRxBuffer, name_len+6); //wysylanie BLE
+}
+
+void checkForNewSensors(void){
+	MX_BlueNRG_MS_Process((uint8_t *)"", 0);
 }
 
 void delayMicroseconds(uint32_t us){
