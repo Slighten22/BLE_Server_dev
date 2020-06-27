@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>BLE_Client_dev</name>
+	<name>BLE_Server_dev2</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -78,7 +78,7 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
-			<name>Middlewares</name>
+			<name>Drivers/Middlewares</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
@@ -88,12 +88,12 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS</name>
+			<name>Drivers/Middlewares/BlueNRG-MS</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
-			<name>Middlewares/FreeRTOS</name>
+			<name>Drivers/Middlewares/FreeRTOS</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
@@ -203,242 +203,242 @@
 			<location>C:/Users/Przemek/STM32Cube/Repository/STM32Cube_FW_L4_V1.15.0/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_uart_ex.c</location>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Documentation</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Documentation</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
-			<name>Middlewares/FreeRTOS/cmsis_os.c</name>
+			<name>Drivers/Middlewares/FreeRTOS/cmsis_os.c</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/STM32Cube_FW_L4_V1.15.0/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c</location>
 		</link>
 		<link>
-			<name>Middlewares/FreeRTOS/croutine.c</name>
+			<name>Drivers/Middlewares/FreeRTOS/croutine.c</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/STM32Cube_FW_L4_V1.15.0/Middlewares/Third_Party/FreeRTOS/Source/croutine.c</location>
 		</link>
 		<link>
-			<name>Middlewares/FreeRTOS/event_groups.c</name>
+			<name>Drivers/Middlewares/FreeRTOS/event_groups.c</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/STM32Cube_FW_L4_V1.15.0/Middlewares/Third_Party/FreeRTOS/Source/event_groups.c</location>
 		</link>
 		<link>
-			<name>Middlewares/FreeRTOS/heap_4.c</name>
+			<name>Drivers/Middlewares/FreeRTOS/heap_4.c</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/STM32Cube_FW_L4_V1.15.0/Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c</location>
 		</link>
 		<link>
-			<name>Middlewares/FreeRTOS/list.c</name>
+			<name>Drivers/Middlewares/FreeRTOS/list.c</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/STM32Cube_FW_L4_V1.15.0/Middlewares/Third_Party/FreeRTOS/Source/list.c</location>
 		</link>
 		<link>
-			<name>Middlewares/FreeRTOS/port.c</name>
+			<name>Drivers/Middlewares/FreeRTOS/port.c</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/STM32Cube_FW_L4_V1.15.0/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c</location>
 		</link>
 		<link>
-			<name>Middlewares/FreeRTOS/queue.c</name>
+			<name>Drivers/Middlewares/FreeRTOS/queue.c</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/STM32Cube_FW_L4_V1.15.0/Middlewares/Third_Party/FreeRTOS/Source/queue.c</location>
 		</link>
 		<link>
-			<name>Middlewares/FreeRTOS/stream_buffer.c</name>
+			<name>Drivers/Middlewares/FreeRTOS/stream_buffer.c</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/STM32Cube_FW_L4_V1.15.0/Middlewares/Third_Party/FreeRTOS/Source/stream_buffer.c</location>
 		</link>
 		<link>
-			<name>Middlewares/FreeRTOS/tasks.c</name>
+			<name>Drivers/Middlewares/FreeRTOS/tasks.c</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/STM32Cube_FW_L4_V1.15.0/Middlewares/Third_Party/FreeRTOS/Source/tasks.c</location>
 		</link>
 		<link>
-			<name>Middlewares/FreeRTOS/timers.c</name>
+			<name>Drivers/Middlewares/FreeRTOS/timers.c</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/STM32Cube_FW_L4_V1.15.0/Middlewares/Third_Party/FreeRTOS/Source/timers.c</location>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Documentation/readme.txt</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Documentation/readme.txt</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/Documents/Studia/INZ/TrueSTUDIO/BLE_Client_dev/readme.txt</location>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/Controller</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/Controller</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/HCI_TL</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/HCI_TL</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/Utils</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/Utils</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_aci.h</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_aci.h</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-BLE1/4.4.0/Middlewares/ST/BlueNRG-MS/includes/bluenrg_aci.h</location>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_aci_const.h</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_aci_const.h</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-BLE1/4.4.0/Middlewares/ST/BlueNRG-MS/includes/bluenrg_aci_const.h</location>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_conf_template.h</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_conf_template.h</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-BLE1/4.4.0/Middlewares/ST/BlueNRG-MS/includes/bluenrg_conf_template.h</location>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_def.h</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_def.h</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-BLE1/4.4.0/Middlewares/ST/BlueNRG-MS/includes/bluenrg_def.h</location>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_gap.h</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_gap.h</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-BLE1/4.4.0/Middlewares/ST/BlueNRG-MS/includes/bluenrg_gap.h</location>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_gap_aci.c</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_gap_aci.c</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-BLE1/4.4.0/Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_gap_aci.c</location>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_gap_aci.h</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_gap_aci.h</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-BLE1/4.4.0/Middlewares/ST/BlueNRG-MS/includes/bluenrg_gap_aci.h</location>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_gatt_aci.c</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_gatt_aci.c</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-BLE1/4.4.0/Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_gatt_aci.c</location>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_gatt_aci.h</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_gatt_aci.h</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-BLE1/4.4.0/Middlewares/ST/BlueNRG-MS/includes/bluenrg_gatt_aci.h</location>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_gatt_server.h</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_gatt_server.h</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-BLE1/4.4.0/Middlewares/ST/BlueNRG-MS/includes/bluenrg_gatt_server.h</location>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_hal_aci.c</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_hal_aci.c</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-BLE1/4.4.0/Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_hal_aci.c</location>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_hal_aci.h</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_hal_aci.h</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-BLE1/4.4.0/Middlewares/ST/BlueNRG-MS/includes/bluenrg_hal_aci.h</location>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_l2cap_aci.c</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_l2cap_aci.c</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-BLE1/4.4.0/Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_l2cap_aci.c</location>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_l2cap_aci.h</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_l2cap_aci.h</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-BLE1/4.4.0/Middlewares/ST/BlueNRG-MS/includes/bluenrg_l2cap_aci.h</location>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_types.h</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_types.h</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-BLE1/4.4.0/Middlewares/ST/BlueNRG-MS/includes/bluenrg_types.h</location>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_updater_aci.c</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_updater_aci.c</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-BLE1/4.4.0/Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_updater_aci.c</location>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_updater_aci.h</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_updater_aci.h</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-BLE1/4.4.0/Middlewares/ST/BlueNRG-MS/includes/bluenrg_updater_aci.h</location>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_utils.h</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_utils.h</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-BLE1/4.4.0/Middlewares/ST/BlueNRG-MS/includes/bluenrg_utils.h</location>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_utils_small.c</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/Controller/bluenrg_utils_small.c</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-BLE1/4.4.0/Middlewares/ST/BlueNRG-MS/hci/controller/bluenrg_utils_small.c</location>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/Controller/compiler.h</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/Controller/compiler.h</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-BLE1/4.4.0/Middlewares/ST/BlueNRG-MS/includes/compiler.h</location>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/Controller/hci.h</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/Controller/hci.h</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-BLE1/4.4.0/Middlewares/ST/BlueNRG-MS/includes/hci.h</location>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/Controller/hci_const.h</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/Controller/hci_const.h</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-BLE1/4.4.0/Middlewares/ST/BlueNRG-MS/includes/hci_const.h</location>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/Controller/hci_le.h</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/Controller/hci_le.h</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-BLE1/4.4.0/Middlewares/ST/BlueNRG-MS/includes/hci_le.h</location>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/Controller/link_layer.h</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/Controller/link_layer.h</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-BLE1/4.4.0/Middlewares/ST/BlueNRG-MS/includes/link_layer.h</location>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/Controller/sm.h</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/Controller/sm.h</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-BLE1/4.4.0/Middlewares/ST/BlueNRG-MS/includes/sm.h</location>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/HCI_TL/Basic</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/HCI_TL/Basic</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/Utils/ble_list.c</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/Utils/ble_list.c</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-BLE1/4.4.0/Middlewares/ST/BlueNRG-MS/utils/ble_list.c</location>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/Utils/ble_list.h</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/Utils/ble_list.h</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-BLE1/4.4.0/Middlewares/ST/BlueNRG-MS/utils/ble_list.h</location>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/Utils/ble_list_utils_template.h</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/Utils/ble_list_utils_template.h</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-BLE1/4.4.0/Middlewares/ST/BlueNRG-MS/utils/ble_list_utils_template.h</location>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/HCI_TL/Basic/hci_le.c</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/HCI_TL/Basic/hci_le.c</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-BLE1/4.4.0/Middlewares/ST/BlueNRG-MS/hci/hci_le.c</location>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/HCI_TL/Basic/hci_tl.c</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/HCI_TL/Basic/hci_tl.c</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-BLE1/4.4.0/Middlewares/ST/BlueNRG-MS/hci/hci_tl_patterns/Basic/hci_tl.c</location>
 		</link>
 		<link>
-			<name>Middlewares/BlueNRG-MS/Wireless/HCI_TL/Basic/hci_tl.h</name>
+			<name>Drivers/Middlewares/BlueNRG-MS/Wireless/HCI_TL/Basic/hci_tl.h</name>
 			<type>1</type>
 			<location>C:/Users/Przemek/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-BLE1/4.4.0/Middlewares/ST/BlueNRG-MS/hci/hci_tl_patterns/Basic/hci_tl.h</location>
 		</link>

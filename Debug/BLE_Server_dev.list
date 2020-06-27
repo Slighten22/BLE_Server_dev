@@ -26883,7 +26883,7 @@ typedef struct SensorInfo {
  800dd48:	b2d1      	uxtb	r1, r2
  800dd4a:	4a10      	ldr	r2, [pc, #64]	; (800dd8c <_ZZ35pushNewSensorFromRcvMessageToVectorPhENKUlmhmNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEE_clEmhmS5_+0xf0>)
  800dd4c:	54d1      	strb	r1, [r2, r3]
-							readData[len+5] = (checksumBits) & 0xFF; //TODO: wysylane dane sa prawidlowe, dorobic u klienta spr. czy doszly ok
+							readData[len+5] = (checksumBits) & 0xFF;
  800dd4e:	7dfb      	ldrb	r3, [r7, #23]
  800dd50:	3305      	adds	r3, #5
  800dd52:	79f9      	ldrb	r1, [r7, #7]

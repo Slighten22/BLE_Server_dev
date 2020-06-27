@@ -50,7 +50,7 @@ extern UART_HandleTypeDef huart3;
  * For the CLIENT_ROLE comment the line below 
  * For the SERVER_ROLE uncomment the line below
  */
-#define SERVER_ROLE
+#define SERVER_ROLE //SERVER2 role
 
 #define BDADDR_SIZE 6
  
@@ -113,7 +113,13 @@ void MX_BlueNRG_MS_Init(void)
 
   /* Initialize the peripherals and the BLE Stack */
   uint8_t CLIENT_BDADDR[] = {0xbb, 0x00, 0x00, 0xE1, 0x80, 0x02};
-  uint8_t SERVER_BDADDR[] = {0xaa, 0x00, 0x00, 0xE1, 0x80, 0x02};
+
+
+  //TODO 1) zmiana adresu drugiego servera
+//  uint8_t SERVER_BDADDR[] = {0xaa, 0x00, 0x00, 0xE1, 0x80, 0x02};
+  uint8_t SERVER_BDADDR[] = {0xcc, 0x00, 0x00, 0xE1, 0x80, 0x02};
+
+
   uint8_t bdaddr[BDADDR_SIZE];
   uint16_t service_handle, dev_name_char_handle, appearance_char_handle;
   
