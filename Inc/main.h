@@ -45,7 +45,9 @@
 #include "bluenrg_types.h"
 #include "stream_buffer.h"
 //
-uint8_t rcvBLE[VARIABLE_SIZE];
+
+#define MSG_SIZE 20
+uint8_t rcvBLE[MSG_SIZE];
 
 /* USER CODE END Includes */
 
@@ -88,10 +90,6 @@ void Error_Handler(void);
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
-
-//#ifdef __cplusplus
-//}
-//#endif
 
 /* Private classes ----------------------------------------------------------*/
 /* USER CODE BEGIN Classes */

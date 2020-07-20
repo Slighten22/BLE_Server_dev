@@ -139,8 +139,16 @@ void MX_BlueNRG_MS_Init(void)
    */
   hci_reset();
   
-  delayMicroseconds(100000);
   
+  //
+  uint8_t stackMode = 0x03;
+  ret = aci_hal_write_config_data(CONFIG_DATA_MODE_OFFSET,
+                                  CONFIG_DATA_MODE_LEN,
+                                  &stackMode);
+
+
+//  delayMicroseconds(100000);
+
   printf("HWver %d, FWver %d\n", hwVersion, fwVersion);
   
   if (hwVersion > 0x30) { /* X-NUCLEO-IDB05A1 expansion board is used */
@@ -152,10 +160,10 @@ void MX_BlueNRG_MS_Init(void)
   } else {
     BLUENRG_memcpy(bdaddr, SERVER_BDADDR, sizeof(SERVER_BDADDR));
   }
-  
-  ret = aci_hal_write_config_data(CONFIG_DATA_PUBADDR_OFFSET,
-                                  CONFIG_DATA_PUBADDR_LEN,
-                                  bdaddr);
+	ret = aci_hal_write_config_data(CONFIG_DATA_PUBADDR_OFFSET,
+									CONFIG_DATA_PUBADDR_LEN,
+									bdaddr);
+
   if (ret) {
     printf("Setting BD_ADDR failed 0x%02x.\n", ret);
   }
@@ -276,7 +284,12 @@ static void User_Process(uint8_t *data, uint8_t length)
  	 * wywolujea funckje do odczytania z tych sensorow ktore dostal w konfiguracji
  	 * funkcja od odczytywania z wielu sensorow da znac (?) gdy bedzie miec juz wszystkie dane
  	 * slave wysle odpowiednia liczbe bajtow danych (obliczona wczesniej na podst. konfiguracji) masterowi */
-    sendData(data, length); /* Wyslij dane o odczycie do klienta */
+
+
+	  //!!@!
+	  sendData((uint8_t *)"Server 1\r\n", 10);
+//	  sendData(data, length); /* Wyslij dane o odczycie do klienta */
+
   } /* BLE_Role == Server */
 }
 

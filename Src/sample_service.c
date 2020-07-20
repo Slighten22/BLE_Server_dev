@@ -122,6 +122,7 @@ tBleStatus Add_Sample_Service(void)
   const uint8_t charUuidRX[16] = {0x66,0x9a,0x0c,0x20,0x00,0x08,0x96,0x9e,0xe2,0x11,0x9e,0xb1,0xe2,0xf2,0x73,0xd9};
   
   ret = aci_gatt_add_serv(UUID_TYPE_128, service_uuid, PRIMARY_SERVICE, 7, &sampleServHandle); /* original is 9?? */
+
   if (ret != BLE_STATUS_SUCCESS) goto fail;    
   
   ret =  aci_gatt_add_char(sampleServHandle, UUID_TYPE_128, charUuidTX, 20, CHAR_PROP_NOTIFY, ATTR_PERMISSION_NONE, 0,
@@ -169,7 +170,12 @@ void Make_Connection(void)
     }
     
   } else  {
-		const char local_name[] = {AD_TYPE_COMPLETE_LOCAL_NAME,'B','l','u','e','N','R','G','_','C','h','a','t'};
+
+
+
+	    //
+		const char local_name[] = {AD_TYPE_COMPLETE_LOCAL_NAME,/*'B','l','u','e','N','R','G','_','C','h','a','t'*/'t','e','s','t'};
+
 
 		/* disable scan response (nie bedize dodatkowych informacji o serverze dla mastera) */
 		hci_le_set_scan_resp_data(0,NULL);
@@ -190,8 +196,8 @@ void Make_Connection(void)
 				local_name, /* 0x09BlueNRG_Chat */
 				0, /* Service_Uuid_Length */
 				NULL, /* Service_Uuid_List */
-				0, /* Slave_Conn_Interval_Min = time between one radio event on a given connection and the next radio event on the same connection */
-				0  /* Slave_Conn_Interval_Max https://devzone.nordicsemi.com/f/nordic-q-a/25340/do-i-understand-ble-connection-interval-properly */
+				/*0*/ 0x0006, /* Slave_Conn_Interval_Min = time between one radio event on a given connection and the next radio event on the same connection */
+				/*0*/ 0x0008  /* Slave_Conn_Interval_Max https://devzone.nordicsemi.com/f/nordic-q-a/25340/do-i-understand-ble-connection-interval-properly */
 		);
 		PRINTF("%d\n",ret);
   }
