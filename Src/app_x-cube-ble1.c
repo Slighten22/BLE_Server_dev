@@ -143,8 +143,6 @@ void MX_BlueNRG_MS_Init(void)
    */
   hci_reset();
   
-  delayMicroseconds(100000);
-  
   printf("HWver %d, FWver %d\n", hwVersion, fwVersion);
   
   if (hwVersion > 0x30) { /* X-NUCLEO-IDB05A1 expansion board is used */
@@ -190,14 +188,15 @@ void MX_BlueNRG_MS_Init(void)
     printf("GAP_Init failed.\n");
   }
     
-  ret = aci_gap_set_auth_requirement(MITM_PROTECTION_REQUIRED,
-                                     OOB_AUTH_DATA_ABSENT,
-                                     NULL,
-                                     7,
-                                     16,
-                                     USE_FIXED_PIN_FOR_PAIRING,
-                                     123456,
-                                     BONDING);
+  //? nie ma tego w skrpytach
+//  ret = aci_gap_set_auth_requirement(MITM_PROTECTION_REQUIRED,
+//                                     OOB_AUTH_DATA_ABSENT,
+//                                     NULL,
+//                                     7,
+//                                     16,
+//                                     USE_FIXED_PIN_FOR_PAIRING,
+//                                     123456,
+//                                     BONDING);
   if (ret == BLE_STATUS_SUCCESS) {
     printf("BLE Stack Initialized.\n");
   }
@@ -280,7 +279,12 @@ static void User_Process(uint8_t *data, uint8_t length)
  	 * wywolujea funckje do odczytania z tych sensorow ktore dostal w konfiguracji
  	 * funkcja od odczytywania z wielu sensorow da znac (?) gdy bedzie miec juz wszystkie dane
  	 * slave wysle odpowiednia liczbe bajtow danych (obliczona wczesniej na podst. konfiguracji) masterowi */
-    sendData(data, length); /* Wyslij dane o odczycie do klienta */
+
+	  //!!!
+//	  sendData((uint8_t *)"Server 2\r\n", 10);
+	  sendData(data, length); /* Wyslij dane o odczycie do klienta */
+
+
   } /* BLE_Role == Server */
 }
 

@@ -170,7 +170,11 @@ void Make_Connection(void)
     }
     
   } else  {
-		const char local_name[] = {AD_TYPE_COMPLETE_LOCAL_NAME,'B','l','u','e','N','R','G','_','C','h','a','t'};
+
+	    //
+		//const char local_name[] = {AD_TYPE_COMPLETE_LOCAL_NAME,'B','l','u','e','N','R','G','_','C','h','a','t'};
+	    const char local_name[] = {AD_TYPE_COMPLETE_LOCAL_NAME,/*'B','l','u','e','N','R','G','_','C','h','a','t'*/'t','e','s','t'};
+
 
 		/* disable scan response (nie bedize dodatkowych informacji o serverze dla mastera) */
 		hci_le_set_scan_resp_data(0,NULL);
@@ -191,8 +195,8 @@ void Make_Connection(void)
 				local_name, /* 0x09BlueNRG_Chat */
 				0, /* Service_Uuid_Length */
 				NULL, /* Service_Uuid_List */
-				0, /* Slave_Conn_Interval_Min = time between one radio event on a given connection and the next radio event on the same connection */
-				0  /* Slave_Conn_Interval_Max https://devzone.nordicsemi.com/f/nordic-q-a/25340/do-i-understand-ble-connection-interval-properly */
+				/*0*/ 0x0006, /* Slave_Conn_Interval_Min = time between one radio event on a given connection and the next radio event on the same connection */
+				/*0*/ 0x0008  /* Slave_Conn_Interval_Max https://devzone.nordicsemi.com/f/nordic-q-a/25340/do-i-understand-ble-connection-interval-properly */
 		);
 		PRINTF("%d\n",ret);
   }

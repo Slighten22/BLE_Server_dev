@@ -527,15 +527,17 @@ void prepareAndSendReadData(char *cRxBuffer){
 	for(name_len=0; cRxBuffer[name_len] != '\0' && name_len < MAX_NAME_LEN; name_len++){
 		charName[name_len] = (char)(cRxBuffer[name_len]);
 	}
-	uint16_t humid = (cRxBuffer[name_len+1] << 8) | (cRxBuffer[name_len+2]);
-	uint16_t temp  = (cRxBuffer[name_len+3] << 8) | (cRxBuffer[name_len+4]);
-	uint16_t humidDecimal = humid % 10;
-	uint16_t tempDecimal = temp % 10;
-	temp = temp / (uint16_t) 10;
-	humid = humid / (uint16_t) 10;
-	sprintf(uartData, "\r\n\r\nOdczyt: Czujnik %s\r\nTemperatura\t %hu.%huC\r\nWilgotnosc\t %hu.%hu%%\r\n",
-			charName, temp, tempDecimal, humid, humidDecimal);
-	HAL_UART_Transmit(&huart3, (uint8_t *)uartData, sizeof(uartData), 10);
+	//niepotrzebne, bo juz nie musimy wypisywac nic - tylko name_len potrzeba zeby wiedziec ile bajtow wyslac
+//	uint16_t humid = (cRxBuffer[name_len+1] << 8) | (cRxBuffer[name_len+2]);
+//	uint16_t temp  = (cRxBuffer[name_len+3] << 8) | (cRxBuffer[name_len+4]);
+//	uint16_t humidDecimal = humid % 10;
+//	uint16_t tempDecimal = temp % 10;
+//	temp = temp / (uint16_t) 10;
+//	humid = humid / (uint16_t) 10;
+	//
+//	sprintf(uartData, "\r\n\r\nOdczyt: Czujnik %s\r\nTemperatura\t %hu.%huC\r\nWilgotnosc\t %hu.%hu%%\r\n",
+//			charName, temp, tempDecimal, humid, humidDecimal);
+//	HAL_UART_Transmit(&huart3, (uint8_t *)uartData, sizeof(uartData), 10);
 	MX_BlueNRG_MS_Process((uint8_t *)cRxBuffer, name_len+6); //wysylanie BLE
 }
 
