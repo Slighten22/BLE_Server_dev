@@ -31,7 +31,6 @@ private:
 	float lastTempValue;
 	float lastHumidValue;
 	uint32_t lastDataBits;
-	static SemaphoreHandle_t singleReadoutSem;
 public:
 	TemperatureSensor(PinData pinData, uint16_t interval, std::string name,
 					  std::function<void(uint32_t, uint8_t, uint32_t, std::string)> readoutFinishedHandler);
@@ -41,6 +40,7 @@ public:
 	void writePin(bool state);
 	bool readPin(void);
 	void performDataReadout(uint32_t &dataBits, uint8_t &checksumBits);
+	static SemaphoreHandle_t singleReadoutSem;
 };
 
 bool checkIfTempSensorReadoutCorrect(uint32_t dataBits, uint8_t checksumBits);

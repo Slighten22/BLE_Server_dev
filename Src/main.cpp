@@ -120,6 +120,7 @@ int main(void)
   MX_TIM4_Init();
   delayTime = 3000;
   noSensorsPresent = true;
+  HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
   /* USER CODE END 2 */
 
   /* USER CODE BEGIN RTOS_MUTEX */
@@ -129,6 +130,8 @@ int main(void)
   /* USER CODE BEGIN RTOS_SEMAPHORES */
   /* add semaphores, ... */
   singleSendingSem = xSemaphoreCreateBinary();
+  xSemaphoreGive(singleSendingSem);
+  xSemaphoreGive(TemperatureSensor::singleReadoutSem);
   /* USER CODE END RTOS_SEMAPHORES */
 
   /* USER CODE BEGIN RTOS_TIMERS */
@@ -138,7 +141,6 @@ int main(void)
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
   xStreamBuffer = xStreamBufferCreate(MSG_LEN, MSG_LEN);
-
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
@@ -425,29 +427,36 @@ void CommunicationTask(void const * argument){
 	for(;;)
 	{
 		//wez semafor pilnujacy pojedynczego wysylania
-		xSemaphoreTake(singleSendingSem, pdMS_TO_TICKS(300));
-		xStreamBufferReceive(xStreamBuffer, (void *)&(cRxBuffer), MSG_LEN*sizeof(char), portMAX_DELAY);
-		prepareAndSendReadData(cRxBuffer);
-		//przygotowanie na kolejny komunikat
-		memset(cRxBuffer, 0x00, sizeof(cRxBuffer));
-		xStreamBufferReset(xStreamBuffer);
-		//oddaj semafor pilnujacy pojedynczego wysylania
-		xSemaphoreGive(singleSendingSem);
+		if(xSemaphoreTake(singleSendingSem, pdMS_TO_TICKS(300)) == pdTRUE){
+			xStreamBufferReceive(xStreamBuffer, (void *)&(cRxBuffer), MSG_LEN*sizeof(char), portMAX_DELAY);
+			prepareAndSendReadData(cRxBuffer);
+			//przygotowanie na kolejny komunikat
+			memset(cRxBuffer, 0x00, sizeof(cRxBuffer));
+			xStreamBufferReset(xStreamBuffer);
+			//oddaj semafor pilnujacy pojedynczego wysylania
+			xSemaphoreGive(singleSendingSem);
+		}
 	}
 }
 
 void TemperatureSensor::firstStateHandler(void){
-	//zatrzymac counter timera
-	this->timer->stopCounter();
 	//wziac semafor pilnujacy pojedynczego odczytu
-	xSemaphoreTakeFromISR(singleReadoutSem, NULL);
-	//to co ma zrobic w tym stanie
-	this->changePinMode(ONE_WIRE_OUTPUT);
-	this->writePin(0);
-	//ustaw kolejny stan
-	this->stateHandler = static_cast<StateHandler>(&TemperatureSensor::secondStateHandler);
-	//przestaw i uruchom timer
-	this->timer->wakeMeUpAfterMicroseconds(800);
+	if(xSemaphoreTakeFromISR(singleReadoutSem, NULL) == pdTRUE){
+		//zatrzymac counter timera
+		this->timer->stopCounter();
+		//to co ma zrobic w tym stanie
+		this->changePinMode(ONE_WIRE_OUTPUT);
+		this->writePin(0);
+		//ustaw kolejny stan
+		this->stateHandler = static_cast<StateHandler>(&TemperatureSensor::secondStateHandler);
+		//przestaw i uruchom timer
+		this->timer->wakeMeUpAfterMicroseconds(800);
+	}
+	//TODO przemyslec co sie dzieje jak nie mozna dostac semafora (i tym samym zrobic odczytu) + check czy to zawsze dziala
+	else{ //wyczysc zawartosc licnzika i licz od nowa - za <interval> sekund znow dostaniesz przerwanie i wtedy byc moze zrobisz odczyt
+		this->timer->clearCNT_Register();
+		this->timer->startCounter();
+	}
 }
 
 void TemperatureSensor::secondStateHandler(void){
@@ -459,7 +468,7 @@ void TemperatureSensor::secondStateHandler(void){
 	uint8_t checksumBits = 0;
 	performDataReadout(dataBits, checksumBits);
 	//wykonaj podczepiona funkcje po odczycie, jak sie zmienily odczytane wartosci to zapisz nowe
-	this->readoutFinishedHandler(dataBits, checksumBits, this->lastDataBits, this->name); //TODO check czasem 2x to samo jak na screenach
+	this->readoutFinishedHandler(dataBits, checksumBits, this->lastDataBits, this->name);//TODO check czasem 2x to samo jak na screenach
 	if(dataBits != this->lastDataBits){
 		this->lastDataBits = dataBits;
 		this->lastTempValue = calculateTempValue(dataBits);
@@ -469,7 +478,7 @@ void TemperatureSensor::secondStateHandler(void){
 	this->stateHandler = static_cast<StateHandler>(&TemperatureSensor::firstStateHandler);
 	//przestaw i uruchom timer
 	this->timer->wakeMeUpAfterSeconds(this->interval);
-	//oddaj semafor pilnujacy pojedynczego odczytu
+	//TODO check oddaj semafor pilnujacy pojedynczego odczytu
 	xSemaphoreGiveFromISR(singleReadoutSem, NULL);
 }
 
