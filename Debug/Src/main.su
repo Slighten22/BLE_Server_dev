@@ -6,26 +6,26 @@ functional:1685:5:std::_Function_base::_Function_base()	16	static
 functional:1687:5:std::_Function_base::~_Function_base()	16	static
 functional:1694:10:bool std::_Function_base::_M_empty() const	16	static
 main.cpp:91:5:int main()	104	static
-main.cpp:179:6:void SystemClock_Config()	232	static
-main.cpp:234:6:void MX_USART3_UART_Init()	8	static
-main.cpp:269:13:void MX_GPIO_Init()	48	static
-main.cpp:316:13:void MX_TIM7_Init()	24	static
-main.cpp:342:13:void MX_TIM6_Init()	24	static
-main.cpp:362:13:void MX_TIM4_Init()	24	static
-main.cpp:391:6:void StartDefaultTask(const void*)	16	static
-main.cpp:404:6:void ReadoutTask(const void*)	24	static
-main.cpp:422:6:void CommunicationTask(const void*)	40	static
-main.cpp:439:6:void TemperatureSensor::firstStateHandler()	16	static
-main.cpp:453:6:void TemperatureSensor::secondStateHandler()	72	static
+main.cpp:182:6:void SystemClock_Config()	232	static
+main.cpp:237:6:void MX_USART3_UART_Init()	8	static
+main.cpp:272:13:void MX_GPIO_Init()	48	static
+main.cpp:319:13:void MX_TIM7_Init()	24	static
+main.cpp:345:13:void MX_TIM6_Init()	24	static
+main.cpp:365:13:void MX_TIM4_Init()	24	static
+main.cpp:394:6:void StartDefaultTask(const void*)	16	static
+main.cpp:407:6:void ReadoutTask(const void*)	24	static
+main.cpp:425:6:void CommunicationTask(const void*)	40	static
+main.cpp:443:6:void TemperatureSensor::firstStateHandler()	16	static
+main.cpp:462:6:void TemperatureSensor::secondStateHandler()	72	static
 server_configuration.hpp:13:16:SensorInfo::SensorInfo()	16	static
 server_configuration.hpp:13:16:SensorInfo::~SensorInfo()	16	static
-main.cpp:494:88:pushNewSensorFromRcvMessageToVector(uint8_t*)::<lambda(uint32_t, uint8_t, uint32_t, std::__cxx11::string)>	40	static
-main.cpp:476:6:void pushNewSensorFromRcvMessageToVector(uint8_t*)	112	static
-main.cpp:523:6:void prepareAndSendReadData(char*)	32	static
-main.cpp:543:6:void checkForNewSensors()	8	static
-main.cpp:547:6:void delayMicroseconds(uint32_t)	40	static
-main.cpp:568:6:void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*)	16	static
-main.cpp:591:6:void Error_Handler()	8	static
+main.cpp:503:88:pushNewSensorFromRcvMessageToVector(uint8_t*)::<lambda(uint32_t, uint8_t, uint32_t, std::__cxx11::string)>	40	static
+main.cpp:485:6:void pushNewSensorFromRcvMessageToVector(uint8_t*)	112	static
+main.cpp:532:6:void prepareAndSendReadData(char*)	32	static
+main.cpp:552:6:void checkForNewSensors()	8	static
+main.cpp:556:6:void delayMicroseconds(uint32_t)	40	static
+main.cpp:577:6:void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*)	16	static
+main.cpp:600:6:void Error_Handler()	8	static
 stl_vector.h:255:7:std::vector<_Tp, _Alloc>::vector() [with _Tp = std::unique_ptr<TemperatureSensor>; _Alloc = std::allocator<std::unique_ptr<TemperatureSensor> >]	16	static
 move.h:76:5:constexpr _Tp&& std::forward(typename std::remove_reference<_From>::type&) [with _Tp = long unsigned int]	16	static
 move.h:76:5:constexpr _Tp&& std::forward(typename std::remove_reference<_From>::type&) [with _Tp = unsigned char]	16	static
@@ -134,6 +134,6 @@ stl_iterator.h:1044:7:std::move_iterator<_Iterator>::reference std::move_iterato
 stl_construct.h:74:5:) [with _T1 = std::unique_ptr<TemperatureSensor>; _Args = {std::unique_ptr<TemperatureSensor, std::default_delete<TemperatureSensor> >}]	24	static
 stl_iterator.h:1119:5:bool std::operator==(const std::move_iterator<_IteratorL>&, const std::move_iterator<_IteratorL>&) [with _Iterator = std::unique_ptr<TemperatureSensor>*]	24	static
 stl_iterator.h:1040:7:std::move_iterator<_Iterator>::iterator_type std::move_iterator<_Iterator>::base() const [with _Iterator = std::unique_ptr<TemperatureSensor>*]	16	static
-main.cpp:597:1:void __static_initialization_and_destruction_0(int, int)	16	static
+main.cpp:606:1:void __static_initialization_and_destruction_0(int, int)	16	static
 stl_vector.h:425:7:std::vector<_Tp, _Alloc>::~vector() [with _Tp = std::unique_ptr<TemperatureSensor>; _Alloc = std::allocator<std::unique_ptr<TemperatureSensor> >]	24	static
-main.cpp:597:1:cpp)	8	static
+main.cpp:606:1:cpp)	8	static
