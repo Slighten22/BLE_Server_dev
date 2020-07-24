@@ -440,10 +440,10 @@ void CommunicationTask(void const * argument){
 }
 
 void TemperatureSensor::firstStateHandler(void){
+	//zatrzymac counter timera
+	this->timer->stopCounter();
 	//wziac semafor pilnujacy pojedynczego odczytu
 	if(xSemaphoreTakeFromISR(singleReadoutSem, NULL) == pdTRUE){
-		//zatrzymac counter timera
-		this->timer->stopCounter();
 		//to co ma zrobic w tym stanie
 		this->changePinMode(ONE_WIRE_OUTPUT);
 		this->writePin(0);
@@ -454,8 +454,7 @@ void TemperatureSensor::firstStateHandler(void){
 	}
 	//TODO przemyslec co sie dzieje jak nie mozna dostac semafora (i tym samym zrobic odczytu) + check czy to zawsze dziala
 	else{ //wyczysc zawartosc licnzika i licz od nowa - za <interval> sekund znow dostaniesz przerwanie i wtedy byc moze zrobisz odczyt
-		this->timer->clearCNT_Register();
-		this->timer->startCounter();
+		this->timer->wakeMeUpAfterSeconds(this->interval);
 	}
 }
 

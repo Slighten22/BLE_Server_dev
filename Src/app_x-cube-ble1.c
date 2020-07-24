@@ -71,8 +71,8 @@ extern volatile uint8_t set_connectable;
 extern volatile int     connected;
 extern volatile uint8_t notification_enabled;
 
-extern volatile uint8_t end_read_tx_char_handle;
-extern volatile uint8_t end_read_rx_char_handle;
+extern volatile uint8_t all_tx_char_handles_read;
+extern volatile uint8_t all_rx_char_handles_read;
 
 /* USER CODE BEGIN PV */
 

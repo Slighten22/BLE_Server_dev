@@ -69,8 +69,8 @@ volatile uint16_t connection_handle = 0;
 volatile uint8_t notification_enabled = FALSE;
 volatile uint8_t start_read_tx_char_handle = FALSE;
 volatile uint8_t start_read_rx_char_handle = FALSE;
-volatile uint8_t end_read_tx_char_handle = FALSE;
-volatile uint8_t end_read_rx_char_handle = FALSE;
+volatile uint8_t all_tx_char_handles_read = FALSE;
+volatile uint8_t all_rx_char_handles_read = FALSE;
 
 uint16_t tx_handle;
 uint16_t rx_handle;
@@ -117,11 +117,11 @@ tBleStatus Add_Sample_Service(void)
   characteristic 2 (RX): D973F2E2-B19E-11E2-9E96-0800200C9A66
   */
   
-  //TODO 2) zmienic UUID serwisu i charakterystyk - zmiana 3 bajtu?!
-  const uint8_t service_uuid[16] = {0x66,0x9a,0x0c,0x20,0x00,0x08,0x96,0x9e,0xe2,0x11,0x9e,0xb1,/*0xe0*/0xe3,0xf2,0x73,0xd9};
-  const uint8_t charUuidTX[16] = {0x66,0x9a,0x0c,0x20,0x00,0x08,0x96,0x9e,0xe2,0x11,0x9e,0xb1,/*0xe1*/0xe4,0xf2,0x73,0xd9};
-  const uint8_t charUuidRX[16] = {0x66,0x9a,0x0c,0x20,0x00,0x08,0x96,0x9e,0xe2,0x11,0x9e,0xb1,/*0xe2*/0xe5,0xf2,0x73,0xd9};
-  
+  //TEST: UUID serwisu i ch-tyk takie same dla obu serverow, test czy wtedy klient moze wymieniac dane z oboma
+  const uint8_t service_uuid[16] = {0x66,0x9a,0x0c,0x20,0x00,0x08,0x96,0x9e,0xe2,0x11,0x9e,0xb1,0xe0/*0xe3*/,0xf2,0x73,0xd9};
+  const uint8_t charUuidTX[16] = {0x66,0x9a,0x0c,0x20,0x00,0x08,0x96,0x9e,0xe2,0x11,0x9e,0xb1,0xe1/*0xe4*/,0xf2,0x73,0xd9};
+  const uint8_t charUuidRX[16] = {0x66,0x9a,0x0c,0x20,0x00,0x08,0x96,0x9e,0xe2,0x11,0x9e,0xb1,0xe2/*0xe5*/,0xf2,0x73,0xd9};
+
   ret = aci_gatt_add_serv(UUID_TYPE_128, service_uuid, PRIMARY_SERVICE, 7, &sampleServHandle); /* original is 9?? */
   if (ret != BLE_STATUS_SUCCESS) goto fail;    
   
@@ -349,8 +349,8 @@ void GAP_DisconnectionComplete_CB(void)
   notification_enabled = FALSE;
   start_read_tx_char_handle = FALSE;
   start_read_rx_char_handle = FALSE;
-  end_read_tx_char_handle = FALSE;
-  end_read_rx_char_handle = FALSE;
+  all_tx_char_handles_read = FALSE;
+  all_rx_char_handles_read = FALSE;
 }
 
 /**
@@ -434,12 +434,12 @@ void user_notify(void * pData)
           
           evt_gatt_disc_read_char_by_uuid_resp *resp = (void*)blue_evt->data;
           
-          if (start_read_tx_char_handle && !end_read_tx_char_handle)
+          if (start_read_tx_char_handle && !all_tx_char_handles_read)
           {
             tx_handle = resp->attr_handle;
             printf("TX Char Handle %04X\n", tx_handle);
           }
-          else if (start_read_rx_char_handle && !end_read_rx_char_handle)
+          else if (start_read_rx_char_handle && !all_rx_char_handles_read)
           {
             rx_handle = resp->attr_handle;
             printf("RX Char Handle %04X\n", rx_handle);
@@ -452,13 +452,13 @@ void user_notify(void * pData)
           /* Wait for gatt procedure complete event trigger related to Discovery Charac by UUID */
           //evt_gatt_procedure_complete *pr = (void*)blue_evt->data;
           
-          if (start_read_tx_char_handle && !end_read_tx_char_handle)
+          if (start_read_tx_char_handle && !all_tx_char_handles_read)
           {
-            end_read_tx_char_handle = TRUE;
+            all_tx_char_handles_read = TRUE;
           }
-          else if (start_read_rx_char_handle && !end_read_rx_char_handle)
+          else if (start_read_rx_char_handle && !all_rx_char_handles_read)
           {
-            end_read_rx_char_handle = TRUE;
+            all_rx_char_handles_read = TRUE;
           }
         }
         break;
