@@ -71,8 +71,8 @@ extern volatile uint8_t set_connectable;
 extern volatile int     connected;
 extern volatile uint8_t notification_enabled;
 
-extern volatile uint8_t end_read_tx_char_handle;
-extern volatile uint8_t end_read_rx_char_handle;
+extern volatile uint8_t all_tx_char_handles_read;
+extern volatile uint8_t all_rx_char_handles_read;
 
 /* USER CODE BEGIN PV */
 
@@ -285,10 +285,9 @@ static void User_Process(uint8_t *data, uint8_t length)
  	 * funkcja od odczytywania z wielu sensorow da znac (?) gdy bedzie miec juz wszystkie dane
  	 * slave wysle odpowiednia liczbe bajtow danych (obliczona wczesniej na podst. konfiguracji) masterowi */
 
-
-	  //!!@!
-	  sendData((uint8_t *)"Server 1\r\n", 10);
-//	  sendData(data, length); /* Wyslij dane o odczycie do klienta */
+	  //!
+//	  sendData((uint8_t *)"Server 1\r\n", 10);
+	  sendData(data, length); /* Wyslij dane o odczycie do klienta */
 
   } /* BLE_Role == Server */
 }

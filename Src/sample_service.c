@@ -69,8 +69,8 @@ volatile uint16_t connection_handle = 0;
 volatile uint8_t notification_enabled = FALSE;
 volatile uint8_t start_read_tx_char_handle = FALSE;
 volatile uint8_t start_read_rx_char_handle = FALSE;
-volatile uint8_t end_read_tx_char_handle = FALSE;
-volatile uint8_t end_read_rx_char_handle = FALSE;
+volatile uint8_t all_tx_char_handles_read = FALSE;
+volatile uint8_t all_rx_char_handles_read = FALSE;
 
 uint16_t tx_handle;
 uint16_t rx_handle;
@@ -133,7 +133,7 @@ tBleStatus Add_Sample_Service(void)
                            16, 1, &RXCharHandle);
   if (ret != BLE_STATUS_SUCCESS) goto fail;
   
-  PRINTF("Sample Service added.\nTX Char Handle %04X, RX Char Handle %04X\n", TXCharHandle, RXCharHandle);
+  printf("Sample Service added. Service handle: %04X\r\nTX Char Handle %04X, RX Char Handle %04X\r\n", sampleServHandle, TXCharHandle, RXCharHandle);
   return BLE_STATUS_SUCCESS; 
   
 fail:
@@ -350,8 +350,8 @@ void GAP_DisconnectionComplete_CB(void)
   notification_enabled = FALSE;
   start_read_tx_char_handle = FALSE;
   start_read_rx_char_handle = FALSE;
-  end_read_tx_char_handle = FALSE;
-  end_read_rx_char_handle = FALSE;
+  all_tx_char_handles_read = FALSE;
+  all_rx_char_handles_read = FALSE;
 }
 
 /**
@@ -435,12 +435,12 @@ void user_notify(void * pData)
           
           evt_gatt_disc_read_char_by_uuid_resp *resp = (void*)blue_evt->data;
           
-          if (start_read_tx_char_handle && !end_read_tx_char_handle)
+          if (start_read_tx_char_handle && !all_tx_char_handles_read)
           {
             tx_handle = resp->attr_handle;
             printf("TX Char Handle %04X\n", tx_handle);
           }
-          else if (start_read_rx_char_handle && !end_read_rx_char_handle)
+          else if (start_read_rx_char_handle && !all_rx_char_handles_read)
           {
             rx_handle = resp->attr_handle;
             printf("RX Char Handle %04X\n", rx_handle);
@@ -453,13 +453,13 @@ void user_notify(void * pData)
           /* Wait for gatt procedure complete event trigger related to Discovery Charac by UUID */
           //evt_gatt_procedure_complete *pr = (void*)blue_evt->data;
           
-          if (start_read_tx_char_handle && !end_read_tx_char_handle)
+          if (start_read_tx_char_handle && !all_tx_char_handles_read)
           {
-            end_read_tx_char_handle = TRUE;
+            all_tx_char_handles_read = TRUE;
           }
-          else if (start_read_rx_char_handle && !end_read_rx_char_handle)
+          else if (start_read_rx_char_handle && !all_rx_char_handles_read)
           {
-            end_read_rx_char_handle = TRUE;
+            all_rx_char_handles_read = TRUE;
           }
         }
         break;

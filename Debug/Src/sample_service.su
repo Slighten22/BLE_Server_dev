@@ -1,4 +1,4 @@
-sample_service.c:109:12:Add_Sample_Service	96	static
+sample_service.c:109:12:Add_Sample_Service	104	static
 sample_service.c:149:6:Make_Connection	56	static
 sample_service.c:211:6:startReadTXCharHandle	48	static
 sample_service.c:228:6:startReadRXCharHandle	48	static
