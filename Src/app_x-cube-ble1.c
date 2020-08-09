@@ -113,7 +113,9 @@ void MX_BlueNRG_MS_Init(void)
 
   /* Initialize the peripherals and the BLE Stack */
   uint8_t CLIENT_BDADDR[] = {0xbb, 0x00, 0x00, 0xE1, 0x80, 0x02};
-  uint8_t SERVER_BDADDR[] = {0xaa, 0x00, 0x00, 0xE1, 0x80, 0x02};
+//  uint8_t SERVER_BDADDR[] = {0xaa, 0x00, 0x00, 0xE1, 0x80, 0x02};
+  uint8_t SERVER_BDADDR[] = {0xbb, 0x00, 0x00, 0xE1, 0x80, 0x02};
+
   uint8_t bdaddr[BDADDR_SIZE];
   uint16_t service_handle, dev_name_char_handle, appearance_char_handle;
   
@@ -193,15 +195,22 @@ void MX_BlueNRG_MS_Init(void)
   if (ret != BLE_STATUS_SUCCESS) {
     printf("GAP_Init failed.\n");
   }
-    
+
+  /* Parowanie - ustawienie typu IO urzadzenia */
+	ret = aci_gap_set_io_capability(IO_CAP_DISPLAY_ONLY); //aby zadzialalo laczenie po stalym pinie
+	if(ret != BLE_STATUS_SUCCESS){
+		printf("Error setting IO capability!\r\n");
+	}
   ret = aci_gap_set_auth_requirement(MITM_PROTECTION_REQUIRED,
                                      OOB_AUTH_DATA_ABSENT,
                                      NULL,
                                      7,
                                      16,
                                      USE_FIXED_PIN_FOR_PAIRING,
-                                     123456,
+									 831629,
                                      BONDING);
+//									 NO_BONDING);
+
   if (ret == BLE_STATUS_SUCCESS) {
     printf("BLE Stack Initialized.\n");
   }
@@ -285,10 +294,7 @@ static void User_Process(uint8_t *data, uint8_t length)
  	 * funkcja od odczytywania z wielu sensorow da znac (?) gdy bedzie miec juz wszystkie dane
  	 * slave wysle odpowiednia liczbe bajtow danych (obliczona wczesniej na podst. konfiguracji) masterowi */
 
-	  //!
-//	  sendData((uint8_t *)"Server 1\r\n", 10);
 	  sendData(data, length); /* Wyslij dane o odczycie do klienta */
-
   } /* BLE_Role == Server */
 }
 

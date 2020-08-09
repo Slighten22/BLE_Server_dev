@@ -428,7 +428,7 @@ void CommunicationTask(void const * argument){
 	for(;;)
 	{
 		//wez semafor pilnujacy pojedynczego wysylania
-		if(xSemaphoreTake(singleSendingSem, pdMS_TO_TICKS(300)) == pdTRUE){
+		if(xSemaphoreTake(singleSendingSem, pdMS_TO_TICKS(delayTime/10)) == pdTRUE){
 			xStreamBufferReceive(xStreamBuffer, (void *)&(cRxBuffer), MSG_LEN*sizeof(char), portMAX_DELAY);
 			prepareAndSendReadData(cRxBuffer);
 			//przygotowanie na kolejny komunikat

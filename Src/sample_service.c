@@ -171,11 +171,8 @@ void Make_Connection(void)
     
   } else  {
 
-
-
 	    //
 		const char local_name[] = {AD_TYPE_COMPLETE_LOCAL_NAME,/*'B','l','u','e','N','R','G','_','C','h','a','t'*/'t','e','s','t'};
-
 
 		/* disable scan response (nie bedize dodatkowych informacji o serverze dla mastera) */
 		hci_le_set_scan_resp_data(0,NULL);
