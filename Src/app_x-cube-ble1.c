@@ -112,10 +112,7 @@ void MX_BlueNRG_MS_Init(void)
   /* USER CODE END BlueNRG_MS_Init_PreTreatment */
 
   /* Initialize the peripherals and the BLE Stack */
-  uint8_t CLIENT_BDADDR[] = {0xbb, 0x00, 0x00, 0xE1, 0x80, 0x02};
-
-  //TODO 1) zmiana adresu drugiego servera
-//  uint8_t SERVER_BDADDR[] = {0xaa, 0x00, 0x00, 0xE1, 0x80, 0x02};
+  uint8_t CLIENT_BDADDR[] = {0xaa, 0x00, 0x00, 0xE1, 0x80, 0x02};
   uint8_t SERVER_BDADDR[] = {0xcc, 0x00, 0x00, 0xE1, 0x80, 0x02};
 
   uint8_t bdaddr[BDADDR_SIZE];
