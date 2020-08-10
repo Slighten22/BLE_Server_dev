@@ -206,9 +206,8 @@ void MX_BlueNRG_MS_Init(void)
                                      7,
                                      16,
                                      USE_FIXED_PIN_FOR_PAIRING,
-									 831629,
+									 627449,
                                      BONDING);
-//									 NO_BONDING);
 
   if (ret == BLE_STATUS_SUCCESS) {
     printf("BLE Stack Initialized.\n");
