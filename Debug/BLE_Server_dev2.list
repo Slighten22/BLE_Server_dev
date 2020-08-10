@@ -24433,7 +24433,7 @@ static void User_Init(void)
  800cda4:	0801866e 	.word	0x0801866e
  800cda8:	08018680 	.word	0x08018680
  800cdac:	08018691 	.word	0x08018691
- 800cdb0:	000cb08d 	.word	0x000cb08d
+ 800cdb0:	000992f9 	.word	0x000992f9
  800cdb4:	080186af 	.word	0x080186af
  800cdb8:	080186c6 	.word	0x080186c6
  800cdbc:	080186e4 	.word	0x080186e4
@@ -30047,15 +30047,15 @@ void Make_Connection(void)
 {  
 	tBleStatus ret;
 
-	const char local_name[] = {AD_TYPE_COMPLETE_LOCAL_NAME, 'K','u','c','h','n','i','a'/*'t','e','s','t','a','a'*/};
+	const char local_name[] = {AD_TYPE_COMPLETE_LOCAL_NAME, 'K','u','c','h','n','i','a'};
  800f218:	4b17      	ldr	r3, [pc, #92]	; (800f278 <Make_Connection+0x60>)
 {  
  800f21a:	b500      	push	{lr}
-	const char local_name[] = {AD_TYPE_COMPLETE_LOCAL_NAME, 'K','u','c','h','n','i','a'/*'t','e','s','t','a','a'*/};
+	const char local_name[] = {AD_TYPE_COMPLETE_LOCAL_NAME, 'K','u','c','h','n','i','a'};
  800f21c:	4619      	mov	r1, r3
 {  
  800f21e:	b08d      	sub	sp, #52	; 0x34
-	const char local_name[] = {AD_TYPE_COMPLETE_LOCAL_NAME, 'K','u','c','h','n','i','a'/*'t','e','s','t','a','a'*/};
+	const char local_name[] = {AD_TYPE_COMPLETE_LOCAL_NAME, 'K','u','c','h','n','i','a'};
  800f220:	f851 0f30 	ldr.w	r0, [r1, #48]!
  800f224:	6849      	ldr	r1, [r1, #4]
  800f226:	aa0a      	add	r2, sp, #40	; 0x28
