@@ -63,6 +63,7 @@ extern void delayMicroseconds(uint32_t us);
  * @{
  */
 /* Private variables ---------------------------------------------------------*/
+#define PIN_SIZE 6
 volatile int connected = FALSE;
 volatile uint8_t set_connectable = 1;
 volatile uint16_t connection_handle = 0;
@@ -152,9 +153,13 @@ void Make_Connection(void)
 
 	const char local_name[] = {AD_TYPE_COMPLETE_LOCAL_NAME, 'K','u','c','h','n','i','a'};
 
-	/* !! dane dla skanujacego klienta jako autoryzacja urzadzenia ("pin") */
+	/* !! dane dla skanujacego klienta jako autoryzacja urzadzenia (adres urzadzenia i "pin") */
 	const uint8_t pin[] = {'8','3','1','6','2','9'};
-	hci_le_set_scan_resp_data(sizeof(pin), pin);
+	uint8_t resp_data[BD_ADDR_SIZE+PIN_SIZE];
+	memset(resp_data, 0, BD_ADDR_SIZE+PIN_SIZE);
+	memcpy(resp_data, MY_BDADDR, BD_ADDR_SIZE);
+	memcpy(resp_data+BD_ADDR_SIZE, pin, PIN_SIZE);
+	hci_le_set_scan_resp_data(sizeof(resp_data), resp_data);
 
 	printf("General Discoverable Mode ");
 	/*
