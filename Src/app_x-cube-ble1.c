@@ -42,6 +42,7 @@
 
 /* USER CODE BEGIN Includes */
 extern UART_HandleTypeDef huart3;
+uint8_t MY_BDADDR[] = {0xbb, 0x00, 0x00, 0xE1, 0x80, 0x02};
 /* USER CODE END Includes */
 
 /* Private defines -----------------------------------------------------------*/
@@ -113,7 +114,7 @@ void MX_BlueNRG_MS_Init(void)
 
   /* Initialize the peripherals and the BLE Stack */
   uint8_t CLIENT_BDADDR[] = {0xaa, 0x00, 0x00, 0xE1, 0x80, 0x02};
-  uint8_t SERVER_BDADDR[] = {0xbb, 0x00, 0x00, 0xE1, 0x80, 0x02};
+//  uint8_t SERVER_BDADDR[] = {0xbb, 0x00, 0x00, 0xE1, 0x80, 0x02};
 
   uint8_t bdaddr[BDADDR_SIZE];
   uint16_t service_handle, dev_name_char_handle, appearance_char_handle;
@@ -159,7 +160,7 @@ void MX_BlueNRG_MS_Init(void)
   if (BLE_Role == CLIENT) {
     BLUENRG_memcpy(bdaddr, CLIENT_BDADDR, sizeof(CLIENT_BDADDR));
   } else {
-    BLUENRG_memcpy(bdaddr, SERVER_BDADDR, sizeof(SERVER_BDADDR));
+    BLUENRG_memcpy(bdaddr, MY_BDADDR, sizeof(MY_BDADDR));
   }
 	ret = aci_hal_write_config_data(CONFIG_DATA_PUBADDR_OFFSET,
 									CONFIG_DATA_PUBADDR_LEN,
