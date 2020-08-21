@@ -35,6 +35,7 @@ public:
 	PinData getFreePin(void);
 	int getTimerIndex(TIM_HandleTypeDef *htim);
 	void readWithCurrentConfig(void);
+	void freeResources(void);
 };
 
 #endif

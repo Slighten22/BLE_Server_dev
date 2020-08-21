@@ -77,6 +77,7 @@ void delayMicroseconds(uint32_t us);
 void checkForNewSensors(void);
 void prepareAndSendReadData(char *cRxBuffer);
 void pushNewSensorFromRcvMessageToVector(uint8_t *message);
+void deleteSensorFromRcvMessage(uint8_t *message);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -410,12 +411,14 @@ void ReadoutTask(void const * argument){
 		xTaskNotifyWait(pdFALSE, 0xFF, &notifValue, portMAX_DELAY);
 		if ((notifValue & 0x01) != 0x00){
 			if(noSensorsPresent){
-				checkForNewSensors(); //nazwa mylaca - tam jest tez nawiazywane polaczenie zanim wgl przyjda jakies dane
+				checkForNewSensors();
 			}
 			//sprawdz, czy nie przyszla nowa konfiguracja
 			if(newConfig == true){
 				newConfig = false;
-				pushNewSensorFromRcvMessageToVector(rcvConfigurationMsg);
+				if(rcvConfigurationMsg[0] == 0xFF) { deleteSensorFromRcvMessage(rcvConfigurationMsg); } //wiadomosc o usunieciu sensora
+				else { pushNewSensorFromRcvMessageToVector(rcvConfigurationMsg); }  //wiadomosc o dodaniu sensora
+
 			}
 		}
 	}
@@ -485,7 +488,10 @@ void pushNewSensorFromRcvMessageToVector(uint8_t *message){
 	/* Format wiadomosci: <typ_sensora:1B> <interwal:2B> <nazwa:max.15B> */
 	SensorInfo sensorInfo;
 	sensorInfo.sensorType = (SensorType)*(message + 0);
-	sensorInfo.interval = (*(message + 1))*256 + *(message + 2);
+	sensorInfo.interval = (*(message + 1))*16 + *(message + 2);
+	if(sensorInfo.interval > 5 || sensorInfo.interval <= 0) {
+		sensorInfo.interval = 5;  //TODO fix ustawianie wiekszych interwalow niz 5 sek (zwiazane z 16-bit wartoscia ARR)
+	}
 	int name_len = 0;
 	char charName[MAX_NAME_LEN];
 	for(int i=3; message[i] != '\0' && name_len < MAX_NAME_LEN; i++){
@@ -528,6 +534,25 @@ void pushNewSensorFromRcvMessageToVector(uint8_t *message){
 	}
 }
 
+void deleteSensorFromRcvMessage(uint8_t *message){
+	int name_len = 0;
+	char charName[MAX_NAME_LEN];
+	for(int i=3; message[i] != '\0' && name_len < MAX_NAME_LEN; i++){
+		charName[i-3] = (char)(*(message + i));
+		name_len++;
+	}
+	int8_t idx = sensorsPtrs.size()-1;
+	if(idx >= 0){
+		const char *sensorName = sensorsPtrs[idx].get()->getName().c_str();
+		//usun ten sensor - na razie tylko usuwanie ostatniego sensora
+		if(memcmp(charName, sensorName, name_len) == 0) {
+			sensorsPtrs[idx].get()->getTimer()->stopCounter(); //zatrzymaj timer, aby mozna bylo dalej uzywac odczytywac z urzadzenia
+			deviceManager.freeResources(); //zwolnij zasoby (pin i timer), zeby mozna je bylo znowu rozdac. uwazac na to zwalnianie zasobow!!!
+			sensorsPtrs.pop_back(); //tylko usuwanie ostatniego sensora
+		}
+	}
+}
+
 void prepareAndSendReadData(char *cRxBuffer){
 	char charName[MAX_NAME_LEN];
 	memset(charName, 0x00, sizeof(charName));
@@ -535,17 +560,6 @@ void prepareAndSendReadData(char *cRxBuffer){
 	for(name_len=0; cRxBuffer[name_len] != '\0' && name_len < MAX_NAME_LEN; name_len++){
 		charName[name_len] = (char)(cRxBuffer[name_len]);
 	}
-	//niepotrzebne, bo juz nie musimy wypisywac nic - tylko name_len potrzeba zeby wiedziec ile bajtow wyslac
-//	uint16_t humid = (cRxBuffer[name_len+1] << 8) | (cRxBuffer[name_len+2]);
-//	uint16_t temp  = (cRxBuffer[name_len+3] << 8) | (cRxBuffer[name_len+4]);
-//	uint16_t humidDecimal = humid % 10;
-//	uint16_t tempDecimal = temp % 10;
-//	temp = temp / (uint16_t) 10;
-//	humid = humid / (uint16_t) 10;
-	//
-//	sprintf(uartData, "\r\n\r\nOdczyt: Czujnik %s\r\nTemperatura\t %hu.%huC\r\nWilgotnosc\t %hu.%hu%%\r\n",
-//			charName, temp, tempDecimal, humid, humidDecimal);
-//	HAL_UART_Transmit(&huart3, (uint8_t *)uartData, sizeof(uartData), 10);
 	MX_BlueNRG_MS_Process((uint8_t *)cRxBuffer, name_len+6); //wysylanie BLE
 }
 

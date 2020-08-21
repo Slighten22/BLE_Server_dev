@@ -48,10 +48,13 @@ bool DeviceManager::checkIfPinFree(PinData pinData){
 
 PinData DeviceManager::getFreePin(void){
 	for(uint8_t i=0; i<(sizeof(hardwarePinsList)/sizeof(hardwarePinsList[0])); i++){
-		if(hardwarePinsList[i].occupied == false)
+		if(hardwarePinsList[i].occupied == false){
+			occupiedPinsCount++;
 			return hardwarePinsList[i];
+		}
 	}
-	return hardwarePinsList[0]; //TODO
+	occupiedPinsCount++; //TODO
+	return hardwarePinsList[0];
 }
 
 Timer* DeviceManager::getNewTimerHandle(void){
@@ -78,5 +81,11 @@ int DeviceManager::getTimerIndex(TIM_HandleTypeDef *htim){
 			return i;
 	}
 	return 0; //TODO: zabezpieczyc to!
+}
+
+void DeviceManager::freeResources(void){ //zwalnianie zasobow po usunieciu sensora - uwazac na to!
+	this->occupiedPinsCount--;
+	this->usedTimersCount--;
+	hardwarePinsList[occupiedPinsCount].occupied = false;
 }
 

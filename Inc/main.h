@@ -46,11 +46,8 @@
 #include "stream_buffer.h"
 //
 
-
-//!!!
 #define MSG_SIZE 20
-
-
+#define MSG_DELETE_SENSOR 0xFF
 //uint8_t rcvBLE[VARIABLE_SIZE];
 uint8_t rcvBLE[MSG_SIZE];
 
