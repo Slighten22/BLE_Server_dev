@@ -48,6 +48,22 @@ bool TemperatureSensor::readPin(void){
 	return (1&HAL_GPIO_ReadPin(this->pinData.GPIO_Port, this->pinData.GPIO_Pin));
 }
 
+std::string TemperatureSensor::getName(void){
+	return this->name;
+}
+
+Timer* TemperatureSensor::getTimer(void){
+	return this->timer;
+}
+
+float TemperatureSensor::getLastTempValue(void){
+	return this->lastTempValue;
+}
+
+float TemperatureSensor::getLastHumidValue(void){
+	return this->lastHumidValue;
+}
+
 void TemperatureSensor::performDataReadout(uint32_t &dataBits, uint8_t &checksumBits){
 	while(this->readPin());
 	while(!this->readPin());

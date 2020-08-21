@@ -153,7 +153,7 @@ void Make_Connection(void)
 
 	const char local_name[] = {AD_TYPE_COMPLETE_LOCAL_NAME, 'P','o','k','o','j'};
 
-	/* !! dane dla skanujacego klienta jako autoryzacja urzadzenia (adres urzadzenia i "pin") */
+	/* dane dla skanujacego klienta jako autoryzacja urzadzenia (adres urzadzenia i "pin") */
 	const uint8_t pin[] = {'8','3','1','6','2','9'};
 	uint8_t resp_data[BD_ADDR_SIZE+PIN_SIZE];
 	memset(resp_data, 0, BD_ADDR_SIZE+PIN_SIZE);

@@ -13,10 +13,14 @@ temperature_sensor.cpp:23:6:virtual void TemperatureSensor::executeState()	16	st
 temperature_sensor.cpp:27:6:void TemperatureSensor::changePinMode(oneWireMode)	40	static
 temperature_sensor.cpp:41:6:void TemperatureSensor::writePin(bool)	16	static
 temperature_sensor.cpp:47:6:bool TemperatureSensor::readPin()	16	static
-temperature_sensor.cpp:51:6:void TemperatureSensor::performDataReadout(uint32_t&, uint8_t&)	32	static
-temperature_sensor.cpp:80:6:bool checkIfTempSensorReadoutCorrect(uint32_t, uint8_t)	24	static
-temperature_sensor.cpp:87:7:float calculateTempValue(uint32_t)	24	static
-temperature_sensor.cpp:93:7:float calculateHumidValue(uint32_t)	24	static
+temperature_sensor.cpp:51:13:std::__cxx11::string TemperatureSensor::getName()	16	static
+temperature_sensor.cpp:55:8:Timer* TemperatureSensor::getTimer()	16	static
+temperature_sensor.cpp:59:7:float TemperatureSensor::getLastTempValue()	16	static
+temperature_sensor.cpp:63:7:float TemperatureSensor::getLastHumidValue()	16	static
+temperature_sensor.cpp:67:6:void TemperatureSensor::performDataReadout(uint32_t&, uint8_t&)	32	static
+temperature_sensor.cpp:96:6:bool checkIfTempSensorReadoutCorrect(uint32_t, uint8_t)	24	static
+temperature_sensor.cpp:103:7:float calculateTempValue(uint32_t)	24	static
+temperature_sensor.cpp:109:7:float calculateHumidValue(uint32_t)	24	static
 functional:525:12:constexpr std::_Maybe_unary_or_binary_function<void, long unsigned int, unsigned char, long unsigned int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >::_Maybe_unary_or_binary_function()	16	static
 functional:1861:7:)>::function() [with _Res = void; _ArgTypes = {long unsigned int, unsigned char, long unsigned int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >}]	16	static
 functional:1929:7:)>&) [with _Res = void; _ArgTypes = {long unsigned int, unsigned char, long unsigned int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >}]	32	static
@@ -75,5 +79,5 @@ functional:600:2:) const [with _Args = {TemperatureSensor*&}; _MemFunPtr = void 
 move.h:76:5:constexpr _Tp&& std::forward(typename std::remove_reference<_From>::type&) [with _Tp = void (TemperatureSensor::* const&)()]	16	static
 functional:245:5:) [with _Callable = void (TemperatureSensor::* const&)(); _Args = {TemperatureSensor*&}]	32	static
 functional:222:5:) [with _Res = void; _MemFun = void (TemperatureSensor::* const&)(); _Tp = TemperatureSensor*&; _Args = {}]	24	static
-temperature_sensor.cpp:97:1:void __static_initialization_and_destruction_0(int, int)	16	static
-temperature_sensor.cpp:97:1:cpp)	8	static
+temperature_sensor.cpp:113:1:void __static_initialization_and_destruction_0(int, int)	16	static
+temperature_sensor.cpp:113:1:cpp)	8	static

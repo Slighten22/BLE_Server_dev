@@ -40,6 +40,10 @@ public:
 	void writePin(bool state);
 	bool readPin(void);
 	void performDataReadout(uint32_t &dataBits, uint8_t &checksumBits);
+	std::string getName(void);
+	Timer* getTimer(void);
+	float getLastTempValue(void);
+	float getLastHumidValue(void);
 	static SemaphoreHandle_t singleReadoutSem;
 };
 
